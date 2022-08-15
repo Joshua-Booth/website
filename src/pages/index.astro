@@ -1,0 +1,30 @@
+---
+import Layout from "~/layouts/Default.astro";
+
+import BasicCTA from "~/components/astro/ctas/BasicCTA.astro";
+import BasicFeatures from "~/components/astro/features/BasicFeatures.astro";
+import StepsFeatures from "~/components/astro/features/StepsFeatures.astro";
+import HeroWithImage from "~/components/astro/hero/HeroWithImage.astro";
+import BasicFAQs from "~/components/astro/faqs/BasicFAQs.astro";
+import TwoColsFeatures from "~/components/astro/features/TwoColsFeatures.astro";
+import StepsLeft from "~/components/astro/features/StepsLeft.astro";
+import BasicStats from "~/components/astro/stats/BasicStats.astro";
+import BlogFeaturesFourCols from "~/components/astro/blog/BlogFeaturesFourCols.astro";
+---
+
+<Layout
+  title="AstroWind — Your website with Astro + Tailwind CSS"
+  description="A ready to start template to make your website using Astro and Tailwind CSS."
+>
+  <main class="mt-20">
+    <HeroWithImage />
+    <BasicFeatures />
+    <StepsLeft />
+    <TwoColsFeatures />
+    <StepsFeatures />
+    <BlogFeaturesFourCols />
+    <BasicFAQs />
+    <BasicStats />
+    <BasicCTA />
+  </main>
+</Layout>
