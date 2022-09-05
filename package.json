@@ -1,7 +1,7 @@
 {
-  "name": "@onwidget/astrowind",
-  "description": "A template to make your website using Astro + Tailwind CSS.",
-  "version": "0.0.11",
+  "name": "joshua-booth",
+  "description": "Personal website built with Astro + Tailwind CSS.",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "astro dev",
@@ -11,12 +11,17 @@
     "pretty": "prettier --write ."
   },
   "devDependencies": {
-    "@astrojs/image": "^0.3.3",
+    "@astrojs/image": "^0.5.0",
+    "@astrojs/rss": "^1.0.0",
     "@astrojs/sitemap": "^1.0.0",
     "@astrojs/tailwind": "^1.0.0",
-    "astro": "^1.0.0",
+    "@tailwindcss/typography": "^0.5.7",
+    "astro": "^1.1.5",
+    "astro-icon": "^0.7.3",
+    "limax": "v2.1.0",
     "prettier": "^2.7.1",
-    "prettier-plugin-astro": "^0.5.0",
-    "subfont": "^6.9.0"
+    "prettier-plugin-astro": "^0.5.4",
+    "reading-time": "^1.5.0",
+    "subfont": "^6.11.0"
   }
 }
