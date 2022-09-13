@@ -1,7 +1,7 @@
 export const SITE = {
-  name: "AstroWind",
-  domain: "https://astrowind.vercel.app",
-  github: "https://github.com/onwidget/astrowind",
+  name: "Joshua Booth",
+  domain: "https://joshua-booth-astro.netlify.app/",
+  github: "https://github.com/Joshua-Booth/astro-site",
 
   postsPerPage: 6,
 };
