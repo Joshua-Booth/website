@@ -3,6 +3,7 @@ import { defineConfig } from "astro/config";
 import tailwind from "@astrojs/tailwind";
 import sitemap from "@astrojs/sitemap";
 import image from "@astrojs/image";
+import react from "@astrojs/react";
 
 import { SITE } from "./src/config.mjs";
 
@@ -19,5 +20,6 @@ export default defineConfig({
     }),
     sitemap(),
     image(),
+    react(),
   ],
 });
