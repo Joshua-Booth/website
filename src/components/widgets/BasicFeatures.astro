@@ -1,4 +1,10 @@
 ---
+import {
+  SparklesIcon,
+  CodeBracketIcon,
+  SwatchIcon,
+} from "@heroicons/react/24/outline";
+
 const {} = Astro.props;
 ---
 
@@ -11,21 +17,20 @@ const {} = Astro.props;
   <div class="relative max-w-6xl mx-auto px-4 sm:px-6">
     <div class="py-4 pt-8 sm:py-6 lg:py-8 lg:pt-12">
       <div class="mb-8 text-center">
-        <p
+        <!-- <p
           class="text-base text-blue-600 dark:text-blue-200 font-semibold tracking-wide uppercase"
         >
           Components
-        </p>
+        </p> -->
         <h2
           class="text-4xl md:text-5xl font-bold leading-tighter tracking-tighter mb-4"
         >
-          Most used widgets
+          Services
         </h2>
         <p
           class="max-w-3xl mx-auto text-center text-xl text-gray-600 dark:text-slate-400"
         >
-          Provides frequently used components for building websites using
-          Tailwind CSS
+          Here are the services that I provide
         </p>
       </div>
       <div
@@ -35,29 +40,9 @@ const {} = Astro.props;
           class="relative flex flex-col p-6 bg-white dark:bg-slate-900 rounded shadow-xl hover:shadow-lg transition dark:border dark:border-slate-800"
         >
           <div class="flex items-center mb-4">
-            <svg
-              class="w-12 h-12 p-1"
-              viewBox="0 0 64 64"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <g fill="none" fill-rule="evenodd">
-                <rect
-                  class="fill-current text-blue-600"
-                  width="64"
-                  height="64"
-                  rx="32"></rect>
-                <g stroke-linecap="square" stroke-width="2">
-                  <path
-                    class="stroke-current text-white"
-                    d="M20.571 20.571h13.714v17.143H20.571z"></path>
-                  <path
-                    class="stroke-current text-blue-300"
-                    d="M38.858 26.993l6.397 1.73-4.473 16.549-13.24-3.58"
-                  >
-                  </path>
-                </g>
-              </g>
-            </svg>
+            <SparklesIcon
+              className="w-10 h-10 p-2.5 m-1 rounded-full bg-blue-500 text-white"
+            />
             <div class="ml-4 text-xl font-bold">UI Design</div>
           </div>
           <p class="text-gray-500 dark:text-gray-400 text-md">
@@ -69,31 +54,10 @@ const {} = Astro.props;
           class="relative flex flex-col p-6 bg-white dark:bg-slate-900 rounded shadow-xl hover:shadow-lg transition dark:border dark:border-slate-800"
         >
           <div class="flex items-center mb-4">
-            <svg
-              class="w-12 h-12 p-1"
-              viewBox="0 0 64 64"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <g fill="none" fill-rule="evenodd">
-                <rect
-                  class="fill-current text-blue-600"
-                  width="64"
-                  height="64"
-                  rx="32"></rect>
-                <g stroke-linecap="square" stroke-width="2">
-                  <path
-                    class="stroke-current text-white"
-                    d="M20.571 20.571h13.714v17.143H20.571z"></path>
-                  <path
-                    class="stroke-current text-blue-300"
-                    d="M38.858 26.993l6.397 1.73-4.473 16.549-13.24-3.58"
-                  >
-                  </path>
-                </g>
-              </g>
-            </svg>
-
-            <div class="ml-4 text-xl font-bold">Footers</div>
+            <CodeBracketIcon
+              className="w-10 h-10 p-2.5 m-1 rounded-full bg-blue-500 text-white"
+            />
+            <div class="ml-4 text-xl font-bold">Frontend Development</div>
           </div>
           <p class="text-gray-500 dark:text-gray-400 text-md">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -104,37 +68,17 @@ const {} = Astro.props;
           class="relative flex flex-col p-6 bg-white dark:bg-slate-900 rounded shadow-xl hover:shadow-lg transition dark:border dark:border-slate-800"
         >
           <div class="flex items-center mb-4">
-            <svg
-              class="w-12 h-12 p-1"
-              viewBox="0 0 64 64"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <g fill="none" fill-rule="evenodd">
-                <rect
-                  class="fill-current text-blue-600"
-                  width="64"
-                  height="64"
-                  rx="32"></rect>
-                <g stroke-linecap="square" stroke-width="2">
-                  <path
-                    class="stroke-current text-white"
-                    d="M20.571 20.571h13.714v17.143H20.571z"></path>
-                  <path
-                    class="stroke-current text-blue-300"
-                    d="M38.858 26.993l6.397 1.73-4.473 16.549-13.24-3.58"
-                  >
-                  </path>
-                </g>
-              </g>
-            </svg>
-            <div class="ml-4 text-xl font-bold">Features</div>
+            <SwatchIcon
+              className="w-10 h-10 p-2.5 m-1 rounded-full bg-blue-500 text-white"
+            />
+            <div class="ml-4 text-xl font-bold">Design Systems</div>
           </div>
           <p class="text-gray-500 dark:text-gray-400 text-md">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore.
           </p>
         </div>
-        <div
+        <!-- <div
           class="relative flex flex-col p-6 bg-white dark:bg-slate-900 rounded shadow-xl hover:shadow-lg transition dark:border dark:border-slate-800"
         >
           <div class="flex items-center mb-4">
@@ -236,7 +180,7 @@ const {} = Astro.props;
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore.
           </p>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
