@@ -7,6 +7,8 @@ import {
   IconGithub,
 } from "@components/icons";
 const {} = Astro.props;
+
+const currentYear = new Date().getFullYear();
 ---
 
 <footer>
@@ -238,12 +240,14 @@ const {} = Astro.props;
         </li> -->
       </ul>
       <div class="text-sm text-gray-700 mr-4 dark:text-slate-400">
+        &copy;
+        {currentYear}
         <a
           class="text-blue-600 hover:underline dark:text-gray-200"
           href="https://joshuabooth.nz"
         >
           Joshua Booth
-        </a>. All rights reserved.
+        </a> All rights reserved.
       </div>
     </div>
   </div>
