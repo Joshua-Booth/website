@@ -1,0 +1,60 @@
+---
+import Layout from "@layouts/PageLayout.astro";
+
+import { SITE } from "@config";
+
+const title = `Contact - ${SITE.name}`;
+const description = "Contact Joshua Booth";
+---
+
+<Layout meta={{ title, description }}>
+  <main class="container max-w-xl mx-auto px-8 mb-8">
+    <h1 class="text-3xl font-semibold mt-12 mb-4">Contact</h1>
+    <p class="mb-8">
+      Wish to contact me? Enter your details and a short message and I’ll get
+      back to you!
+    </p>
+    <form
+      method="POST"
+      action="https://formspree.io/xyyknvro"
+      class="flex flex-col gap-4 mb-32"
+    >
+      <div class="flex flex-row w-full space-4">
+        <input
+          type="text"
+          class="w-1/2 h-12 border border-gray-400 rounded px-3 py-1.5 outline-blue-500"
+          placeholder="Name"
+          name="name"
+          id="name"
+        />
+        <input
+          type="email"
+          class="w-1/2 h-12 border border-gray-400 rounded px-3 py-1.5 ml-8 outline-blue-500"
+          placeholder="Email"
+          name="email"
+          id="email"
+        />
+      </div>
+      <input
+        type="text"
+        class="w-full h-12 border border-gray-400 rounded px-3 py-1.5 outline-blue-500"
+        placeholder="Subject"
+        name="subject"
+        id="subject"
+      />
+      <textarea
+        name="message"
+        id="message"
+        class="w-full h-40 border border-gray-400 rounded px-3 py-1.5 outline-blue-500"
+        placeholder="Type Your Message Here"
+        rows="5"></textarea>
+
+      <button
+        class="btn w-full text-white font-medium bg-blue-600 py-2 shadow shadow-blue-400 hover:bg-blue-800 mb-4 sm:mb-0 dark:shadow-none"
+        type="submit"
+      >
+        Send</button
+      >
+    </form>
+  </main>
+</Layout>
