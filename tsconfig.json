@@ -15,8 +15,10 @@
     "noEmit": true,
     "types": ["astro/client"],
     "importsNotUsedAsValues": "error",
+    "allowJs": true,
     "baseUrl": ".",
     "paths": {
+      "~/*": ["src/*"],
       "@config": ["src/config.mjs"],
       "@components/*": ["src/components/*"],
       "@atoms/*": ["src/components/atoms/*"],
