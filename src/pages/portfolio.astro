@@ -18,7 +18,7 @@ const portfolio = await fetchPortfolioItems();
       The following is a collection of my web and mobile app design work
     </h2>
 
-    <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+    <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pb-12">
       {
         portfolio.map((item) => {
           return <PortfolioItem item={item} />;
