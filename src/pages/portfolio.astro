@@ -1,0 +1,29 @@
+---
+import Layout from "@layouts/PageLayout.astro";
+import { fetchPortfolioItems } from "@utils/portfolio";
+import PortfolioItem from "~/components/widgets/portfolio/portfolioItem.astro";
+
+import { SITE } from "@config";
+
+const title = `Portfolio - ${SITE.name}`;
+const description = "Joshua Booth's Work Portfolio";
+
+const portfolio = await fetchPortfolioItems();
+---
+
+<Layout meta={{ title, description }}>
+  <main class="container max-w-4xl mx-auto px-8 mb-8">
+    <h1 class="text-3xl font-semibold mt-12 mb-4">Portfolio</h1>
+    <h2 class="text mb-8">
+      The following is a collection of my web and mobile app design work
+    </h2>
+
+    <ul class="columns-2 md:columns-3 mb-24">
+      {
+        portfolio.map((item) => {
+          return <PortfolioItem item={item} />;
+        })
+      }
+    </ul>
+  </main>
+</Layout>
