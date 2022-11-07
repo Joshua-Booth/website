@@ -7,9 +7,7 @@ const { item } = Astro.props;
 const image = await findImage(item.image);
 ---
 
-<div
-  class="relative rounded before:content-[''] before:rounded before:absolute before:inset-0 before:bg-white before:bg-opacity-20 dark:before:bg-gray-900"
->
+<div class="rounded dark:before:bg-gray-900">
   <a href={item.link} target="_blank" rel="noopener noreferrer">
     <Picture
       src={image}
