@@ -8,16 +8,16 @@ const {} = Astro.props;
     <div class="py-12 md:py-32">
       <div class="text-center pb-12 md:pb-16">
         <h1
-          class="text-5xl md:text-[3.50rem] font-bold leading-tighter tracking-tighter mb-4"
+          class="text-5xl md:text-[3.50rem] font-bold leading-tighter tracking-tighter mb-4 dark:text-gray-50"
         >
           <span
-            class="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500"
+            class="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-500 dark:to-cyan-400"
             >User Interface
           </span>
           Engineer
         </h1>
         <div class="max-w-3xl mx-auto">
-          <p class="text-xl text-gray-600 mb-32 dark:text-slate-400">
+          <p class="text-xl text-gray-600 mb-32 dark:text-gray-300">
             Crafting exceptional web experiences
           </p>
           <div class="max-w-none flex justify-center">
@@ -43,7 +43,7 @@ const {} = Astro.props;
           <div class="flex flex-col justify-center">
             <!-- <Picture
               src={import("~/assets/images/hero.jpg")}
-              class="mx-auto rounded-md shadow-lg bg-gray-400 dark:bg-slate-700"
+              class="mx-auto rounded-md shadow-lg bg-gray-400 dark:bg-gray-700"
               widths={[400, 768]}
               sizes=" (max-width: 767px) 400px, 768px"
               alt="Hero Image"

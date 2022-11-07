@@ -12,7 +12,7 @@ const image = await findImage(post.image);
 >
   <a class="relative block group" href="#0">
     <div
-      class="relative h-0 pb-[56.25%] md:pb-[75%] md:h-80 lg:pb-[56.25%] overflow-hidden bg-gray-400 dark:bg-slate-700 rounded shadow-lg"
+      class="relative h-0 pb-[56.25%] md:pb-[75%] md:h-80 lg:pb-[56.25%] overflow-hidden bg-gray-400 dark:bg-gray-700 rounded shadow-lg"
     >
       <Picture
         src={image}
@@ -40,7 +40,7 @@ const image = await findImage(post.image);
     </p>
     <footer class="flex items-center mt-4">
       <div>
-        <span class="text-gray-500 dark:text-slate-400">
+        <span class="text-gray-500 dark:text-gray-400">
           <time datetime={""}>
             {
               new Date(post.pubDate).toLocaleDateString("en-us", {

@@ -9,8 +9,10 @@ const description = "Contact Joshua Booth";
 
 <Layout meta={{ title, description }}>
   <main class="container max-w-4xl mx-auto px-8 mb-8">
-    <h1 class="text-3xl font-semibold mt-12 mb-4">Contact</h1>
-    <p class="mb-8">
+    <h1 class="text-3xl font-semibold mt-12 mb-4 dark:text-gray-100">
+      Contact
+    </h1>
+    <p class="mb-8 dark:text-gray-200">
       Wish to contact me? Enter your details and a short message and I’ll get
       back to you!
     </p>
@@ -22,14 +24,14 @@ const description = "Contact Joshua Booth";
       <div class="flex flex-row w-full space-4">
         <input
           type="text"
-          class="w-1/2 h-12 border border-gray-400 rounded px-3 py-1.5 outline-blue-500 dark:bg-slate-800 dark:text-gray-300"
+          class="w-1/2 h-12 border border-gray-200 rounded px-3 py-1.5 outline-blue-500 dark:bg-gray-800 dark:border-gray-500 dark:text-gray-200"
           placeholder="Name"
           name="name"
           id="name"
         />
         <input
           type="email"
-          class="w-1/2 h-12 border border-gray-400 rounded px-3 py-1.5 ml-8 outline-blue-500 dark:bg-slate-800 dark:text-gray-300"
+          class="w-1/2 h-12 border border-gray-200 rounded px-3 py-1.5 ml-8 outline-blue-500 dark:bg-gray-800 dark:border-gray-500 dark:text-gray-200"
           placeholder="Email"
           name="email"
           id="email"
@@ -37,7 +39,7 @@ const description = "Contact Joshua Booth";
       </div>
       <input
         type="text"
-        class="w-full h-12 border border-gray-400 rounded px-3 py-1.5 outline-blue-500 dark:bg-slate-800 dark:text-gray-300"
+        class="w-full h-12 border border-gray-200 rounded px-3 py-1.5 outline-blue-500 dark:bg-gray-800 dark:border-gray-500 dark:text-gray-200"
         placeholder="Subject"
         name="subject"
         id="subject"
@@ -45,7 +47,7 @@ const description = "Contact Joshua Booth";
       <textarea
         name="message"
         id="message"
-        class="w-full h-40 border border-gray-400 rounded px-3 py-3 outline-blue-500 dark:bg-slate-800 dark:text-gray-300"
+        class="w-full h-40 border border-gray-200 rounded px-3 py-3 outline-blue-500 dark:bg-gray-800 dark:border-gray-500 dark:text-gray-200"
         placeholder="Type Your Message Here"
         rows="5"></textarea>
 
