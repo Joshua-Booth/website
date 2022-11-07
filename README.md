@@ -1,5 +1,7 @@
 # Joshua Booth Portfolio Site
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/01601b5d-95b6-48ee-9a01-307dbf2cb079/deploy-status)](https://app.netlify.com/sites/joshuabooth/deploys)
+
 [Live demo](https://joshua-booth-astro.netlify.app/)
 
 <br>
