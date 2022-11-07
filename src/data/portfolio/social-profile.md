@@ -1,9 +1,8 @@
 ---
+publishDate: "Aug 18 2020"
 title: "Social Media App"
-description: "dsda"
+description: ""
 image: "~/assets/images/designs/social-media-app.jpg"
-
-publishDate: "Aug 12 2022"
-category: "Tutorials"
-tags: [astro, tailwind css]
+rank: 5
+link: "https://www.instagram.com/p/B_G27mwprze"
 ---

@@ -19,6 +19,8 @@ const getNormalizedItem = async (item) => {
     Content: Content,
     // or 'body' in case you consume from API
 
+    rank: frontmatter.rank,
+
     authors: frontmatter.authors,
     category: frontmatter.category,
     tags: frontmatter.tags,
@@ -35,7 +37,12 @@ const load = async function () {
     return await getNormalizedItem(item);
   });
 
-  const results = await Promise.all(normalizedItems);
+  const results = (await Promise.all(normalizedItems))
+    .sort(
+      (a, b) => a.rank - b.rank
+      // new Date(b.publishDate).valueOf() - new Date(a.publishDate).valueOf()
+    )
+    .filter((post) => !post.draft);
   return results;
 };
 

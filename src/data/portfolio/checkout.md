@@ -1,6 +1,8 @@
 ---
+publishDate: "April 25 2020"
 title: "Checkout Page"
 description: ""
 image: "~/assets/images/designs/checkout-page.jpg"
-link: "https://instagram.com/p/CM5-fu8hNQe"
+rank: 7
+link: "https://www.instagram.com/p/B_Y6anlpBIL"
 ---
