@@ -2,32 +2,31 @@
 import Picture from "~/components/core/Picture.astro";
 ---
 
-<!-- <div
-class="w-full border border-gray-100/40 rounded-md mb-4 p-5 flex flex-row gap-4 justify-between pl-8 items-center dark:border-gray-600"
+<div
+  class="w-full border border-gray-100/40 rounded-md flex flex-row gap-4 justify-between pl-8 items-center dark:border-gray-600 overflow-hidden max-[600px]:py-5"
 >
-<div class="flex flex-col gap-8">
-  <div class="flex flex-col gap-4">
-    <h3 class="text-3xl font-semibold dark:text-gray-100">
-      Equipped Youth Manual
-    </h3>
-    <p class="text-sm text-gray-400 dark:text-gray-300">
-      Web app that offers resources for Christian youth to strengthen
-      their faith and grow spiritually.
-    </p>
+  <div class="flex flex-col gap-8">
+    <div class="flex flex-col gap-4">
+      <h3 class="text-3xl font-semibold dark:text-gray-100">
+        Equipped Youth Manual
+      </h3>
+      <p class="text-sm text-gray-400 dark:text-gray-300">
+        Web app that offers resources for Christian youth to strengthen their
+        faith and grow spiritually.
+      </p>
+    </div>
+    <!-- <a
+      href="#"
+      class="border border-gray-100 from-gray-100 to-white rounded-md text-sm text-gray-700 px-6 py-1.5 w-fit dark:text-gray-200"
+      >View Case Study</a
+    > -->
   </div>
-  <a
-    href="#"
-    class="border border-gray-100 from-gray-100 to-white rounded-md text-sm text-gray-700 px-6 py-1.5 w-fit dark:text-gray-200"
-    >View Case Study</a
-  >
+  <Picture
+    src={import(
+      "~/assets/images/designs/equipped-youth-manual/mobile-mockup.png"
+    )}
+    widths={[372]}
+    class="bg-gray-400 dark:bg-gray-700 h-full"
+    aspectRatio="16:10"
+  />
 </div>
-<Picture
-  src={import(
-    "~/assets/images/designs/equipped-youth-manual/Encourage.png"
-  )}
-  widths={[300, 400]}
-  sizes="(max-width: 900px) 400px, 900px"
-  class="bg-gray-400 rounded border border-gray-50 dark:bg-gray-700"
-  aspectRatio="5:3"
-/>
-</div> -->
