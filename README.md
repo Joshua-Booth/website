@@ -10,9 +10,12 @@
 
 All commands are run from the root of the project, from a terminal:
 
-| Command           | Action                                       |
-| :---------------- | :------------------------------------------- |
-| `npm install`     | Installs dependencies                        |
-| `npm run dev`     | Starts local dev server at `localhost:3000`  |
-| `npm run build`   | Build your production site to `./dist/`      |
-| `npm run preview` | Preview your build locally, before deploying |
+| Command               | Action                                             |
+| :-------------------- | :------------------------------------------------- |
+| `yarn install`        | Installs dependencies                              |
+| `yarn dev`            | Starts local dev server at `localhost:3000`        |
+| `yarn build`          | Build your production site to `./dist/`            |
+| `yarn preview`        | Preview your build locally, before deploying       |
+| `yarn format`         | Format codes with Prettier                         |
+| `yarn lint:eslint`    | Run ESLint                                         |
+| `yarn astro ...`      | Run CLI commands like `astro add`, `astro preview` |
