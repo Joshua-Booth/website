@@ -3,14 +3,14 @@ import Picture from "~/components/core/Picture.astro";
 ---
 
 <div
-  class="w-full border border-gray-100/40 rounded-md flex flex-row gap-4 justify-between pl-8 items-center dark:border-gray-600 overflow-hidden max-[600px]:py-5"
+  class="w-full border border-gray-100/40 rounded-md flex flex-col px-5 pt-5 justify-between overflow-hidden dark:border-gray-600 sm:flex-row sm:gap-4 sm:p-0 sm:pl-8 sm:items-center"
 >
   <div class="flex flex-col gap-8">
     <div class="flex flex-col gap-4">
       <h3 class="text-3xl font-semibold dark:text-gray-100">
         Equipped Youth Manual
       </h3>
-      <p class="text-sm text-gray-400 dark:text-gray-300">
+      <p class="text-sm text-gray-400 max-w-md dark:text-gray-300">
         Web app that offers resources for Christian youth to strengthen their
         faith and grow spiritually.
       </p>
@@ -25,8 +25,8 @@ import Picture from "~/components/core/Picture.astro";
     src={import(
       "~/assets/images/designs/equipped-youth-manual/mobile-mockup.jpg"
     )}
-    widths={[372]}
-    class="bg-gray-400 dark:bg-gray-700 h-full"
+    widths={[720]}
+    class="bg-gray-400 dark:bg-gray-700 w-full h-full sm:w-[308px]"
     aspectRatio="16:10"
     alt="Equipped Youth Manual on iPhone"
   />
