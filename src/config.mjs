@@ -7,6 +7,15 @@ export const SITE = {
   formspreeId: "xyyknvro",
 };
 
+export const CONTACT = {
+  phone: { raw: "+64-027-943-4727", formatted: "+64 027 943 4727" },
+  email: "me@joshuabooth.nz",
+  linkedIn: "https://www.linkedin.com/in/joshua-booth/",
+  instagram: "https://www.instagram.com/joshuabooth.nz",
+  github: "https://github.com/Joshua-Booth",
+  twitter: "https://twitter.com/JoshuaBoothNZ",
+};
+
 export const BLOG = {
   disabled: false,
   postsPerPage: 6,
