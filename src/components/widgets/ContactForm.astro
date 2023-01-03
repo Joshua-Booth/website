@@ -27,12 +27,12 @@ import { SITE } from "@config";
       id="email"
     />
   </div>
-  <div class="flex flex-col">
+  <div class="flex flex-col max-h-72">
     <label for="message">Message</label>
     <textarea
       name="message"
       id="message"
-      class="w-full h-40 border border-gray-200 rounded px-3 py-3 outline-blue-500 dark:bg-gray-800 dark:border-gray-500 dark:text-gray-200"
+      class="w-full h-40 border border-gray-200 rounded px-3 py-3 outline-blue-500 min-h-[100px] dark:bg-gray-800 dark:border-gray-500 dark:text-gray-200"
       placeholder="Type Your Message Here"
       rows="5"></textarea>
   </div>
@@ -41,6 +41,6 @@ import { SITE } from "@config";
     class="btn w-full text-white font-medium bg-blue-600 py-2 shadow shadow-blue-400 hover:bg-blue-800 sm:mb-0 dark:shadow-none"
     type="submit"
   >
-    Send</button
-  >
+    Send
+  </button>
 </form>
