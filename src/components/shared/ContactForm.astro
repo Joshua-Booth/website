@@ -1,0 +1,25 @@
+---
+import { formspreeUrl } from "@/config";
+import { Button, Flex, Text, TextArea, TextField } from "@radix-ui/themes";
+---
+
+<form method="POST" action={formspreeUrl} class="w-full">
+  <Flex direction="column" gap="4">
+    <Flex direction="column" gap="2">
+      <Text as="label" size="2" htmlFor="name">Name</Text>
+      <TextField.Root type="text" name="name" id="name" required />
+    </Flex>
+
+    <Flex direction="column" gap="2">
+      <Text as="label" size="2" htmlFor="email">Email</Text>
+      <TextField.Root type="email" name="email" id="email" required />
+    </Flex>
+
+    <Flex direction="column" gap="2">
+      <Text as="label" size="2" htmlFor="message">Message</Text>
+      <TextArea name="message" id="message" rows={5} required />
+    </Flex>
+
+    <Button type="submit" size="3" variant="solid"> Send </Button>
+  </Flex>
+</form>
