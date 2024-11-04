@@ -1,44 +1,24 @@
-import path from "path";
-import { fileURLToPath } from "url";
-
-import { defineConfig } from "astro/config";
-
-import tailwind from "@astrojs/tailwind";
-import sitemap from "@astrojs/sitemap";
-import image from "@astrojs/image";
+// @ts-check
 import mdx from "@astrojs/mdx";
+import netlify from "@astrojs/netlify";
 import react from "@astrojs/react";
-
-import { SITE } from "./src/config.mjs";
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+import sitemap from "@astrojs/sitemap";
+import tailwind from "@astrojs/tailwind";
+import { defineConfig } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
-	// Astro uses this full URL to generate your sitemap and canonical URLs in your final build
-	site: SITE.domain,
-	base: SITE.basePathname,
-
-	output: "static",
-
-	integrations: [
-		tailwind({
-			config: {
-				applyBaseStyles: false,
-			},
-		}),
-		sitemap(),
-		image({
-			serviceEntryPoint: "@astrojs/image/sharp",
-		}),
-		mdx(),
-		react(),
-	],
-	vite: {
-		resolve: {
-			alias: {
-				"~": path.resolve(__dirname, "./src"),
-			},
-		},
-	},
+  site: "https://joshuabooth.nz",
+  adapter: netlify(),
+  integrations: [
+    react(),
+    tailwind({ applyBaseStyles: false }),
+    mdx(),
+    sitemap(),
+  ],
+  vite: {
+    ssr: {
+      noExternal: ["@radix-ui/themes"],
+    },
+  },
 });

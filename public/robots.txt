@@ -1,3 +1,4 @@
 User-agent: *
-Disallow:
-Sitemap: https://joshua-booth-astro.netlify.app/sitemap-index.xml
+Allow: /
+
+Sitemap: https://joshuabooth.nz/sitemap-index.xml

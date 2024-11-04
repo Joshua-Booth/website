@@ -1,0 +1,146 @@
+---
+import {
+  Box,
+  Card,
+  Container,
+  Flex,
+  Grid,
+  Heading,
+  Text,
+} from "@radix-ui/themes";
+---
+
+<Box
+  py={{ initial: "9", md: "12" }}
+  style={{ backgroundColor: "var(--gray-2)" }}
+>
+  <Container size="4" px={{ initial: "6", lg: "8" }} p="9">
+    <Flex direction="column" gap="6" align="center">
+      <Flex direction="column" gap="2" maxWidth="40rem">
+        <Heading as="h2" align="center" size="2" weight="medium" color="blue">
+          Expertise
+        </Heading>
+
+        <Heading
+          as="h3"
+          align="center"
+          size={{ initial: "8", sm: "9" }}
+          style={{ color: "var(--gray-11)" }}
+        >
+          Building better web experiences
+        </Heading>
+      </Flex>
+
+      <Grid
+        columns={{ initial: "1", lg: "3" }}
+        gap="4"
+        pt="6"
+        mt={{ initial: "10", sm: "16" }}
+        maxWidth={{ initial: "100%", sm: "70%", md: "60%", lg: "100%" }}
+      >
+        {/* UI & UX Design Card */}
+        <Card>
+          <Box p="6">
+            <Heading
+              size="4"
+              weight="medium"
+              mb="2"
+              align={{ initial: "center", lg: "left" }}
+            >
+              UI & UX Design
+            </Heading>
+            <Text
+              as="p"
+              color="gray"
+              size="2"
+              align={{ initial: "center", lg: "left" }}
+              className="text-pretty"
+            >
+              Turning complex problems into clean, intuitive interfaces. I love
+              creating experiences that feel natural, not novel.
+            </Text>
+          </Box>
+          <Box
+            style={{
+              position: "relative",
+              width: "100%",
+              flexGrow: 1,
+            }}
+          />
+        </Card>
+
+        {/* Development Card */}
+        <Card>
+          <Box p="6">
+            <Heading
+              size="4"
+              weight="medium"
+              mb="2"
+              align={{ initial: "center", lg: "left" }}
+            >
+              Frontend Development
+            </Heading>
+            <Text
+              as="p"
+              color="gray"
+              size="2"
+              align={{ initial: "center", lg: "left" }}
+              className="text-pretty"
+            >
+              Building performant web applications using modern frameworks, with
+              a focus on clean code architecture and optimal user experience.
+            </Text>
+          </Box>
+          <!-- <Flex
+            align="center"
+            justify="center"
+            px="6"
+            py={{ initial: "6", lg: "2" }}
+          >
+            <img
+              src="https://tailwindui.com/plus/img/component-images/bento-03-performance.png"
+              alt="Performance metrics visualization"
+              style={{ width: "100%", maxWidth: "xs" }}
+            />
+          </Flex> -->
+        </Card>
+
+        {/* Design Systems Card */}
+        <Card>
+          <Box p="6">
+            <Heading
+              size="4"
+              weight="medium"
+              mb="2"
+              align={{ initial: "center", lg: "left" }}
+            >
+              Design Systems
+            </Heading>
+            <Text
+              as="p"
+              color="gray"
+              size="2"
+              align={{ initial: "center", lg: "left" }}
+              className="text-pretty"
+            >
+              Creating scalable component libraries that bridge design and
+              development. I build the foundation for consistent, accessible
+              products.
+            </Text>
+          </Box>
+          <!-- <Flex align="center" py={{ initial: "6", lg: "2" }}>
+            <img
+              src="https://tailwindui.com/plus/img/component-images/bento-03-security.png"
+              alt="Design system components illustration"
+              style={{
+                height: "min(152px, 40cqw)",
+                objectFit: "cover",
+                objectPosition: "center",
+              }}
+            />
+          </Flex> -->
+        </Card>
+      </Grid>
+    </Flex>
+  </Container>
+</Box>
