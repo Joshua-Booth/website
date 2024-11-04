@@ -1,0 +1,108 @@
+---
+import {
+  Box,
+  Container,
+  Flex,
+  Grid,
+  Heading,
+  Section,
+  Text,
+} from "@radix-ui/themes";
+import { SwatchBookIcon } from "lucide-react";
+---
+
+<Section py={{ initial: "9", sm: "12" }}>
+  <Container size="4">
+    <Flex direction="column" gap="4" maxWidth="36rem">
+      <Heading as="h2" size={{ initial: "7", sm: "8" }} weight="medium">
+        Stay on top of customer support
+      </Heading>
+      <Text as="p" size="4" color="gray" style={{ lineHeight: "2rem" }}>
+        Lorem ipsum dolor sit amet consect adipisicing elit. Possimus magnam
+        voluptatum cupiditate veritatis in accusamus quisquam.
+      </Text>
+    </Flex>
+
+    <Box mt={{ initial: "48px", sm: "64px", lg: "80px" }}>
+      <Grid columns={{ initial: "1", lg: "3" }} gap={{ initial: "8", lg: "8" }}>
+        {/* Feature 1 */}
+        <Flex direction="column">
+          <Box as="div">
+            <Box
+              mb="6"
+              style={{
+                backgroundColor: "var(--blue-9)",
+                borderRadius: "var(--radius-3)",
+              }}
+              width="fit-content"
+              p="3"
+            >
+              <SwatchBookIcon className="size-6 text-white" />
+            </Box>
+            <Text as="span" size="4" weight="medium"> UI & UX Design </Text>
+          </Box>
+          <Box as="div" mt="1" style={{ flex: "1 1 auto" }}>
+            <Text as="p" size="4" color="gray" style={{ flex: "1 1 auto" }}>
+              I specialize in crafting intuitive user interfaces and delightful
+              user experiences. My focus is on creating clean, accessible
+              designs that solve real user needs through thoughtful interaction
+              patterns.
+            </Text>
+          </Box>
+        </Flex>
+
+        {/* Feature 2 */}
+        <Flex direction="column">
+          <Box as="div">
+            <Box
+              mb="6"
+              style={{
+                backgroundColor: "var(--blue-9)",
+                borderRadius: "var(--radius-3)",
+              }}
+              width="fit-content"
+              p="3"
+            >
+              <SwatchBookIcon className="size-6 text-white" />
+            </Box>
+            <Text as="span" size="4" weight="medium"> UI & UX Design </Text>
+          </Box>
+          <Box as="div" mt="1" style={{ flex: "1 1 auto" }}>
+            <Text as="p" size="4" color="gray" style={{ flex: "1 1 auto" }}>
+              I specialize in crafting intuitive user interfaces and delightful
+              user experiences. My focus is on creating clean, accessible
+              designs that solve real user needs through thoughtful interaction
+              patterns.
+            </Text>
+          </Box>
+        </Flex>
+
+        {/* Feature 3 */}
+        <Flex direction="column">
+          <Box as="div">
+            <Box
+              mb="6"
+              style={{
+                backgroundColor: "var(--blue-9)",
+                borderRadius: "var(--radius-3)",
+              }}
+              width="fit-content"
+              p="3"
+            >
+              <SwatchBookIcon className="size-6 text-white" />
+            </Box>
+            <Text as="span" size="4" weight="medium"> UI & UX Design </Text>
+          </Box>
+          <Box as="div" mt="1" style={{ flex: "1 1 auto" }}>
+            <Text as="p" size="4" color="gray" style={{ flex: "1 1 auto" }}>
+              I specialize in crafting intuitive user interfaces and delightful
+              user experiences. My focus is on creating clean, accessible
+              designs that solve real user needs through thoughtful interaction
+              patterns.
+            </Text>
+          </Box>
+        </Flex>
+      </Grid>
+    </Box>
+  </Container>
+</Section>

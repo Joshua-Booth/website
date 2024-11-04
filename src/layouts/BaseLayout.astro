@@ -1,27 +1,97 @@
 ---
-import "~/assets/styles/base.css";
+import "@fontsource/albert-sans";
+import "@fontsource/albert-sans/500.css";
+import "@fontsource/albert-sans/600.css";
+import "@fontsource/albert-sans/700.css";
+import "@fontsource/albert-sans/800.css";
+import "../styles/global.css";
 
-import MetaTags from "@components/core/MetaTags.astro";
-import BasicScripts from "@components/core/BasicScripts.astro";
-
-const { meta = {} } = Astro.props;
+import Footer from "@/components/shared/Footer.astro";
+// import { Navigation } from "@/components/shared/Navigation";
+import PostHog from "@/components/shared/PostHog.astro";
+import { ThemeSwitcher } from "@/components/shared/ThemeSwitcher";
+import { Container, Flex, Heading, Link, Theme } from "@radix-ui/themes";
+import { ViewTransitions } from "astro:transitions";
 ---
 
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" class="h-full scroll-smooth">
   <head>
-    <MetaTags {...meta} />
-  </head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <body
-    class="antialiased text-gray-900 dark:text-gray-300 tracking-tight bg-white dark:bg-gray-900"
-  >
-    <slot />
-    <BasicScripts />
-    <style is:global>
-      img {
-        content-visibility: auto;
-      }
-    </style>
+    <!-- Icons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/icons/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/icons/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/icons/favicon-16x16.png"
+    />
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#000000" />
+
+    <meta name="generator" content={Astro.generator} />
+    <ViewTransitions />
+    <slot name="head" />
+    <PostHog />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <script is:inline>
+      // The configured mode is stored in local storage
+      const isDarkMode = localStorage.getItem("theme");
+
+      // Set theme to 'dark' if theme = 'dark'
+      const theme = isDarkMode === "dark" ? "dark" : "";
+
+      // Put dark class on html tag to enable dark mode
+      document.querySelector("html").className =
+        theme + " h-full scroll-smooth";
+    </script>
+  </head>
+  <body class="h-full">
+    <Theme
+      accentColor="blue"
+      radius="medium"
+      panelBackground="solid"
+      grayColor="gray"
+      className="h-full"
+      client:only="react"
+    >
+      <slot name="header">
+        <header>
+          <Container size="4" px="8" py="4">
+            <Flex direction="row" align="center" justify="between">
+              <Link href="/" color="blue">
+                <Heading as="h1">Joshua Booth</Heading>
+              </Link>
+              <Flex gap="6" align="center">
+                <!-- <Navigation pathname={Astro.url.pathname} /> -->
+                <ThemeSwitcher client:idle />
+              </Flex>
+            </Flex>
+          </Container>
+        </header>
+      </slot>
+
+      <slot name="main">
+        <main class="min-h-[calc(100vh-12rem)]">
+          <slot />
+        </main>
+      </slot>
+
+      <slot name="footer">
+        <Footer />
+      </slot>
+    </Theme>
   </body>
 </html>

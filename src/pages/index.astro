@@ -1,30 +1,158 @@
 ---
-import Layout from "@layouts/PageLayout.astro";
+import BentoGrid from "@/components/home/BentoGrid.astro";
+import ContactSection from "@/components/home/ContactSection.astro";
+import MovingCards from "@/components/home/MovingCards.astro";
+// import Skills from "@/components/home/Skills.astro";
+// import { Navigation } from "@/components/shared/Navigation";
+import { ThemeSwitcher } from "@/components/shared/ThemeSwitcher";
+import BlurIn from "@/components/ui/blur-in";
+import { Spotlight } from "@/components/ui/spotlight";
+import { AstroSeo } from "@astrolib/seo";
+import { Container, Flex, Heading, Link } from "@radix-ui/themes";
 
-import { SITE } from "@config";
+import BaseLayout from "../layouts/BaseLayout.astro";
 
-import Hero from "@components/widgets/Hero.astro";
-import BasicCTA from "@components/widgets/BasicCTA.astro";
-import BasicFeatures from "@components/widgets/BasicFeatures.astro";
-import StepsFeatures from "@components/widgets/StepsFeatures.astro";
-import TwoColsFeatures from "@components/widgets/TwoColsFeatures.astro";
-import StepsLeft from "@components/widgets/StepsLeft.astro";
-import HighlightedPosts from "@components/widgets/HighlightedPosts.astro";
-
-const title = `${SITE.name} — UI Engineer`;
-const description =
-  "UI engineer who enjoys building great software with intuitive and beautiful designs. Frontend Developer and Web Designer based in Auckland, New Zealand.";
-const canonical = new URL("", Astro.site);
+const pageTitle = "Joshua Booth | UI Engineer";
 ---
 
-<Layout meta={{ title, description, canonical }}>
-  <main>
-    <Hero />
-    <!-- <BasicFeatures /> -->
-    <!-- <StepsLeft /> -->
-    <!-- <TwoColsFeatures /> -->
-    <!-- <StepsFeatures /> -->
-    <!-- <HighlightedPosts /> -->
-    <!-- <BasicCTA /> -->
-  </main>
-</Layout>
+<AstroSeo
+  title={pageTitle}
+  description="UI Engineer crafting web applications and design systems. Focused on clean code and intuitive interfaces. Based in Auckland, New Zealand."
+  canonical="https://joshuabooth.nz/"
+  openGraph={{
+    url: "https://joshuabooth.nz/",
+    title: pageTitle,
+    description:
+      "UI Engineer crafting web applications and design systems. Focused on clean code and intuitive interfaces. Based in Auckland, New Zealand.",
+    images: [
+      {
+        url: "https://joshuabooth.nz/images/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Joshua Booth - UI Engineer",
+      },
+    ],
+    site_name: "Joshua Booth",
+  }}
+  twitter={{
+    handle: "@joshuaboothnz",
+    site: "@joshuaboothnz",
+    cardType: "summary_large_image",
+  }}
+/>
+
+<BaseLayout>
+  <!-- <Section size="4" className="grid place-items-center min-h-[65vh]">
+    <Container size="2" p="6" align="center">
+      <Flex direction="column" align="center" justify="center" gap="2">
+        <BlurIn word="UI Engineer" client:load />
+        <BlurIn
+          word="Building beautiful, functional and delightful web experiences."
+          className="text-base md:text-lg font-medium text-[--gray-11]"
+          client:load
+          variant={{
+            hidden: { filter: "blur(15px)", opacity: 0 },
+            visible: { filter: "blur(0px)", opacity: 1 },
+          }}
+        />
+      </Flex>
+    </Container>
+  </Section> -->
+
+  <header slot="header" class="absolute z-20 w-full">
+    <Container size="4" px="8" py="4">
+      <Flex direction="row" align="center" justify="between">
+        <Link href="/" color="gray">
+          <Heading as="h1">Joshua Booth</Heading>
+        </Link>
+        <Flex gap="6" align="center">
+          <Link
+            href="#contact"
+            size="2"
+            color="gray"
+            className="hidden [@media(min-width:380px)]:block"
+          >
+            Contact
+          </Link>
+          <ThemeSwitcher client:idle />
+        </Flex>
+      </Flex>
+    </Container>
+  </header>
+
+  <div
+    class="relative flex h-[32rem] w-full items-center overflow-hidden rounded-md antialiased bg-grid-black/[0.02] dark:bg-grid-white/[0.02] md:h-[40rem] md:justify-center"
+  >
+    <Spotlight
+      className="-top-40 left-0 hidden dark:block md:-top-20 md:left-60 2xl:left-[20%]"
+      fill="var(--blue-7)"
+      client:only="react"
+    />
+    <div class="relative z-10 mx-auto w-full max-w-7xl p-4 pt-20 md:pt-0">
+      <!-- <h1
+        class="text-4xl md:text-7xl/snug font-bold text-center bg-clip-text text-transparent bg-gradient-to-b from-[--black-a12] to-[--black-a4] dark:from-[--gray-a11] dark:to-[--gray-a4]"
+      >
+        UI Engineer
+      </h1> -->
+      <BlurIn
+        word="UI Engineer"
+        client:load
+        className="bg-gradient-to-b from-[--gray-a12] to-[--gray-a7] bg-clip-text text-transparent drop-shadow-2xl md:h-[84px]"
+      />
+      <p
+        class="mx-auto mt-4 max-w-lg text-center text-base font-normal text-[--gray-11]"
+      >
+        Crafting beautiful, functional, and <span class="text-[--blue-11]"
+          >delightful</span
+        > digital experiences
+      </p>
+
+      <!-- <Link href="#contact" size="2" className="block mt-8 mx-auto text-center">
+        <Button>Contact</Button>
+      </Link> -->
+    </div>
+  </div>
+
+  <!-- <BackgroundGradientAnimation client:idle>
+    <Flex
+      direction="column"
+      align="center"
+      justify="center"
+      gap="2"
+      className="absolute z-50 inset-0 flex items-center justify-center text-white font-bold px-4 pointer-events-none text-3xl text-center md:text-4xl lg:text-7xl dark"
+    >
+      <BlurIn
+        word="UI Engineer"
+        client:load
+        className="bg-clip-text text-transparent drop-shadow-2xl bg-gradient-to-b from-[--gray-a11] to-[--gray-a3] h-[84px]"
+      />
+      <BlurIn
+        word="Building beautiful, functional and delightful web experiences."
+        className="text-base md:text-lg font-medium bg-clip-text text-transparent drop-shadow-2xl bg-gradient-to-b from-[--gray-a11] to-[--gray-a3]"
+        client:load
+        variant={{
+          hidden: { filter: "blur(15px)", opacity: 0 },
+          visible: { filter: "blur(0px)", opacity: 1 },
+        }}
+      />
+    </Flex>
+  </BackgroundGradientAnimation> -->
+
+  <!-- <Section size="4" className="bg-[--gray-2]">
+    <Container size="2" p="6">
+      <Card size="3">
+        <Flex direction="column" gap="4">
+          <Heading size="8" weight="bold"> What I do </Heading>
+        </Flex>
+      </Card>
+    </Container>
+  </Section> -->
+
+  <BentoGrid />
+
+  <MovingCards />
+
+  <ContactSection />
+
+  <!-- <Skills /> -->
+</BaseLayout>
