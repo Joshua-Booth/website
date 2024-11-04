@@ -1,14 +1,13 @@
 ---
+import { AstroSeo } from "@astrolib/seo";
+import { Container, Flex, Heading, Link } from "@radix-ui/themes";
+
 import BentoGrid from "@/components/home/BentoGrid.astro";
 import ContactSection from "@/components/home/ContactSection.astro";
 import MovingCards from "@/components/home/MovingCards.astro";
-// import Skills from "@/components/home/Skills.astro";
-// import { Navigation } from "@/components/shared/Navigation";
-import { ThemeSwitcher } from "@/components/shared/ThemeSwitcher";
 import BlurIn from "@/components/ui/blur-in";
 import { Spotlight } from "@/components/ui/spotlight";
-import { AstroSeo } from "@astrolib/seo";
-import { Container, Flex, Heading, Link } from "@radix-ui/themes";
+import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 
 import BaseLayout from "../layouts/BaseLayout.astro";
 
@@ -42,23 +41,6 @@ const pageTitle = "Joshua Booth | UI Engineer";
 />
 
 <BaseLayout>
-  <!-- <Section size="4" className="grid place-items-center min-h-[65vh]">
-    <Container size="2" p="6" align="center">
-      <Flex direction="column" align="center" justify="center" gap="2">
-        <BlurIn word="UI Engineer" client:load />
-        <BlurIn
-          word="Building beautiful, functional and delightful web experiences."
-          className="text-base md:text-lg font-medium text-[--gray-11]"
-          client:load
-          variant={{
-            hidden: { filter: "blur(15px)", opacity: 0 },
-            visible: { filter: "blur(0px)", opacity: 1 },
-          }}
-        />
-      </Flex>
-    </Container>
-  </Section> -->
-
   <header slot="header" class="absolute z-20 w-full">
     <Container size="4" px="8" py="4">
       <Flex direction="row" align="center" justify="between">
@@ -89,11 +71,6 @@ const pageTitle = "Joshua Booth | UI Engineer";
       client:only="react"
     />
     <div class="relative z-10 mx-auto w-full max-w-7xl p-4 pt-20 md:pt-0">
-      <!-- <h1
-        class="text-4xl md:text-7xl/snug font-bold text-center bg-clip-text text-transparent bg-gradient-to-b from-[--black-a12] to-[--black-a4] dark:from-[--gray-a11] dark:to-[--gray-a4]"
-      >
-        UI Engineer
-      </h1> -->
       <BlurIn
         word="UI Engineer"
         client:load
@@ -106,53 +83,12 @@ const pageTitle = "Joshua Booth | UI Engineer";
           >delightful</span
         > digital experiences
       </p>
-
-      <!-- <Link href="#contact" size="2" className="block mt-8 mx-auto text-center">
-        <Button>Contact</Button>
-      </Link> -->
     </div>
   </div>
-
-  <!-- <BackgroundGradientAnimation client:idle>
-    <Flex
-      direction="column"
-      align="center"
-      justify="center"
-      gap="2"
-      className="absolute z-50 inset-0 flex items-center justify-center text-white font-bold px-4 pointer-events-none text-3xl text-center md:text-4xl lg:text-7xl dark"
-    >
-      <BlurIn
-        word="UI Engineer"
-        client:load
-        className="bg-clip-text text-transparent drop-shadow-2xl bg-gradient-to-b from-[--gray-a11] to-[--gray-a3] h-[84px]"
-      />
-      <BlurIn
-        word="Building beautiful, functional and delightful web experiences."
-        className="text-base md:text-lg font-medium bg-clip-text text-transparent drop-shadow-2xl bg-gradient-to-b from-[--gray-a11] to-[--gray-a3]"
-        client:load
-        variant={{
-          hidden: { filter: "blur(15px)", opacity: 0 },
-          visible: { filter: "blur(0px)", opacity: 1 },
-        }}
-      />
-    </Flex>
-  </BackgroundGradientAnimation> -->
-
-  <!-- <Section size="4" className="bg-[--gray-2]">
-    <Container size="2" p="6">
-      <Card size="3">
-        <Flex direction="column" gap="4">
-          <Heading size="8" weight="bold"> What I do </Heading>
-        </Flex>
-      </Card>
-    </Container>
-  </Section> -->
 
   <BentoGrid />
 
   <MovingCards />
 
   <ContactSection />
-
-  <!-- <Skills /> -->
 </BaseLayout>

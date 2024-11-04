@@ -9,28 +9,10 @@ const year = new Date().getFullYear();
 
 <footer>
   <Container size="4" p="8" style={{ backgroundColor: "var(--gray-1)" }}>
-    <!-- TODO: Change the justify to between when the links are ready -->
     <Flex direction="row" align="center" gap="8" justify="center">
       <Text color="gray" size="2">
         &copy; {year} Joshua Booth.
       </Text>
-
-      <!-- TODO: Remove the hidden class when the links are ready -->
-      <Flex gap="6" className="hidden">
-        <Link href={links.instagram} color="gray">
-          <SiInstagram size={16} />
-        </Link>
-        <Link href={links.x} color="gray">
-          <SiX size={16} />
-        </Link>
-        <Link href={links.github} color="gray">
-          <SiGithub size={16} />
-        </Link>
-        <Link href={links.email} color="gray">
-          <span class="sr-only">Email</span>
-          <MailIcon size={16} />
-        </Link>
-      </Flex>
     </Flex>
   </Container>
 </footer>
