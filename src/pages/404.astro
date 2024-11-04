@@ -1,13 +1,28 @@
 ---
-import Layout from "@layouts/BaseLayout.astro";
-import { SITE } from "@config";
-import Error404 from "@components/widgets/Error404.astro";
+import { Button, Container, Flex, Heading, Link, Text } from "@radix-ui/themes";
 
-const title = `Error 404 — ${SITE.name}`;
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+export const pageTitle = "Page not found | Joshua Booth";
 ---
 
-<Layout meta={{ title }}>
-  <main>
-    <Error404 />
+<BaseLayout title={pageTitle}>
+  <main class="grid min-h-[calc(100vh-12rem)] place-items-center" slot="main">
+    <Container size="2" p="6">
+      <Flex direction="column" align="center" justify="center" gap="6">
+        <Flex direction="column" align="center" gap="4">
+          <Text size="4" weight="bold" color="blue">404</Text>
+          <Heading size="9" weight="bold"> Page not found </Heading>
+          <Text size="4" color="gray">
+            Sorry, we couldn't find the page you're looking for.
+          </Text>
+          <Flex gap="4" mt="6">
+            <Button size="3" variant="solid" asChild>
+              <Link href="/">Back to homepage</Link>
+            </Button>
+          </Flex>
+        </Flex>
+      </Flex>
+    </Container>
   </main>
-</Layout>
+</BaseLayout>

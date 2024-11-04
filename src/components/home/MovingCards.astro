@@ -1,0 +1,21 @@
+---
+import { getCollection } from "astro:content";
+
+import { InfiniteMovingCards } from "@/components/home/infinite-moving-cards";
+
+const portfolioCollection = await getCollection("portfolio");
+const portfolioItems = portfolioCollection
+  .filter((item) => item.data.showInHome)
+  .map((item) => item.data);
+---
+
+<div
+  class="relative flex h-[32rem] flex-col items-center justify-center overflow-hidden rounded-md bg-[--gray-1] antialiased"
+>
+  <InfiniteMovingCards
+    items={portfolioItems}
+    direction="right"
+    speed="slow"
+    client:idle
+  />
+</div>

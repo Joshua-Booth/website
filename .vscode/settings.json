@@ -6,15 +6,12 @@
     "typescript", // Enable .ts
     "typescriptreact" // Enable .tsx
   ],
+  "css.customData": ["./vscode.tailwind.json"],
+  "editor.formatOnSave": true,
   "prettier.documentSelectors": ["**/*.astro"],
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[astro]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[javascript]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "cSpell.words": ["limax"]
+  }
 }
