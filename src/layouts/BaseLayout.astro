@@ -6,12 +6,12 @@ import "@fontsource/albert-sans/700.css";
 import "@fontsource/albert-sans/800.css";
 import "../styles/global.css";
 
-import Footer from "@/components/shared/Footer.astro";
-// import { Navigation } from "@/components/shared/Navigation";
-import PostHog from "@/components/shared/PostHog.astro";
-import { ThemeSwitcher } from "@/components/shared/ThemeSwitcher";
-import { Container, Flex, Heading, Link, Theme } from "@radix-ui/themes";
 import { ViewTransitions } from "astro:transitions";
+import { Container, Flex, Heading, Link, Theme } from "@radix-ui/themes";
+
+import Footer from "@/components/shared/Footer.astro";
+import PostHog from "@/components/shared/PostHog.astro";
+import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 ---
 
 <!doctype html>
@@ -75,7 +75,6 @@ import { ViewTransitions } from "astro:transitions";
                 <Heading as="h1">Joshua Booth</Heading>
               </Link>
               <Flex gap="6" align="center">
-                <!-- <Navigation pathname={Astro.url.pathname} /> -->
                 <ThemeSwitcher client:idle />
               </Flex>
             </Flex>
