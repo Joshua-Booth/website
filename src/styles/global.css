@@ -5,8 +5,8 @@
 @tailwind utilities;
 
 .radix-themes {
-  font-family: "Albert Sans", sans-serif;
-  --default-font-family: "Albert Sans", sans-serif;
+  font-family: var(--font-albert-sans);
+  --default-font-family: var(--font-albert-sans);
 }
 
 @layer base {
