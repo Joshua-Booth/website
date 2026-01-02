@@ -29,7 +29,7 @@
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "@typescript-eslint/parser": "^8.39.1",
-    "astro": "^5.13.2",
+    "astro": "^5.15.9",
     "astro-og-canvas": "^0.7.0",
     "canvaskit-wasm": "^0.40.0",
     "class-variance-authority": "^0.7.1",
