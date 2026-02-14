@@ -71,7 +71,7 @@ export const InfiniteMovingCards = ({
     <div
       ref={containerRef}
       className={cn(
-        "scroller relative z-20 max-w-[150%] overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_20%,white_80%,transparent)] sm:max-w-7xl",
+        "scroller relative z-20 max-w-[150%] overflow-hidden mask-[linear-gradient(to_right,transparent,white_20%,white_80%,transparent)] sm:max-w-7xl",
         className
       )}
     >
@@ -80,12 +80,12 @@ export const InfiniteMovingCards = ({
         className={cn(
           "flex w-max min-w-full shrink-0 flex-nowrap gap-4 py-4",
           start && "animate-scroll",
-          pauseOnHover && "hover:[animation-play-state:paused]"
+          pauseOnHover && "hover:paused"
         )}
       >
         {items.map((item, id) => (
           <li
-            className="relative h-fit w-64 max-w-full flex-shrink-0 overflow-clip rounded-lg border border-[--gray-4]"
+            className="relative h-fit w-64 max-w-full shrink-0 overflow-clip rounded-lg border border-(--gray-4)"
             style={{
               background:
                 "linear-gradient(180deg, var(--gray-1), var(--gray-2)",
@@ -94,7 +94,7 @@ export const InfiniteMovingCards = ({
           >
             <Link href={item.link} target="_blank" color="gray">
               <img src={item.image} alt={item.title} className="w-full" />
-              <p className="bg-[--gray-1] p-3 text-sm">{item.title}</p>
+              <p className="bg-(--gray-1) p-3 text-sm">{item.title}</p>
             </Link>
           </li>
         ))}

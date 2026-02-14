@@ -63,10 +63,10 @@ const pageTitle = "Joshua Booth | UI Engineer";
   </header>
 
   <div
-    class="relative flex h-[32rem] w-full items-center overflow-hidden rounded-md antialiased bg-grid-black/[0.02] dark:bg-grid-white/[0.02] md:h-[40rem] md:justify-center"
+    class="bg-grid-black/2 dark:bg-grid-white/2 relative flex h-128 w-full items-center overflow-hidden rounded-md antialiased md:h-160 md:justify-center"
   >
     <Spotlight
-      className="-top-40 left-0 hidden dark:block md:-top-20 md:left-60 2xl:left-[20%]"
+      className="-top-40 left-0 hidden md:-top-20 md:left-60 2xl:left-[20%] dark:block"
       fill="var(--blue-7)"
       client:only="react"
     />
@@ -74,12 +74,12 @@ const pageTitle = "Joshua Booth | UI Engineer";
       <BlurIn
         word="UI Engineer"
         client:load
-        className="bg-gradient-to-b from-[--gray-a12] to-[--gray-a7] bg-clip-text text-transparent drop-shadow-2xl md:h-[84px]"
+        className="bg-linear-to-b from-(--gray-a12) to-(--gray-a7) bg-clip-text text-transparent drop-shadow-2xl md:h-21"
       />
       <p
-        class="mx-auto mt-4 max-w-lg text-center text-base font-normal text-[--gray-11]"
+        class="mx-auto mt-4 max-w-lg text-center text-base font-normal text-(--gray-11)"
       >
-        Crafting beautiful, functional, and <span class="text-[--blue-11]"
+        Crafting beautiful, functional, and <span class="text-(--blue-11)"
           >delightful</span
         > digital experiences
       </p>

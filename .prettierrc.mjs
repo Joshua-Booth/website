@@ -8,6 +8,7 @@ export default {
   semi: true,
   singleQuote: false,
   trailingComma: "es5",
+  tailwindStylesheet: "./src/styles/global.css",
   importOrder: [
     "^astro$",
     "^astro:(.*)$",

@@ -1,8 +1,9 @@
-// 1. Import utilities from `astro:content`
-import { defineCollection, z } from "astro:content";
+import { defineCollection } from "astro:content";
+import { glob } from "astro/loaders";
+import { z } from "astro/zod";
 
-// 2. Define your collection(s)
 const portfolioCollection = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/portfolio" }),
   schema: z.object({
     title: z.string(),
     description: z.string(),
@@ -11,8 +12,7 @@ const portfolioCollection = defineCollection({
     showInHome: z.boolean().optional(),
   }),
 });
-// 3. Export a single `collections` object to register your collection(s)
-//    This key should match your collection directory name in "src/content"
+
 export const collections = {
   portfolio: portfolioCollection,
 };
