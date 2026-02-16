@@ -6,7 +6,7 @@ import BentoGrid from "@/components/home/BentoGrid.astro";
 import ContactSection from "@/components/home/ContactSection.astro";
 import MovingCards from "@/components/home/MovingCards.astro";
 import BlurIn from "@/components/ui/blur-in";
-import { Spotlight } from "@/components/ui/spotlight";
+import Spotlight from "@/components/ui/Spotlight.astro";
 import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 
 import BaseLayout from "../layouts/BaseLayout.astro";
@@ -66,9 +66,8 @@ const pageTitle = "Joshua Booth | UI Engineer";
     class="relative flex h-128 w-full items-center overflow-hidden rounded-md bg-grid-black/2 antialiased md:h-160 md:justify-center dark:bg-grid-white/2"
   >
     <Spotlight
-      className="-top-40 left-0 hidden md:-top-20 md:left-60 2xl:left-[20%] dark:block"
+      class="-top-40 left-0 hidden md:-top-20 md:left-60 2xl:left-[20%] dark:block"
       fill="var(--blue-7)"
-      client:only="react"
     />
     <div class="relative z-10 mx-auto w-full max-w-7xl p-4 pt-20 md:pt-0">
       <BlurIn
