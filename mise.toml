@@ -1,2 +1,113 @@
 [tools]
 node = "24"
+pnpm = "10.21.0"
+
+[env]
+_.path = ["./node_modules/.bin"]
+
+[vars]
+eslint_config = "./eslint.config.js"
+knip_config = "./knip.config.ts"
+cspell_config = "./cspell.json"
+lintstaged_config = "./.lintstagedrc"
+
+[tasks.dev]
+description = "Start development server"
+alias = "d"
+run = "astro dev"
+
+[tasks.build]
+description = "Build the application"
+alias = "b"
+run = "astro check && astro build"
+
+[tasks.preview]
+description = "Preview production build"
+alias = "p"
+run = "astro preview"
+
+[tasks.format]
+description = "Format code with Prettier"
+alias = "f"
+run = "prettier --write \"**/*.{astro,ts,tsx,js,css,json,yml,yaml,md}\" --ignore-path .prettierignore"
+
+[tasks."format:files"]
+description = "Format specific files (for lint-staged)"
+hide = true
+run = "prettier --ignore-path .prettierignore --write"
+
+[tasks."format:check"]
+description = "Check code formatting with Prettier"
+alias = "fc"
+run = "prettier --check \"**/*.{astro,ts,tsx,js,css,json,yml,yaml,md}\" --ignore-path .prettierignore"
+
+[tasks.lint]
+description = "Fix code with ESLint"
+alias = "l"
+run = "eslint . --config {{vars.eslint_config}} --max-warnings 0 --fix"
+
+[tasks."lint:files"]
+description = "Lint specific files (for lint-staged)"
+hide = true
+run = "eslint --config {{vars.eslint_config}} --fix"
+
+[tasks."lint:check"]
+description = "Check code with ESLint"
+alias = "lc"
+run = "eslint . --config {{vars.eslint_config}} --max-warnings 0"
+
+[tasks.lintstaged]
+description = "Run lint-staged on staged files"
+run = "lint-staged --config {{vars.lintstaged_config}}"
+
+[tasks.knip]
+description = "Find unused files, dependencies, and exports"
+alias = "k"
+run = "knip --config {{vars.knip_config}} --no-config-hints"
+
+[tasks."knip:fix"]
+description = "Auto-remove unused exports"
+alias = "kf"
+run = "knip --config {{vars.knip_config}} --fix --no-config-hints"
+
+[tasks.spell]
+description = "Check spelling with cspell"
+alias = "sp"
+run = "cspell . --config {{vars.cspell_config}}"
+
+[tasks."spell:files"]
+description = "Spell check specific files (for lint-staged)"
+hide = true
+run = "cspell --config {{vars.cspell_config}} --no-must-find-files"
+
+[tasks.typecheck]
+description = "Run TypeScript type checking"
+alias = "tt"
+run = "astro check"
+
+[tasks.test]
+description = "Run tests in watch mode"
+alias = "t"
+run = "vitest"
+
+[tasks."test:run"]
+description = "Run tests once"
+alias = "tr"
+run = "vitest run"
+
+[tasks.fix]
+description = "Auto-fix all code quality issues"
+alias = "x"
+depends = ["format", "lint", "knip:fix"]
+run = "echo 'All fixes applied!'"
+
+[tasks.check]
+description = "Run all code quality checks"
+alias = "c"
+depends = ["format:check", "lint:check", "typecheck", "knip", "spell"]
+run = "echo 'All checks passed!'"
+
+[tasks.clean]
+description = "Remove build artifacts and cache"
+confirm = "This will delete dist, .astro, and coverage. Continue?"
+run = "rm -rf dist .astro coverage"
