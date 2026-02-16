@@ -1,8 +1,14 @@
-import type { InferEntrySchema } from "astro:content";
 import React, { useEffect, useState } from "react";
 import { Link } from "@radix-ui/themes";
 
 import { cn } from "@/lib/utils";
+
+type PortfolioItem = {
+  title: string;
+  description: string;
+  image: string;
+  link: string;
+};
 
 export const InfiniteMovingCards = ({
   items,
@@ -11,7 +17,7 @@ export const InfiniteMovingCards = ({
   pauseOnHover = true,
   className,
 }: {
-  items: InferEntrySchema<"portfolio">[];
+  items: PortfolioItem[];
   direction?: "left" | "right";
   speed?: "fast" | "normal" | "slow";
   pauseOnHover?: boolean;
@@ -92,7 +98,12 @@ export const InfiniteMovingCards = ({
             }}
             key={id}
           >
-            <Link href={item.link} target="_blank" color="gray">
+            <Link
+              href={item.link}
+              target="_blank"
+              color="gray"
+              aria-label={`View ${item.title} on Instagram`}
+            >
               <img src={item.image} alt={item.title} className="w-full" />
               <p className="bg-(--gray-1) p-3 text-sm">{item.title}</p>
             </Link>
