@@ -4,7 +4,7 @@ import { Font } from "astro:assets";
 import "../styles/global.css";
 
 import { ClientRouter } from "astro:transitions";
-import { Container, Flex, Heading, Link, Theme } from "@radix-ui/themes";
+import { Container, Flex, Heading, Link } from "@radix-ui/themes";
 
 import Footer from "@/components/shared/Footer.astro";
 import PostHog from "@/components/shared/PostHog.astro";
@@ -58,13 +58,15 @@ import { ThemeSwitcher } from "@/components/ui/theme-switcher";
     </script>
   </head>
   <body class="h-full">
-    <Theme
-      accentColor="blue"
-      radius="medium"
-      panelBackground="solid"
-      grayColor="gray"
-      className="h-full"
-      client:only="react"
+    <div
+      class="radix-themes h-full"
+      data-is-root-theme="true"
+      data-accent-color="blue"
+      data-gray-color="gray"
+      data-has-background="true"
+      data-panel-background="solid"
+      data-radius="medium"
+      data-scaling="100%"
     >
       <slot name="header">
         <header>
@@ -90,6 +92,6 @@ import { ThemeSwitcher } from "@/components/ui/theme-switcher";
       <slot name="footer">
         <Footer />
       </slot>
-    </Theme>
+    </div>
   </body>
 </html>
