@@ -98,13 +98,14 @@ export const InfiniteMovingCards = ({
             }}
             key={id}
           >
-            <Link
-              href={item.link}
-              target="_blank"
-              color="gray"
-              aria-label={`View ${item.title} on Instagram`}
-            >
-              <img src={item.image} alt={item.title} className="w-full" />
+            <Link href={item.link} target="_blank" color="gray">
+              <img
+                src={item.image}
+                alt={item.title}
+                width={256}
+                height={256}
+                className="w-full"
+              />
               <p className="bg-(--gray-1) p-3 text-sm">{item.title}</p>
             </Link>
           </li>
