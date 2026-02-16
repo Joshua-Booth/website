@@ -1,12 +1,25 @@
 ---
+import { getImage } from "astro:assets";
 import { getCollection } from "astro:content";
 
 import { InfiniteMovingCards } from "@/components/home/infinite-moving-cards";
 
 const portfolioCollection = await getCollection("portfolio");
-const portfolioItems = portfolioCollection
-  .filter((item) => item.data.showInHome)
-  .map((item) => item.data);
+const filteredItems = portfolioCollection.filter(
+  (item) => item.data.showInHome
+);
+
+const portfolioItems = await Promise.all(
+  filteredItems.map(async (item) => {
+    const optimizedImage = await getImage({ src: item.data.image });
+    return {
+      title: item.data.title,
+      description: item.data.description,
+      image: optimizedImage.src,
+      link: item.data.link,
+    };
+  })
+);
 ---
 
 <div

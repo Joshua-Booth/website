@@ -1,8 +1,8 @@
 ---
 publishDate: "March 06 2021"
 title: "Notes App"
-description: ""
-image: "/images/designs/notes-app.jpg"
-link: "https://instagram.com/p/CMDTlANhtqS"
+description: "A note-taking app design with rich text editing, folder organization, and a minimal writing interface"
+image: "../../assets/designs/notes-app.jpg"
+link: "https://www.instagram.com/p/CMDTlANhtqS"
 showInHome: true
 ---

@@ -4,13 +4,14 @@ import { z } from "astro/zod";
 
 const portfolioCollection = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/portfolio" }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    image: z.string(),
-    link: z.string(),
-    showInHome: z.boolean().optional(),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      description: z.string(),
+      image: image(),
+      link: z.string(),
+      showInHome: z.boolean().optional(),
+    }),
 });
 
 export const collections = {
