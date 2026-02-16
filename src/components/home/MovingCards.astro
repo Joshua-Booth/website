@@ -11,7 +11,11 @@ const filteredItems = portfolioCollection.filter(
 
 const portfolioItems = await Promise.all(
   filteredItems.map(async (item) => {
-    const optimizedImage = await getImage({ src: item.data.image });
+    const optimizedImage = await getImage({
+      src: item.data.image,
+      width: 512,
+      height: 512,
+    });
     return {
       title: item.data.title,
       description: item.data.description,
