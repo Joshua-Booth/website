@@ -2,28 +2,31 @@ import { useEffect, useState } from "react";
 import { Button, DropdownMenu, Theme } from "@radix-ui/themes";
 import { Monitor, Moon, Palette, Sun } from "lucide-react";
 
+type ThemeOption = "system" | "light" | "dark";
+
 export function ThemeSwitcher() {
-  const [theme, setTheme] = useState<"system" | "light" | "dark">("system");
+  const [theme, setTheme] = useState<ThemeOption>("system");
 
   useEffect(() => {
     // Check initial theme preference
-    const savedTheme = localStorage.getItem("theme") as
-      | "system"
-      | "light"
-      | "dark";
+    const rawTheme = localStorage.getItem("theme");
+    const savedTheme =
+      rawTheme === "system" || rawTheme === "light" || rawTheme === "dark"
+        ? rawTheme
+        : "system";
     const systemPreference = window.matchMedia(
       "(prefers-color-scheme: dark)"
     ).matches;
 
-    setTheme(savedTheme || "system");
+    setTheme(savedTheme);
 
     // Apply theme to document
-    const effectiveTheme =
-      savedTheme === "system"
-        ? systemPreference
-          ? "dark"
-          : "light"
-        : savedTheme;
+    let effectiveTheme: ThemeOption;
+    if (savedTheme === "system") {
+      effectiveTheme = systemPreference ? "dark" : "light";
+    } else {
+      effectiveTheme = savedTheme;
+    }
 
     document.documentElement.classList.toggle(
       "dark",
@@ -44,7 +47,7 @@ export function ThemeSwitcher() {
     }
   }, [theme]);
 
-  const handleThemeChange = (newTheme: "system" | "light" | "dark") => {
+  const handleThemeChange = (newTheme: ThemeOption) => {
     setTheme(newTheme);
     localStorage.setItem("theme", newTheme);
 
