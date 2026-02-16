@@ -3,12 +3,12 @@ import { Link } from "@radix-ui/themes";
 
 import { cn } from "@/lib/utils";
 
-type PortfolioItem = {
+interface PortfolioItem {
   title: string;
   description: string;
   image: string;
   link: string;
-};
+}
 
 export const InfiniteMovingCards = ({
   items,
@@ -32,14 +32,12 @@ export const InfiniteMovingCards = ({
   const [start, setStart] = useState(false);
   function addAnimation() {
     if (containerRef.current && scrollerRef.current) {
-      const scrollerContent = Array.from(scrollerRef.current.children);
+      const scrollerContent = [...scrollerRef.current.children];
 
-      scrollerContent.forEach((item) => {
+      for (const item of scrollerContent) {
         const duplicatedItem = item.cloneNode(true);
-        if (scrollerRef.current) {
-          scrollerRef.current.appendChild(duplicatedItem);
-        }
-      });
+        scrollerRef.current.appendChild(duplicatedItem);
+      }
 
       getDirection();
       getSpeed();
