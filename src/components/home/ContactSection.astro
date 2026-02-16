@@ -34,17 +34,16 @@ import ContactForm from "@/components/shared/ContactForm.astro";
       <Separator size="3" />
 
       <Flex gap="6">
-        <Link href={links.instagram}>
+        <Link href={links.instagram} aria-label="Instagram">
           <SiInstagram size={16} />
         </Link>
-        <Link href={links.x}>
+        <Link href={links.x} aria-label="X (Twitter)">
           <SiX size={16} />
         </Link>
-        <Link href={links.github}>
+        <Link href={links.github} aria-label="GitHub">
           <SiGithub size={16} />
         </Link>
-        <Link href={links.email}>
-          <span class="sr-only">Email</span>
+        <Link href={links.email} aria-label="Email">
           <MailIcon size={16} />
         </Link>
       </Flex>
