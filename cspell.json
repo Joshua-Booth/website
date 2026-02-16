@@ -1,0 +1,63 @@
+{
+  "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
+  "version": "0.2",
+  "language": "en,en-GB",
+  "dictionaries": [
+    "typescript",
+    "node",
+    "npm",
+    "html",
+    "html-symbol-entities",
+    "css",
+    "software-terms",
+    "fullstack",
+    "companies",
+    "fonts",
+    "filetypes",
+    "public-licenses",
+    "git",
+    "bash",
+    "shellscript"
+  ],
+  "files": [
+    "src/**/*.{astro,ts,tsx,css}",
+    "**/*.md",
+    "*.toml",
+    "package.json",
+    "*.config.{ts,js,json}"
+  ],
+  "ignorePaths": [
+    "**/*.svg",
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/.astro/**",
+    "**/.netlify/**",
+    "**/coverage/**",
+    "**/pnpm-lock.yaml"
+  ],
+  "words": [
+    "astrojs",
+    "astrolib",
+    "canvaskit",
+    "classnames",
+    "clsx",
+    "commitlint",
+    "gitmoji",
+    "ianvs",
+    "joshuabooth",
+    "joshuaboothnz",
+    "lintstaged",
+    "lintstagedrc",
+    "lucide",
+    "posthog",
+    "radix",
+    "sanity",
+    "sonarjs",
+    "tailwindcss",
+    "tseslint",
+    "formspree",
+    "HURG",
+    "RJET",
+    "onai"
+  ]
+}
