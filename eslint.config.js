@@ -14,7 +14,14 @@ import tseslint from "typescript-eslint";
 export default [
   // Global ignores
   {
-    ignores: [".netlify/**", "dist/**", ".astro/**", "**/*.d.ts"],
+    ignores: [
+      ".netlify/**",
+      "dist/**",
+      ".astro/**",
+      "**/*.d.ts",
+      // Vendor SDK snippets (inline scripts not authored by us)
+      "src/components/shared/post-hog.astro",
+    ],
   },
 
   // JavaScript recommended
