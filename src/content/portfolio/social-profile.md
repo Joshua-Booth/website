@@ -1,7 +1,7 @@
 ---
 publishDate: "August 18 2020"
 title: "Social Media App"
-description: "A social media profile page design with user stats, post grid, and follow interactions"
+description: "A social profile page with the post grid front and centre"
 image: "../../assets/designs/social-media-app.jpg"
 link: "https://www.instagram.com/p/B_G27mwprze"
 showInHome: false
