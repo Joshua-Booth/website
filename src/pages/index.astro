@@ -14,33 +14,35 @@ import BaseLayout from "../layouts/base-layout.astro";
 const pageTitle = "Joshua Booth | UI Engineer";
 ---
 
-<AstroSeo
-  title={pageTitle}
-  description="UI Engineer building thoughtful web experiences and design systems. Based in Auckland, New Zealand."
-  canonical="https://joshuabooth.nz/"
-  openGraph={{
-    url: "https://joshuabooth.nz/",
-    title: pageTitle,
-    description:
-      "UI Engineer building thoughtful web experiences and design systems. Based in Auckland, New Zealand.",
-    images: [
-      {
-        url: "https://joshuabooth.nz/images/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Joshua Booth - UI Engineer",
-      },
-    ],
-    site_name: "Joshua Booth",
-  }}
-  twitter={{
-    handle: "@joshuaboothnz",
-    site: "@joshuaboothnz",
-    cardType: "summary_large_image",
-  }}
-/>
-
 <BaseLayout>
+  <Fragment slot="head">
+    <AstroSeo
+      title={pageTitle}
+      description="UI engineer based in Auckland, New Zealand. Design systems, React, TypeScript."
+      canonical="https://joshuabooth.nz/"
+      openGraph={{
+        url: "https://joshuabooth.nz/",
+        title: pageTitle,
+        description:
+          "UI engineer based in Auckland, New Zealand. Design systems, React, TypeScript.",
+        images: [
+          {
+            url: "https://joshuabooth.nz/images/og-image.jpg",
+            width: 1200,
+            height: 630,
+            alt: "Joshua Booth - UI Engineer",
+          },
+        ],
+        site_name: "Joshua Booth",
+      }}
+      twitter={{
+        handle: "@joshuaboothnz",
+        site: "@joshuaboothnz",
+        cardType: "summary_large_image",
+      }}
+    />
+  </Fragment>
+
   <header slot="header" class="absolute z-20 w-full">
     <Container size="4" px="8" py="4">
       <Flex direction="row" align="center" justify="between">
