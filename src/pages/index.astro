@@ -1,6 +1,6 @@
 ---
-import { AstroSeo } from "@astrolib/seo";
 import { Container, Flex, Heading, Link } from "@radix-ui/themes";
+import { SEO } from "astro-seo";
 
 import BentoGrid from "@/components/home/bento-grid.astro";
 import ContactSection from "@/components/home/contact-section.astro";
@@ -12,34 +12,37 @@ import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 import BaseLayout from "../layouts/base-layout.astro";
 
 const pageTitle = "Joshua Booth | UI Engineer";
+const pageDescription =
+  "UI engineer based in Auckland, New Zealand. Design systems, React, TypeScript, Tailwind CSS and GraphQL.";
 ---
 
 <BaseLayout>
   <Fragment slot="head">
-    <AstroSeo
+    <SEO
       title={pageTitle}
-      description="UI engineer based in Auckland, New Zealand. Design systems, React, TypeScript, Tailwind CSS and GraphQL."
+      description={pageDescription}
       canonical="https://joshuabooth.nz/"
       openGraph={{
-        type: "website",
-        url: "https://joshuabooth.nz/",
-        title: pageTitle,
-        description:
-          "UI engineer based in Auckland, New Zealand. Design systems, React, TypeScript, Tailwind CSS and GraphQL.",
-        images: [
-          {
-            url: "https://joshuabooth.nz/images/og-image.jpg",
-            width: 1200,
-            height: 630,
-            alt: "Joshua Booth - UI Engineer",
-          },
-        ],
-        site_name: "Joshua Booth",
+        basic: {
+          title: pageTitle,
+          type: "website",
+          image: "https://joshuabooth.nz/images/og-image.jpg",
+          url: "https://joshuabooth.nz/",
+        },
+        optional: {
+          description: pageDescription,
+          siteName: "Joshua Booth",
+        },
+        image: {
+          width: 1200,
+          height: 630,
+          alt: "Joshua Booth - UI Engineer",
+        },
       }}
       twitter={{
-        handle: "@joshuaboothnz",
+        card: "summary_large_image",
         site: "@joshuaboothnz",
-        cardType: "summary_large_image",
+        creator: "@joshuaboothnz",
       }}
     />
   </Fragment>
