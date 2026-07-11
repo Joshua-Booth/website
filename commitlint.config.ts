@@ -335,7 +335,7 @@ const config: UserConfig = {
       ({ header }: Commit): RuleResult => {
         if (!header) return [true];
 
-        // eslint-disable-next-line sonarjs/slow-regex -- simple word-boundary check, input is short commit subject
+        // eslint-disable-next-line sonarjs/super-linear-regex -- simple word-boundary check, input is short commit subject
         if (/\s+and\s+/i.test(header) && !/-and-/i.test(header)) {
           return [
             false,
