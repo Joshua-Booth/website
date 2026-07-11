@@ -53,9 +53,13 @@
       }),
       (e.__SV = 1));
   })(document, window.posthog || []);
-  posthog.init("phc_rHURG59RJETTftYDGQlsIrGmBvASqL1tyAd3onai1Of", {
-    api_host: "https://us.i.posthog.com",
-    defaults: "2026-01-30",
-    person_profiles: "always",
+  // Defer init to idle time so PostHog's scripts stay off the critical
+  // rendering path; the stub above queues any calls made before then.
+  (window.requestIdleCallback || ((f) => setTimeout(f, 1500)))(() => {
+    posthog.init("phc_rHURG59RJETTftYDGQlsIrGmBvASqL1tyAd3onai1Of", {
+      api_host: "https://us.i.posthog.com",
+      defaults: "2026-01-30",
+      person_profiles: "always",
+    });
   });
 </script>
