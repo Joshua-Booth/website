@@ -163,7 +163,8 @@ export async function SiteHeader({ current, sheet }: Props) {
             <b {...stylex.props(styles.introLead)}>
               I&apos;m a UI engineer in Auckland.
             </b>{" "}
-            I design and build interfaces, from Figma through to production.
+            I design and build user interfaces, from the first design to the
+            live product.
           </p>
         </>
       )}
