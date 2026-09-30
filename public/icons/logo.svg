@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
-  <defs>
-    <linearGradient id="wash" x1="0.7868" y1="0.0904" x2="0.2132" y2="0.9096">
-      <stop stop-color="#8EC8F6"/>
-      <stop offset="1" stop-color="#0D74CE"/>
-    </linearGradient>
-  </defs>
-  <circle cx="16" cy="16" r="16" fill="url(#wash)"/>
-</svg>

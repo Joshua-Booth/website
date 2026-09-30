@@ -1,0 +1,42 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "trailingComma": "es5",
+  "printWidth": 80,
+  "sortPackageJson": false,
+  "ignorePatterns": ["pnpm-lock.yaml"],
+  "sortImports": {
+    "newlinesBetween": true,
+    "customGroups": [
+      {
+        "groupName": "react",
+        "elementNamePattern": [
+          "react",
+          "react-dom",
+          "react/**",
+          "next",
+          "next/**"
+        ]
+      },
+      { "groupName": "fsd-app", "elementNamePattern": ["@/app/**"] },
+      { "groupName": "fsd-pages", "elementNamePattern": ["@/pages/**"] },
+      { "groupName": "fsd-widgets", "elementNamePattern": ["@/widgets/**"] },
+      { "groupName": "fsd-features", "elementNamePattern": ["@/features/**"] },
+      { "groupName": "fsd-entities", "elementNamePattern": ["@/entities/**"] },
+      { "groupName": "fsd-shared", "elementNamePattern": ["@/shared/**"] }
+    ],
+    "groups": [
+      "type-import",
+      "react",
+      ["value-builtin", "value-external"],
+      "fsd-app",
+      "fsd-pages",
+      "fsd-widgets",
+      "fsd-features",
+      "fsd-entities",
+      "fsd-shared",
+      ["value-parent", "value-sibling", "value-index"],
+      "side_effect",
+      "unknown"
+    ]
+  }
+}

@@ -1,89 +1,84 @@
+[settings]
+# Node comes from .node-version, which Netlify reads too
+idiomatic_version_file_enable_tools = ["node"]
+
 [tools]
-node = "24"
-pnpm = "11.11.0"
+# Netlify reads the pnpm version from package.json's packageManager field, so keep the two in step
+pnpm = "12.8.1"
 
 [env]
 _.path = ["./node_modules/.bin"]
-
-[vars]
-eslint_config = "./eslint.config.js"
-knip_config = "./knip.config.ts"
-cspell_config = "./cspell.json"
-lintstaged_config = "./.lintstagedrc"
+SITE_FLAGS = "{{ get_env(name='SITE_FLAGS', default='none') }}"
 
 [tasks.dev]
 description = "Start development server"
 alias = "d"
-run = "astro dev"
+run = "next dev"
 
 [tasks.build]
 description = "Build the application"
 alias = "b"
-run = "astro check && astro build"
+run = "next build"
 
 [tasks.preview]
-description = "Preview production build"
+description = "Serve the production build (run build first)"
 alias = "p"
-run = "astro preview"
+run = "next start"
 
 [tasks.format]
-description = "Format code with Prettier"
+description = "Format code with oxfmt"
 alias = "f"
-run = "prettier --write \"**/*.{astro,ts,tsx,js,css,json,yml,yaml,md}\" --ignore-path .prettierignore"
-
-[tasks."format:files"]
-description = "Format specific files (for lint-staged)"
-hide = true
-run = "prettier --ignore-path .prettierignore --write"
+run = "oxfmt"
 
 [tasks."format:check"]
-description = "Check code formatting with Prettier"
+description = "Check code formatting with oxfmt"
 alias = "fc"
-run = "prettier --check \"**/*.{astro,ts,tsx,js,css,json,yml,yaml,md}\" --ignore-path .prettierignore"
+run = "oxfmt --check"
 
 [tasks.lint]
-description = "Fix code with ESLint"
+description = "Fix code with oxlint"
 alias = "l"
-run = "eslint . --config {{vars.eslint_config}} --max-warnings 0 --fix"
-
-[tasks."lint:files"]
-description = "Lint specific files (for lint-staged)"
-hide = true
-run = "eslint --config {{vars.eslint_config}} --fix"
+run = "oxlint --type-aware --max-warnings 0 --fix"
 
 [tasks."lint:check"]
-description = "Check code with ESLint"
+description = "Check code with oxlint"
 alias = "lc"
-run = "eslint . --config {{vars.eslint_config}} --max-warnings 0"
+run = "oxlint --type-aware --max-warnings 0"
 
-[tasks.lintstaged]
-description = "Run lint-staged on staged files"
-run = "lint-staged --config {{vars.lintstaged_config}}"
+[tasks.stylelint]
+description = "Fix CSS with Stylelint"
+alias = "sl"
+run = "stylelint \"src/**/*.css\" --fix"
+
+[tasks."stylelint:check"]
+description = "Check CSS with Stylelint"
+alias = "slc"
+run = "stylelint \"src/**/*.css\""
+
+[tasks.steiger]
+description = "Check the Feature-Sliced Design structure"
+alias = "fsd"
+run = "steiger ./src"
 
 [tasks.knip]
-description = "Find unused files, dependencies, and exports"
+description = "Find unused files, dependencies, exports and config"
 alias = "k"
-run = "knip --config {{vars.knip_config}} --no-config-hints"
+run = "knip --treat-config-hints-as-errors"
 
 [tasks."knip:fix"]
 description = "Auto-remove unused exports"
 alias = "kf"
-run = "knip --config {{vars.knip_config}} --fix --no-config-hints"
+run = "knip --fix"
 
 [tasks.spell]
 description = "Check spelling with cspell"
 alias = "sp"
-run = "cspell . --config {{vars.cspell_config}}"
-
-[tasks."spell:files"]
-description = "Spell check specific files (for lint-staged)"
-hide = true
-run = "cspell --config {{vars.cspell_config}} --no-must-find-files"
+run = "cspell ."
 
 [tasks.typecheck]
 description = "Run TypeScript type checking"
 alias = "tt"
-run = "astro check"
+run = "next typegen && tsc --noEmit"
 
 [tasks.test]
 description = "Run tests in watch mode"
@@ -95,19 +90,31 @@ description = "Run tests once"
 alias = "tr"
 run = "vitest run"
 
+[tasks.audit]
+description = "Run the overlap, navigation and hover audits against a production build on port 3000 (start it with SITE_FLAGS=all mise run preview)"
+alias = "a"
+run = "node scripts/audit/run.ts"
+
 [tasks.fix]
 description = "Auto-fix all code quality issues"
 alias = "x"
-depends = ["format", "lint", "knip:fix"]
-run = "echo 'All fixes applied!'"
+depends = ["format", "lint", "stylelint", "knip:fix"]
 
 [tasks.check]
-description = "Run all code quality checks"
+description = "Run all code quality checks and the tests"
 alias = "c"
-depends = ["format:check", "lint:check", "typecheck", "knip", "spell"]
-run = "echo 'All checks passed!'"
+depends = [
+  "format:check",
+  "lint:check",
+  "stylelint:check",
+  "typecheck",
+  "steiger",
+  "knip",
+  "spell",
+  "test:run",
+]
 
 [tasks.clean]
 description = "Remove build artifacts and cache"
-confirm = "This will delete dist, .astro, and coverage. Continue?"
-run = "rm -rf dist .astro coverage"
+confirm = "This will delete .next, coverage and audit output. Continue?"
+run = "rm -rf .next coverage audit-output tsconfig.tsbuildinfo"
