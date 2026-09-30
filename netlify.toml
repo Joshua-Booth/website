@@ -2,6 +2,11 @@
 publish = ".next"
 command = "pnpm run build"
 
+# The site started as Astro, and Netlify didn't add its Next.js adapter on its
+# own, so the build was published as raw files
+[[plugins]]
+package = "@netlify/plugin-nextjs"
+
 [[headers]]
 for = "/_next/static/*"
 [headers.values]
