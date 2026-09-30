@@ -1,18 +1,17 @@
 [build]
-  publish = "dist"
-  command = "pnpm run build"
+publish = ".next"
+command = "pnpm run build"
+
+# The site started as Astro, and Netlify didn't add its Next.js adapter on its
+# own, so the build was published as raw files
+[[plugins]]
+package = "@netlify/plugin-nextjs"
 
 [[headers]]
-  for = "/_astro/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+for = "/_next/static/*"
+[headers.values]
+Cache-Control = "public, max-age=31536000, immutable"
 
-[[headers]]
-  for = "/icons/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/fonts/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+# Deploy previews show every flagged part, so a PR can be reviewed with them on
+[context.deploy-preview.environment]
+SITE_FLAGS = "all"

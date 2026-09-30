@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://joshuabooth.nz/sitemap-index.xml

@@ -1,18 +1,7 @@
 {
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "astro", // Enable .astro
-    "typescript", // Enable .ts
-    "typescriptreact" // Enable .tsx
-  ],
-  "css.customData": ["./vscode.tailwind.json"],
   "editor.formatOnSave": true,
-  "prettier.documentSelectors": ["**/*.astro"],
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "[astro]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "editor.defaultFormatter": "oxc.oxc-vscode",
+  "oxc.fmt.configPath": ".oxfmtrc.json",
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "css.customData": [".vscode/css-data.json"]
 }

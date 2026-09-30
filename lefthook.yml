@@ -1,0 +1,25 @@
+# Git hooks. Each command runs on the staged files it matches, one after
+# another so no two fixers edit the same file at once, and re-stages
+# anything a fixer changed
+pre-commit:
+  commands:
+    1_lint:
+      glob: "*.{ts,tsx}"
+      run: mise exec -- oxlint --type-aware --max-warnings 0 --fix {staged_files}
+      stage_fixed: true
+    2_stylelint:
+      glob: "*.css"
+      run: mise exec -- stylelint --fix {staged_files}
+      stage_fixed: true
+    3_format:
+      glob: "*.{ts,tsx,js,cjs,mjs,css,json,yml,yaml,md,mdx}"
+      run: mise exec -- oxfmt --no-error-on-unmatched-pattern {staged_files}
+      stage_fixed: true
+    4_spell:
+      glob: "*.{ts,tsx,md,mdx}"
+      run: mise exec -- cspell --no-must-find-files {staged_files}
+
+commit-msg:
+  commands:
+    commitlint:
+      run: mise exec -- commitlint --edit {1}

@@ -1,0 +1,29 @@
+I designed this site in the browser first, as coded mockups, then built it in Next.js. The code is on [GitHub](https://github.com/Joshua-Booth/website).
+
+<Label>The page</Label>
+
+The server renders every page, so the page arrives finished. The effects are one small script that starts once it has loaded. With reduced motion turned on, they stop at the finished page.
+
+The type is Archivo, mostly at its widest setting. Labels and numbers use it too, with numbers that line up in columns.
+
+<Label>The x-ray</Label>
+
+The page builds itself the first time you see each part: a grid, then guide lines, then the letters. After that, a soft light follows your pointer and shows the x-ray underneath. On a phone, drag.
+
+The guide lines sit on each heading's baseline and cap height. The script works them out from the font's own measurements, so they stay on the letters at any width.
+
+Work and Projects come together as you scroll to them. Resize the window and the page turns into a blueprint, with its measurements changing as it goes.
+
+<Only when={props.lab}>
+
+<Label>The Lab</Label>
+
+The server draws each Lab tile, so it's there straight away. The ones you can use start working once the page's script has loaded.
+
+</Only>
+
+<Label>How I built it</Label>
+
+I built it with Claude Code. I made the design calls and checked every part. A script checks each page at six widths for text overlapping text, and for anything the light covers when you point at it.
+
+It's hosted on Netlify.

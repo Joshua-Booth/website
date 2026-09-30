@@ -1,0 +1,43 @@
+/* Element rules StyleX can't target from a component. The reset layer is
+   declared before StyleX's, so every StyleX style wins over it. The colours
+   are copies of the tokens in shared/ui/tokens.stylex.ts */
+@layer reset;
+
+@stylex;
+
+@layer reset {
+  *,
+  ::before,
+  ::after {
+    box-sizing: border-box;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+
+  ::selection {
+    background: #fff;
+    color: #034694;
+  }
+
+  :focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 4px;
+  }
+
+  button {
+    font: inherit;
+    color: inherit;
+  }
+
+  [id] {
+    scroll-margin-top: 24px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+}
