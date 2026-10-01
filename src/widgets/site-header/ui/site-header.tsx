@@ -161,10 +161,10 @@ export async function SiteHeader({ current, sheet }: Props) {
           </h1>
           <p {...sx("intro", styles.intro)}>
             <b {...stylex.props(styles.introLead)}>
-              I&apos;m a UI engineer in Auckland.
+              I&apos;m an AI-native frontend engineer in Auckland.
             </b>{" "}
-            I design and build user interfaces, from the first design to the
-            live product.
+            I design and build products from first concept to live in
+            production.
           </p>
         </>
       )}

@@ -2,7 +2,7 @@ export const SITE_URL = "https://joshuabooth.nz";
 export const NAME = "Joshua Booth";
 export const EMAIL = "contact@joshuabooth.nz";
 export const DESCRIPTION =
-  "Joshua Booth is a UI engineer in Auckland. He designs and builds user interfaces, from the first design to the live product.";
+  "Joshua Booth is an AI-native frontend engineer in Auckland. He designs and builds products from first concept to live in production.";
 
 export const LINKS = {
   linkedin: "https://www.linkedin.com/in/joshua-booth",
