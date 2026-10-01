@@ -173,7 +173,7 @@ export function HomePage({ flags }: { flags: SiteFlags }) {
               title="Audio Devotions"
               size="mid"
               meta="web app"
-              sub="An audio player I made for my granddad's iPad, with big buttons for low eyesight."
+              sub="Daily audio devotional web app designed for people with reduced vision."
               link={{
                 href: LINKS.audioDevotions,
                 go: "Code",
