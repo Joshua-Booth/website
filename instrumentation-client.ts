@@ -10,7 +10,8 @@ async function startPostHog() {
   const { default: posthog } = await import("posthog-js");
 
   posthog.init(POSTHOG.key, {
-    api_host: POSTHOG.host,
+    api_host: POSTHOG.proxyHost,
+    ui_host: POSTHOG.uiHost,
     defaults: "2026-01-30",
     person_profiles: "always",
     // Flags are decided on the server when a page renders, so the browser

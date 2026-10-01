@@ -16,4 +16,7 @@ export const LINKS = {
 export const POSTHOG = {
   key: "phc_rHURG59RJETTftYDGQlsIrGmBvASqL1tyAd3onai1Of",
   host: "https://us.i.posthog.com",
+  /** Browser events go through this proxy so ad blockers don't drop them. */
+  proxyHost: "https://r.joshuabooth.nz",
+  uiHost: "https://us.posthog.com",
 } as const;
