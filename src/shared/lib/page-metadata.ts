@@ -6,7 +6,7 @@ const IMAGE = {
   url: "/og.png",
   width: 1200,
   height: 630,
-  alt: "Joshua Booth in large white capitals on blue. A pool of light over the right-hand letters shows them in outline on lined paper. Below: User Interface Engineer.",
+  alt: "Joshua Booth in large white capitals on blue. A pool of light over the right-hand letters shows them in outline on lined paper. Below: AI-Native Frontend Engineer.",
 };
 
 /**
