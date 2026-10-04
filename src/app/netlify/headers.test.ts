@@ -13,7 +13,8 @@ describe("netlifyHeaders", () => {
   Link: </llms.txt>; rel="describedby"
 
 /index.md
-  Link: <https://joshuabooth.nz/>; rel="canonical", </llms.txt>; rel="describedby"
+  Content-Type: text/markdown; charset=utf-8
+  Link: <https://joshuabooth.nz>; rel="canonical", </llms.txt>; rel="describedby"
 `);
   });
 

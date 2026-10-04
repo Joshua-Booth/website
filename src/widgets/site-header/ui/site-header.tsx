@@ -3,6 +3,7 @@ import Link from "next/link";
 import * as stylex from "@stylexjs/stylex";
 
 import { getSiteFlags } from "@/shared/api/site-flags";
+import { isLive } from "@/shared/config/pages";
 import { INTRO, NAME } from "@/shared/config/site";
 import { sx } from "@/shared/lib/sx";
 import { display } from "@/shared/ui/display";
@@ -139,7 +140,7 @@ export async function SiteHeader({ current, sheet }: Props) {
           <Link href={at("projects")} {...navLink}>
             Projects
           </Link>
-          {flags.lab && (
+          {isLive("/lab", flags) && (
             <Link
               href="/lab"
               aria-current={current === "lab" ? "page" : undefined}

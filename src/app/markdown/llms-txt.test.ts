@@ -1,25 +1,31 @@
-import { describe, expect, it } from "vitest";
+import { existsSync } from "node:fs";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
-import type { SiteFlags } from "@/shared/config/flags";
 import { ALL_OFF, ALL_ON } from "@/shared/config/flags";
-import { mdPath, PAGE_PATHS } from "@/shared/config/pages";
 import { SITE_URL } from "@/shared/config/site";
 
 import { llmsTxt } from "./llms-txt";
-import { pageMarkdown } from "./pages";
 
-async function serves(url: string, flags: SiteFlags): Promise<boolean> {
-  const path = url.slice(SITE_URL.length);
+afterEach(() => {
+  vi.unstubAllEnvs();
+});
 
-  if (path === "/llms-full.txt") {
-    const route = await import("../../../app/llms-full.txt/route");
+interface RouteModule {
+  GET: () => Response | Promise<Response>;
+}
 
-    return typeof route.GET === "function";
-  }
+async function serves(url: string): Promise<boolean> {
+  const route = new URL(
+    `../../../app${url.slice(SITE_URL.length)}/route.ts`,
+    import.meta.url
+  );
 
-  const page = PAGE_PATHS.find((p) => mdPath(p) === path);
+  if (!existsSync(route)) return false;
 
-  return page !== undefined && Boolean(await pageMarkdown(page, flags));
+  const { GET }: RouteModule = await import(/* @vite-ignore */ route.href);
+  const res = await GET();
+
+  return res.ok && (await res.text()).length > 0;
 }
 
 const section = (text: string, heading: string) =>
@@ -70,16 +76,18 @@ Email: [contact@joshuabooth.nz](mailto:contact@joshuabooth.nz)
   });
 
   it.each([
-    ["off", ALL_OFF],
-    ["on", ALL_ON],
+    ["none", ALL_OFF],
+    ["all", ALL_ON],
   ])(
-    "links only to joshuabooth.nz URLs that serve something, with flags %s",
-    async (_, flags) => {
+    "links only to joshuabooth.nz URLs whose route serves them, with SITE_FLAGS=%s",
+    async (siteFlags, flags) => {
+      vi.stubEnv("SITE_FLAGS", siteFlags);
+
       const urls =
         llmsTxt(flags).match(/https:\/\/joshuabooth\.nz[^\s)]*/g) ?? [];
 
       const served = await Promise.all(
-        urls.map(async (url) => ({ url, serves: await serves(url, flags) }))
+        urls.map(async (url) => ({ url, serves: await serves(url) }))
       );
 
       expect(urls.length).toBeGreaterThan(0);

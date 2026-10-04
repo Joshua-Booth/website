@@ -2,7 +2,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 import { ALL_OFF, ALL_ON } from "./flags";
-import { livePages, mdPath, PAGE_PATHS } from "./pages";
+import { livePages, mdPath, PAGE_PATHS, PAGES } from "./pages";
 
 const APP = new URL("../../../app/", import.meta.url);
 
@@ -30,6 +30,10 @@ describe("the page list", () => {
         calls: [`gatePage("${route}")`, `pageMetadata("${route}")`],
       });
     }
+  });
+
+  it("never hides the homepage", () => {
+    expect(PAGES["/"]).not.toHaveProperty("flag");
   });
 
   it("lists only the pages whose flags are on", () => {

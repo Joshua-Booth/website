@@ -162,7 +162,7 @@ export function HomePage({ flags }: { flags: SiteFlags }) {
           </Rows>
         </section>
 
-        {flags.lab && (
+        {isLive("/lab", flags) && (
           <section id="lab" data-name="Lab" aria-labelledby="lab-heading">
             <Label id="lab-heading">Lab</Label>
             <LabTiles layout="strip">

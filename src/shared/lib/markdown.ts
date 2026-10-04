@@ -1,6 +1,6 @@
 import type { PagePath } from "../config/pages";
 
-import { mdPath, PAGES } from "../config/pages";
+import { mdPath, pageListing } from "../config/pages";
 import { SITE_URL } from "../config/site";
 
 export function dropFullStop(sentence: string): string {
@@ -12,7 +12,7 @@ export function mdUrl(path: PagePath): string {
 }
 
 export function pageLine(path: PagePath): string {
-  const { title, description } = PAGES[path];
+  const { label, note } = pageListing(path);
 
-  return `[${title}](${mdUrl(path)}): ${dropFullStop(description)}`;
+  return `[${label}](${mdUrl(path)}): ${dropFullStop(note)}`;
 }

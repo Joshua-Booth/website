@@ -36,11 +36,17 @@ export interface Finding extends Partial<Issue> {
 type Where = Omit<Finding, "kind">;
 
 async function sitemapPaths(base: string) {
-  const sitemap = await (await fetch(`${base}/sitemap.xml`)).text();
+  const res = await fetch(`${base}/sitemap.xml`);
 
-  return [...sitemap.matchAll(/<loc>(.+?)<\/loc>/g)].map(
+  const paths = [...(await res.text()).matchAll(/<loc>(.+?)<\/loc>/g)].map(
     ([, loc]) => new URL(loc!).pathname
   );
+
+  if (!res.ok || !paths.includes("/")) {
+    throw new Error(`${base}/sitemap.xml (${res.status}) lists no homepage`);
+  }
+
+  return paths;
 }
 
 export async function overlapAudit(page: Page, base: string, out: string) {

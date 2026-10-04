@@ -6,8 +6,7 @@ import { thisSiteMarkdown } from "@/pages/this-site/model/markdown";
 import { getSiteFlags } from "@/shared/api/site-flags";
 import type { SiteFlags } from "@/shared/config/flags";
 import type { PagePath } from "@/shared/config/pages";
-import { isLive } from "@/shared/config/pages";
-import { pageHeading } from "@/shared/lib/page-metadata";
+import { isLive, pageHeading } from "@/shared/config/pages";
 
 type PageBody = (flags: SiteFlags) => string | Promise<string>;
 
@@ -36,16 +35,12 @@ export async function pageMarkdown(
   return page && `# ${page.heading}\n\n${page.body}\n`;
 }
 
-const NOT_FOUND = `# Not found
-
-Sorry, I can't find that page. The link may be out of date, or there might be a typo in the address.
-`;
-
 export async function markdownResponse(path: PagePath): Promise<Response> {
   const markdown = await pageMarkdown(path, await getSiteFlags());
 
-  return new Response(markdown ?? NOT_FOUND, {
-    status: markdown ? 200 : 404,
+  if (markdown === null) return new Response(null, { status: 404 });
+
+  return new Response(markdown, {
     headers: { "Content-Type": "text/markdown; charset=utf-8" },
   });
 }

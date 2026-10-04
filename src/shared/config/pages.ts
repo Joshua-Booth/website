@@ -2,14 +2,23 @@ import type { SiteFlags } from "./flags";
 
 import type { Route } from "next";
 
-export interface PageInfo {
-  title: string;
+import { DESCRIPTION, NAME, SITE_URL } from "./site";
+
+export type PageInfo = {
   description: string;
+  note?: string;
   flag?: keyof SiteFlags;
-}
+} & (
+  | { title: string; label?: undefined }
+  | { title?: undefined; label: string }
+);
 
 export const PAGES = {
-  "/": { title: "Home", description: "Work, projects and contact details." },
+  "/": {
+    label: "Home",
+    description: DESCRIPTION,
+    note: "Work, projects and contact details.",
+  },
   "/work/pcos-protocol": {
     title: "PCOS Protocol",
     description:
@@ -52,6 +61,29 @@ export function livePages(flags: SiteFlags): PagePath[] {
   return PAGE_PATHS.filter((path) => isLive(path, flags));
 }
 
+export function exportPath(path: PagePath, extension: string): string {
+  return path === "/" ? `/index.${extension}` : `${path}.${extension}`;
+}
+
 export function mdPath(path: PagePath): string {
-  return path === "/" ? "/index.md" : `${path}.md`;
+  return exportPath(path, "md");
+}
+
+export function pageUrl(path: PagePath): string {
+  return path === "/" ? SITE_URL : `${SITE_URL}${path}`;
+}
+
+export function pageHeading(path: PagePath): string {
+  const page: PageInfo = PAGES[path];
+
+  return page.title ?? NAME;
+}
+
+export function pageListing(path: PagePath): { label: string; note: string } {
+  const page: PageInfo = PAGES[path];
+
+  return {
+    label: page.title ?? page.label,
+    note: page.note ?? page.description,
+  };
 }

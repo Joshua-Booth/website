@@ -1,6 +1,5 @@
 import type { SiteFlags } from "@/shared/config/flags";
-import { PAGE_PATHS } from "@/shared/config/pages";
-import { SITE_URL } from "@/shared/config/site";
+import { PAGE_PATHS, pageUrl } from "@/shared/config/pages";
 
 import { livePage } from "./pages";
 
@@ -10,7 +9,7 @@ export async function llmsFull(flags: SiteFlags): Promise<string> {
       const page = await livePage(path, flags);
 
       return (
-        page && `# ${page.heading}\nSource: ${SITE_URL}${path}\n\n${page.body}`
+        page && `# ${page.heading}\nSource: ${pageUrl(path)}\n\n${page.body}`
       );
     })
   );
