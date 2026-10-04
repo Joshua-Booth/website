@@ -313,7 +313,7 @@
       }
     },
     {
-      "files": ["app/**/*.{md,txt}/**"],
+      "files": ["app/**/*.{md,txt}/**", "app/%5F*/**"],
       "rules": {
         "check-file/folder-naming-convention": "off"
       }

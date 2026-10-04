@@ -8,6 +8,11 @@ for = "/*"
 X-Content-Type-Options = "nosniff"
 
 [[headers]]
+for = "/*.md"
+[headers.values]
+Content-Type = "text/markdown; charset=utf-8"
+
+[[headers]]
 for = "/_next/static/*"
 [headers.values]
 Cache-Control = "public, max-age=31536000, immutable"
