@@ -10,6 +10,8 @@ const HIDE =
 const UNFIX =
   ".page :is(a,button),.page [data-asm],.page .tile{z-index:auto!important}body:not([data-lit]) .page [data-asm]{z-index:21!important}";
 
+const TAX_CODE = '#projects a.code[href*="calculate-tax"]';
+
 const HOME: [string, string, string?][] = [
   ["nav-work", ".nav a:nth-child(1)"],
   ["nav-projects", ".nav a:nth-child(2)"],
@@ -19,6 +21,7 @@ const HOME: [string, string, string?][] = [
   ["pcos-row", SELECTOR.pcosRow],
   ["this-site-row", "#this-site"],
   ["creact-row", '#projects a.row[href*="creact"]'],
+  ["tax-code", TAX_CODE],
   ["lab-tile", "#strip .tile", "#strip .tile figcaption"],
   ["lab-more", ".more a"],
   ["mail", ".mail"],
@@ -140,6 +143,16 @@ export async function hoverTest(page: Page, base: string, root: string) {
     );
 
     if (moving) await snap("pcos-row-moving", SELECTOR.pcosRow);
+
+    await topAt(page, TAX_CODE, 0.86);
+    await frames(page);
+
+    const codeMoving = await page.evaluate(
+      (s) => document.querySelector(s)!.hasAttribute("data-asm"),
+      "#projects"
+    );
+
+    if (codeMoving) await snap("tax-code-moving", TAX_CODE);
 
     await load("/work/pcos-protocol");
     await settled(page);

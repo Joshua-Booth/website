@@ -163,6 +163,14 @@ export function HomePage({ flags }: { flags: SiteFlags }) {
               }
             />
             <Row
+              title="Tax Calculator"
+              size="mid"
+              meta="web app"
+              sub="Works out your New Zealand take-home pay after tax, ACC, KiwiSaver and student loan."
+              link={{ href: LINKS.taxCalculator, go: "Try it", external: true }}
+              code={LINKS.taxCalculatorRepo}
+            />
+            <Row
               title="creact"
               size="mid"
               meta="open source"

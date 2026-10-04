@@ -10,6 +10,8 @@ export const LINKS = {
   repo: "https://github.com/Joshua-Booth/website",
   creact: "https://github.com/Joshua-Booth/creact",
   audioDevotions: "https://github.com/Joshua-Booth/audio-devotions",
+  taxCalculator: "https://calculatetax.netlify.app",
+  taxCalculatorRepo: "https://github.com/Joshua-Booth/calculate-tax",
 } as const;
 
 /** PostHog's project key is public: it only lets a browser send events. */

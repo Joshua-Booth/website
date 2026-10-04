@@ -33,7 +33,7 @@ export const HERO = "Hero";
 export const ASSEMBLE = {
   sections: "#work, #projects",
   headings: ".big, .mid",
-  details: ".label, .meta, .sub, .role, .go",
+  details: ".label, .meta, .sub, .role, .go, .code",
 };
 
 const ASSEMBLE_LAYERS = `${ASSEMBLE.headings}, ${ASSEMBLE.details}`;
