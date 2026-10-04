@@ -16,7 +16,7 @@ The Node version comes from `.node-version` and the pnpm version from `mise.toml
 | `mise run preview`  | Serve `out/` locally                                             |
 | `mise run check`    | Format, lint, stylelint, types, structure, knip, spelling, tests |
 | `mise run test:run` | Run the unit tests                                               |
-| `mise run audit`    | Run the overlap, navigation and hover audits against `out/`      |
+| `mise run audit`    | Run the overlap, navigation and hover audits against `preview`   |
 
 ## Structure
 

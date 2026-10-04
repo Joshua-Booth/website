@@ -91,7 +91,7 @@ alias = "tr"
 run = "vitest run"
 
 [tasks.audit]
-description = "Run the overlap, navigation and hover audits against out/ (build it first with SITE_FLAGS=all)"
+description = "Run the overlap, navigation and hover audits against AUDIT_URL, the address mise run preview prints"
 alias = "a"
 run = "node scripts/audit/run.ts"
 
