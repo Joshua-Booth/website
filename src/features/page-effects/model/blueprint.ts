@@ -29,11 +29,13 @@ const INTRO_BELOW = 30;
 const PART_GAP_FROM_RIGHT = 30;
 const HEADING_ABOVE = 26;
 const HEADING_CAP_BESIDE = 26;
-const ROW_HEIGHT_FROM_RIGHT = 90;
+const ROW_HEIGHT_BESIDE = 16;
+const ROW_HEIGHT_INSET = 6;
 
 const NAME_GAP_AT = 0.62;
 
 const PART_HEADING = ":is(.big, .mid, .mail, .case-h)";
+const ROW_ENDS = ".meta, .go, .code";
 
 const TITLE_BLOCK = {
   narrow: { width: 250, above: 96 },
@@ -122,7 +124,8 @@ function drafting(scale: number) {
     y1: number,
     y2: number,
     text: string | number,
-    side: "left" | "right" = "right"
+    side: "left" | "right" = "right",
+    labelAt = (y1 + y2) / 2
   ) => {
     if (y2 - y1 < 8) return [];
 
@@ -133,8 +136,8 @@ function drafting(scale: number) {
       tick(x, y1),
       tick(x, y2),
       side === "left"
-        ? label(x - s(12), (y1 + y2) / 2 + s(5), text, "end")
-        : label(x + s(12), (y1 + y2) / 2 + s(5), text, "start"),
+        ? label(x - s(12), labelAt + s(5), text, "end")
+        : label(x + s(12), labelAt + s(5), text, "start"),
     ];
   };
 
@@ -295,13 +298,28 @@ export function startBlueprint(stage: Stage) {
         if (row) {
           const rowBox = at.box(row);
 
+          const ends = [...row.querySelectorAll(ROW_ENDS)].map((end) =>
+            at.box(end)
+          );
+
+          const left = Math.min(...ends.map((end) => end.x));
+
+          let lowest = rowBox;
+
+          for (const end of ends) if (end.y > lowest.y) lowest = end;
+
+          const endsOnRight = left > rowBox.x + rowBox.width / 2;
+
           group.append(
             ...pen.vertical(
-              rowBox.x + rowBox.width - pen.s(ROW_HEIGHT_FROM_RIGHT),
+              endsOnRight
+                ? left - pen.s(ROW_HEIGHT_BESIDE)
+                : rowBox.x + rowBox.width - pen.s(ROW_HEIGHT_INSET),
               rowBox.y,
               rowBox.y + rowBox.height,
               Math.round(rowBox.height),
-              "left"
+              "left",
+              endsOnRight ? undefined : lowest.y + lowest.height / 2
             )
           );
         }
