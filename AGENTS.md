@@ -29,3 +29,33 @@ so a flag flipped in PostHog shows up after the next deploy. Netlify deploy prev
 ## Analytics
 
 PostHog starts only on `joshuabooth.nz`, so local builds, audits and deploy previews send no events.
+
+## Design in Figma
+
+The design system is the Figma file `A9t8vOArNk4Li3M9EVGykA`, and it's edited directly. Its old page-building
+scripts are retired, because running them wipes everything edited by hand. Only the colour variables and text
+styles still come from scripts, so copy any colour change in `src/shared/ui/tokens.stylex.ts` across to them.
+
+For a new feature:
+
+1. Try the options on a trial page named after the ticket, such as "JB-55 trial".
+2. Build the chosen option on the site.
+3. Fold it into the components on the Components page and the frames on the Templates page. Row links are the
+   `Row link` component, so a change to the link look is one edit.
+4. Trim the trial page to the chosen option, and note anything that changed while building it.
+5. If the home page changed, refresh its captures.
+
+### Refresh the captures
+
+The Captures page holds `Home · 1440` and `Home · 390`, captured from the live site with Figma's
+`generate_figma_design` tool and a Playwright browser:
+
+1. Call `generate_figma_design` with the file key and the Captures page, `0:1`, to get a capture ID for each width.
+2. In the browser, remove the site's Content-Security-Policy headers with `page.route`, as the tool suggests. Turn
+   on reduced motion with `page.emulateMedia({ reducedMotion: "reduce" })`, or the rows are caught mid-animation.
+3. At 1440 by 900, then 390 by 844, open `https://joshuabooth.nz/` and wait for `document.fonts.ready`, then 2.5
+   seconds. Set `display: none` on every `.fx` element, or the x-ray covers the page.
+4. Inject Figma's `capture.js` and call `window.figma.captureForDesign({ captureId, endpoint, selector: "body" })`
+   without awaiting it, then wait about 10 seconds. Awaiting it can hang.
+5. Poll `generate_figma_design` with the capture ID until it's done. Replace the old frame, and keep its name and
+   position.
