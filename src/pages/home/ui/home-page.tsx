@@ -166,7 +166,7 @@ export function HomePage({ flags }: { flags: SiteFlags }) {
               title="Tax Calculator"
               size="mid"
               meta="web app"
-              sub="Works out your New Zealand take-home pay. I designed it in 2020 and built it in 2026."
+              sub="Works out your New Zealand take-home pay after tax, ACC, KiwiSaver and student loan."
               link={{ href: LINKS.taxCalculator, go: "Try it", external: true }}
             />
             <Row
