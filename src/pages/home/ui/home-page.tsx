@@ -14,7 +14,6 @@ import type { Project } from "@/entities/project/model/projects";
 import { PROJECTS } from "@/entities/project/model/projects";
 
 import type { SiteFlags } from "@/shared/config/flags";
-import type { Study } from "@/shared/config/pages";
 import { isLive, liveStudy } from "@/shared/config/pages";
 import { EMAIL, LINKS } from "@/shared/config/site";
 import { sx } from "@/shared/lib/sx";
@@ -32,19 +31,21 @@ import { Row, Rows } from "./rows";
 
 const [user, domain] = EMAIL.split("@");
 
-function studyLink(study: Study | undefined, flags: SiteFlags) {
-  const live = liveStudy(study, flags);
+function projectLinks(project: Project, flags: SiteFlags) {
+  if (project.app) {
+    return {
+      link: { href: project.app, go: "Try it", external: true },
+      code: project.code,
+    };
+  }
 
-  return live && { href: live.path, id: live.id, go: live.go };
-}
-
-function projectLinks({ study, app, code }: Project, flags: SiteFlags) {
-  const link = studyLink(study, flags);
-
-  if (link) return { link };
-  if (app) return { link: { href: app, go: "Try it", external: true }, code };
-
-  return { link: { href: code, go: "Code", external: true } };
+  return {
+    link: liveStudy(project.study, flags) ?? {
+      href: project.code,
+      go: "Code",
+      external: true,
+    },
+  };
 }
 
 const styles = stylex.create({
@@ -136,7 +137,7 @@ export function HomePage({ flags }: { flags: SiteFlags }) {
                 size="big"
                 meta={job.when}
                 job={job.role}
-                link={studyLink(job.study, flags)}
+                link={liveStudy(job.study, flags)}
               />
             ))}
           </Rows>

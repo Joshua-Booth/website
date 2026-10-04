@@ -11,7 +11,7 @@ export function homeMarkdown(flags: SiteFlags): string {
   const study = (s: Study | undefined) => {
     const live = liveStudy(s, flags);
 
-    return live ? ` ([${live.go}](${mdUrl(live.path)}))` : "";
+    return live ? ` ([${live.go}](${mdUrl(live.href)}))` : "";
   };
 
   return [

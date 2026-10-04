@@ -2,25 +2,26 @@ import type { Study } from "@/shared/config/pages";
 import { LINKS } from "@/shared/config/site";
 import { dropFullStop } from "@/shared/lib/markdown";
 
-export interface Project {
+export type Project = {
   name: string;
   meta: string;
   sub: string;
-  plain?: string;
+  note?: string;
   code: `https://${string}`;
-  app?: `https://${string}`;
-  study?: Study;
-}
+} & (
+  | { app: `https://${string}`; study?: undefined }
+  | { app?: undefined; study?: Study }
+);
 
 export const PROJECTS: readonly Project[] = [
   {
     name: "This site",
     meta: "open source",
     sub: "The page you're on. Move your pointer over anything to see its x-ray.",
-    plain: "Source code for joshuabooth.nz",
+    note: "Source code for joshuabooth.nz",
     code: LINKS.repo,
     study: {
-      path: "/writing/this-site",
+      href: "/writing/this-site",
       id: "this-site",
       go: "How it's built",
     },
@@ -46,10 +47,10 @@ export const PROJECTS: readonly Project[] = [
   },
 ];
 
-export function projectLine({ name, sub, plain, code, app }: Project): string {
-  const note = dropFullStop(plain ?? sub);
+export function projectLine({ name, sub, note, code, app }: Project): string {
+  const summary = dropFullStop(note ?? sub);
 
   return app
-    ? `[${name}](${app}): ${note} ([Code](${code}))`
-    : `[${name}](${code}): ${note}`;
+    ? `[${name}](${app}): ${summary} ([Code](${code}))`
+    : `[${name}](${code}): ${summary}`;
 }

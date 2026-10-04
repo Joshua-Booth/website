@@ -38,12 +38,14 @@ type Where = Omit<Finding, "kind">;
 async function sitemapPaths(base: string) {
   const res = await fetch(`${base}/sitemap.xml`);
 
+  if (!res.ok) throw new Error(`${base}/sitemap.xml answered ${res.status}`);
+
   const paths = [...(await res.text()).matchAll(/<loc>(.+?)<\/loc>/g)].map(
     ([, loc]) => new URL(loc!).pathname
   );
 
-  if (!res.ok || !paths.includes("/")) {
-    throw new Error(`${base}/sitemap.xml (${res.status}) lists no homepage`);
+  if (!paths.includes("/")) {
+    throw new Error(`${base}/sitemap.xml lists no homepage`);
   }
 
   return paths;

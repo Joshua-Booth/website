@@ -7,6 +7,7 @@ import { getSiteFlags } from "@/shared/api/site-flags";
 import type { SiteFlags } from "@/shared/config/flags";
 import type { PagePath } from "@/shared/config/pages";
 import { isLive, pageHeading } from "@/shared/config/pages";
+import { MARKDOWN_TYPE } from "@/shared/lib/markdown";
 
 type PageBody = (flags: SiteFlags) => string | Promise<string>;
 
@@ -41,6 +42,6 @@ export async function markdownResponse(path: PagePath): Promise<Response> {
   if (markdown === null) return new Response(null, { status: 404 });
 
   return new Response(markdown, {
-    headers: { "Content-Type": "text/markdown; charset=utf-8" },
+    headers: { "Content-Type": MARKDOWN_TYPE },
   });
 }

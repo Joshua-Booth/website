@@ -15,7 +15,7 @@ export const JOBS: readonly Job[] = [
     role: "Full Stack Developer",
     when: "2020 to 2021",
     study: {
-      path: "/work/pcos-protocol",
+      href: "/work/pcos-protocol",
       id: "pcos-protocol",
       go: "Case study",
     },

@@ -9,15 +9,20 @@ afterEach(() => {
   vi.unstubAllEnvs();
 });
 
-async function getMarkdown(path: (typeof PAGE_PATHS)[number]) {
-  const { GET }: { GET: () => Promise<Response> } = await import(
+interface MarkdownRoute {
+  dynamic: string;
+  GET: () => Promise<Response>;
+}
+
+async function markdownRoute(
+  path: (typeof PAGE_PATHS)[number]
+): Promise<MarkdownRoute> {
+  return import(
     /* @vite-ignore */ new URL(
       `../../../app${mdPath(path)}/route.ts`,
       import.meta.url
     ).href
   );
-
-  return GET();
 }
 
 const INDEX_OFF = `# Joshua Booth
@@ -96,8 +101,10 @@ describe("each page's Markdown route", () => {
     async (path) => {
       vi.stubEnv("SITE_FLAGS", "all");
 
-      const res = await getMarkdown(path);
+      const route = await markdownRoute(path);
+      const res = await route.GET();
 
+      expect(route.dynamic).toBe("force-static");
       expect(res.status).toBe(200);
 
       expect(res.headers.get("Content-Type")).toBe(
@@ -113,7 +120,7 @@ describe("each page's Markdown route", () => {
     async (path) => {
       vi.stubEnv("SITE_FLAGS", "none");
 
-      expect((await getMarkdown(path)).status).toBe(
+      expect((await (await markdownRoute(path)).GET()).status).toBe(
         isLive(path, ALL_OFF) ? 200 : 404
       );
     }

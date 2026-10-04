@@ -17,7 +17,7 @@ export const PAGES = {
   "/": {
     label: "Home",
     description: DESCRIPTION,
-    note: "Work, projects and contact details.",
+    note: "Work, projects and contact details",
   },
   "/work/pcos-protocol": {
     title: "PCOS Protocol",
@@ -46,7 +46,7 @@ const isPagePath = (key: string): key is PagePath => key in PAGES;
 export const PAGE_PATHS = Object.keys(PAGES).filter(isPagePath);
 
 export interface Study {
-  path: PagePath;
+  href: PagePath;
   id: string;
   go: string;
 }
@@ -65,7 +65,7 @@ export function liveStudy(
   study: Study | undefined,
   flags: SiteFlags
 ): Study | undefined {
-  return study && isLive(study.path, flags) ? study : undefined;
+  return study && isLive(study.href, flags) ? study : undefined;
 }
 
 export function livePages(flags: SiteFlags): PagePath[] {

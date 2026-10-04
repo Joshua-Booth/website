@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { ALL_OFF, ALL_ON } from "@/shared/config/flags";
-import { livePages, PAGE_PATHS, pageUrl } from "@/shared/config/pages";
+import { livePages, pageUrl } from "@/shared/config/pages";
 
 import { llmsFull } from "./llms-full";
 import { pageMarkdown } from "./pages";
@@ -35,11 +35,11 @@ describe("llmsFull", () => {
       livePages(ALL_ON).map(async (path) => {
         const markdown = await pageMarkdown(path, ALL_ON);
 
-        return markdown?.replace("\n\n", `\nSource: ${pageUrl(path)}\n\n`);
+        if (markdown === null) throw new Error(`${path} has no Markdown`);
+
+        return markdown.replace("\n\n", `\nSource: ${pageUrl(path)}\n\n`);
       })
     );
-
-    expect(documents).toHaveLength(PAGE_PATHS.length);
 
     for (const document of documents) expect(full).toContain(document);
   });

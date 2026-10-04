@@ -87,7 +87,7 @@ describe("the page list", () => {
   });
 });
 
-describe("each page's Markdown route", () => {
+describe("the Markdown route files", () => {
   const mdRoutes = readdirSync(APP, { recursive: true, encoding: "utf8" })
     .filter((file) => file.endsWith(".md/route.ts"))
     .map((file) => ({

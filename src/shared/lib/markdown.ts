@@ -2,6 +2,8 @@ import type { PagePath } from "../config/pages";
 
 import { mdUrl, pageListing } from "../config/pages";
 
+export const MARKDOWN_TYPE = "text/markdown; charset=utf-8";
+
 export function dropFullStop(sentence: string): string {
   return sentence.endsWith(".") ? sentence.slice(0, -1) : sentence;
 }
