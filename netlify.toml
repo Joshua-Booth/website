@@ -1,4 +1,3 @@
-# Next.js builds a static export into out/, which Netlify serves from its CDN
 [build]
 publish = "out"
 command = "pnpm run build"

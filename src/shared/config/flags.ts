@@ -14,19 +14,6 @@ export const FLAG_KEYS = {
   thisSiteCaseStudy: "this-site-case-study",
 } as const satisfies Record<keyof SiteFlags, string>;
 
-/**
- * Pages that only exist while their flag is on. While it's off, a page is left
- * out of the sitemap and answers with a 404.
- */
-export const FLAGGED_PAGES: readonly {
-  flag: keyof SiteFlags;
-  path: string;
-}[] = [
-  { flag: "pcosCaseStudy", path: "/work/pcos-protocol" },
-  { flag: "lab", path: "/lab" },
-  { flag: "thisSiteCaseStudy", path: "/writing/this-site" },
-];
-
 export function flagsWhere(isOn: (key: string) => boolean): SiteFlags {
   return {
     lab: isOn(FLAG_KEYS.lab),
