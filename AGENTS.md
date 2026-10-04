@@ -18,13 +18,13 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 Parts of the site are behind PostHog feature flags, listed in `src/shared/config/flags.ts`. Locally they're all
 off. Set `SITE_FLAGS` to `all`, or a comma list of flag keys, to turn parts on, or leave it empty to ask PostHog.
-Flags are read when a page is built, so set it for the build and the preview. Netlify deploy previews turn every
-flag on.
+Flags are read when the site is built, so set it for the build. The live site asks PostHog when Netlify builds it,
+so a flag flipped in PostHog shows up after the next deploy. Netlify deploy previews turn every flag on.
 
 ## Audit
 
 `mise run audit` checks overlaps, navigation and hover against a production build with every flag on:
-`SITE_FLAGS=all mise run build && SITE_FLAGS=all mise run preview`, then `mise run audit`.
+`SITE_FLAGS=all mise run build && mise run preview`, then `mise run audit`.
 
 ## Analytics
 

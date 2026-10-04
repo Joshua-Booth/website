@@ -27,8 +27,8 @@ const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === "object" && value !== null;
 
 /**
- * A failed request throws: Next.js then keeps serving the last good page
- * instead of one with its flagged parts missing.
+ * A failed request throws: the build fails and Netlify keeps the last good
+ * deploy live instead of one with its flagged parts missing.
  */
 export const getSiteFlags = cache(async (): Promise<SiteFlags> => {
   const override = flagsOverride();
