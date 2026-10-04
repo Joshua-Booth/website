@@ -16,14 +16,14 @@ alias = "d"
 run = "next dev"
 
 [tasks.build]
-description = "Build the application"
+description = "Build the static site into out/"
 alias = "b"
 run = "next build"
 
 [tasks.preview]
-description = "Serve the production build (run build first)"
+description = "Serve the built site from out/ (run build first)"
 alias = "p"
-run = "next start"
+run = "serve out"
 
 [tasks.format]
 description = "Format code with oxfmt"
@@ -91,7 +91,7 @@ alias = "tr"
 run = "vitest run"
 
 [tasks.audit]
-description = "Run the overlap, navigation and hover audits against a production build on port 3000 (start it with SITE_FLAGS=all mise run preview)"
+description = "Run the overlap, navigation and hover audits against AUDIT_URL, the address mise run preview prints"
 alias = "a"
 run = "node scripts/audit/run.ts"
 
@@ -116,5 +116,5 @@ depends = [
 
 [tasks.clean]
 description = "Remove build artifacts and cache"
-confirm = "This will delete .next, coverage and audit output. Continue?"
-run = "rm -rf .next coverage audit-output tsconfig.tsbuildinfo"
+confirm = "This will delete .next, out, coverage and audit output. Continue?"
+run = "rm -rf .next out coverage audit-output tsconfig.tsbuildinfo"

@@ -48,6 +48,7 @@
     "oxlint-tsgolint": "^7.0.2003",
     "playwright": "^1.63.0",
     "postcss": "^8.5.28",
+    "serve": "^14.2.6",
     "steiger": "^0.7.0",
     "stylelint": "^17.15.0",
     "stylelint-config-standard": "^40.0.0",

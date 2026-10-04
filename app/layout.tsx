@@ -17,12 +17,6 @@ import { rootMarker, xrayMarker } from "@/shared/ui/markers.stylex";
 import { colors, fonts, sizes, space } from "@/shared/ui/tokens.stylex";
 import { xray } from "@/shared/ui/xray";
 
-// Every page is static and regenerated in the background at most this often,
-// so a flag flipped in PostHog shows up soon after. Each regeneration is a
-// Netlify function call, and this interval keeps the worst case well under the
-// plan's monthly allowance
-export const revalidate = 300;
-
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: { default: NAME, template: `%s · ${NAME}` },

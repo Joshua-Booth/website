@@ -8,7 +8,12 @@ import { installAudit } from "./in-page.ts";
 import { navigationAudit } from "./navigation.ts";
 import { NOT_FOUND, overlapAudit } from "./overlap.ts";
 
-const base = process.env.AUDIT_URL ?? "http://localhost:3000";
+const base = process.env.AUDIT_URL;
+
+if (!base) {
+  throw new Error("Set AUDIT_URL to the address mise run preview prints");
+}
+
 const out = "audit-output";
 
 rmSync(out, { recursive: true, force: true });

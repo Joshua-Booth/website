@@ -3,8 +3,7 @@ import type { MetadataRoute } from "next";
 import { getSiteFlags } from "@/shared/api/site-flags";
 import { SITE_URL } from "@/shared/config/site";
 
-// Route handlers don't inherit the layout's revalidate, so it's set again here
-export const revalidate = 300;
+export const dynamic = "force-static";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const flags = await getSiteFlags();
