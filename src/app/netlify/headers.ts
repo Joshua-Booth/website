@@ -1,5 +1,7 @@
 import type { SiteFlags } from "@/shared/config/flags";
-import { exportPath, livePages, mdPath, pageUrl } from "@/shared/config/pages";
+import { livePages, mdPath, pageUrl } from "@/shared/config/pages";
+
+import { exportPath } from "./paths";
 
 const DESCRIBED_BY = '</llms.txt>; rel="describedby"';
 

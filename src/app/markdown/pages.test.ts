@@ -1,8 +1,24 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { ALL_OFF, ALL_ON } from "@/shared/config/flags";
+import { isLive, mdPath, PAGE_PATHS } from "@/shared/config/pages";
 
 import { pageMarkdown } from "./pages";
+
+afterEach(() => {
+  vi.unstubAllEnvs();
+});
+
+async function getMarkdown(path: (typeof PAGE_PATHS)[number]) {
+  const { GET }: { GET: () => Promise<Response> } = await import(
+    /* @vite-ignore */ new URL(
+      `../../../app${mdPath(path)}/route.ts`,
+      import.meta.url
+    ).href
+  );
+
+  return GET();
+}
 
 const INDEX_OFF = `# Joshua Booth
 
@@ -72,4 +88,34 @@ describe("pageMarkdown", () => {
   it("adds the case studies and the Lab with every flag on", async () => {
     await expect(pageMarkdown("/", ALL_ON)).resolves.toBe(INDEX_ON);
   });
+});
+
+describe("each page's Markdown route", () => {
+  it.each(PAGE_PATHS)(
+    "serves %s's Markdown with every flag on",
+    async (path) => {
+      vi.stubEnv("SITE_FLAGS", "all");
+
+      const res = await getMarkdown(path);
+
+      expect(res.status).toBe(200);
+
+      expect(res.headers.get("Content-Type")).toBe(
+        "text/markdown; charset=utf-8"
+      );
+
+      expect(await res.text()).toBe(await pageMarkdown(path, ALL_ON));
+    }
+  );
+
+  it.each(PAGE_PATHS)(
+    "answers 404 for %s only while its flag is off",
+    async (path) => {
+      vi.stubEnv("SITE_FLAGS", "none");
+
+      expect((await getMarkdown(path)).status).toBe(
+        isLive(path, ALL_OFF) ? 200 : 404
+      );
+    }
+  );
 });

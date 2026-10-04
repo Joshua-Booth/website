@@ -1,7 +1,10 @@
 import { existsSync } from "node:fs";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
+import { PROJECTS } from "@/entities/project/model/projects";
+
 import { ALL_OFF, ALL_ON } from "@/shared/config/flags";
+import { PAGE_PATHS } from "@/shared/config/pages";
 import { SITE_URL } from "@/shared/config/site";
 
 import { llmsTxt } from "./llms-txt";
@@ -98,7 +101,7 @@ Email: [contact@joshuabooth.nz](mailto:contact@joshuabooth.nz)
   it("ends no note with a full stop", () => {
     const notes = llmsTxt(ALL_ON).match(/^- \[.*?\]\(.*?\): .*$/gm);
 
-    expect(notes?.length).toBe(11);
+    expect(notes?.length).toBe(PAGE_PATHS.length + PROJECTS.length + 3);
     expect(notes?.filter((line) => line.endsWith("."))).toEqual([]);
   });
 });

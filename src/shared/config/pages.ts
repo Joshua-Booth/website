@@ -51,36 +51,45 @@ export interface Study {
   go: string;
 }
 
+export function pageInfo(path: PagePath): PageInfo {
+  return PAGES[path];
+}
+
 export function isLive(path: PagePath, flags: SiteFlags): boolean {
-  const { flag }: PageInfo = PAGES[path];
+  const { flag } = pageInfo(path);
 
   return flag === undefined || flags[flag];
+}
+
+export function liveStudy(
+  study: Study | undefined,
+  flags: SiteFlags
+): Study | undefined {
+  return study && isLive(study.path, flags) ? study : undefined;
 }
 
 export function livePages(flags: SiteFlags): PagePath[] {
   return PAGE_PATHS.filter((path) => isLive(path, flags));
 }
 
-export function exportPath(path: PagePath, extension: string): string {
-  return path === "/" ? `/index.${extension}` : `${path}.${extension}`;
-}
-
 export function mdPath(path: PagePath): string {
-  return exportPath(path, "md");
+  return path === "/" ? "/index.md" : `${path}.md`;
 }
 
 export function pageUrl(path: PagePath): string {
   return path === "/" ? SITE_URL : `${SITE_URL}${path}`;
 }
 
-export function pageHeading(path: PagePath): string {
-  const page: PageInfo = PAGES[path];
+export function mdUrl(path: PagePath): string {
+  return `${SITE_URL}${mdPath(path)}`;
+}
 
-  return page.title ?? NAME;
+export function pageHeading(path: PagePath): string {
+  return pageInfo(path).title ?? NAME;
 }
 
 export function pageListing(path: PagePath): { label: string; note: string } {
-  const page: PageInfo = PAGES[path];
+  const page = pageInfo(path);
 
   return {
     label: page.title ?? page.label,

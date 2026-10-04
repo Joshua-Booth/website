@@ -245,5 +245,5 @@ export async function overlapAudit(page: Page, base: string, out: string) {
 
   await page.emulateMedia({ reducedMotion: "no-preference" });
 
-  return { findings, shots };
+  return { findings, pages, shots };
 }

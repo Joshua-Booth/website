@@ -21,5 +21,5 @@ The Node version comes from `.node-version` and the pnpm version from `mise.toml
 ## Structure
 
 Routes live in `app/`. Everything else follows [Feature-Sliced Design](https://feature-sliced.design) in `src/`:
-`app` (global styles and fonts), `pages`, `widgets`, `features` (the page effects), `entities` (the Lab tiles)
-and `shared`.
+`app` (global styles and fonts, and the builders for llms.txt and Netlify's `_headers` and `_redirects`), `pages`,
+`widgets`, `features` (the page effects), `entities` (the Lab tiles, jobs and projects) and `shared`.

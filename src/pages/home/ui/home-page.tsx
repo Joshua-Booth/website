@@ -15,7 +15,7 @@ import { PROJECTS } from "@/entities/project/model/projects";
 
 import type { SiteFlags } from "@/shared/config/flags";
 import type { Study } from "@/shared/config/pages";
-import { isLive } from "@/shared/config/pages";
+import { isLive, liveStudy } from "@/shared/config/pages";
 import { EMAIL, LINKS } from "@/shared/config/site";
 import { sx } from "@/shared/lib/sx";
 import { icon } from "@/shared/ui/icon";
@@ -32,10 +32,11 @@ import { Row, Rows } from "./rows";
 
 const [user, domain] = EMAIL.split("@");
 
-const studyLink = (study: Study | undefined, flags: SiteFlags) =>
-  study && isLive(study.path, flags)
-    ? { href: study.path, id: study.id, go: study.go }
-    : undefined;
+function studyLink(study: Study | undefined, flags: SiteFlags) {
+  const live = liveStudy(study, flags);
+
+  return live && { href: live.path, id: live.id, go: live.go };
+}
 
 function projectLinks({ study, app, code }: Project, flags: SiteFlags) {
   const link = studyLink(study, flags);

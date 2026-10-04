@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { ALL_OFF, ALL_ON } from "@/shared/config/flags";
-import { livePages, pageUrl } from "@/shared/config/pages";
+import { livePages, PAGE_PATHS, pageUrl } from "@/shared/config/pages";
 
 import { llmsFull } from "./llms-full";
 import { pageMarkdown } from "./pages";
@@ -39,7 +39,7 @@ describe("llmsFull", () => {
       })
     );
 
-    expect(documents).toHaveLength(4);
+    expect(documents).toHaveLength(PAGE_PATHS.length);
 
     for (const document of documents) expect(full).toContain(document);
   });

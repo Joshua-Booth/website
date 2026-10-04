@@ -1,8 +1,8 @@
-import type { PageInfo, PagePath } from "../config/pages";
+import type { PagePath } from "../config/pages";
 
 import type { Metadata } from "next";
 
-import { mdPath, PAGES } from "../config/pages";
+import { mdPath, pageInfo } from "../config/pages";
 import { NAME } from "../config/site";
 
 const IMAGE = {
@@ -17,7 +17,7 @@ const IMAGE = {
  * so every page sets all of its own.
  */
 export function pageMetadata(path: PagePath): Metadata {
-  const { title, description }: PageInfo = PAGES[path];
+  const { title, description } = pageInfo(path);
 
   return {
     ...(title && { title }),

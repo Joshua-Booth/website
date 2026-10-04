@@ -1,8 +1,19 @@
 import { readdirSync, readFileSync } from "node:fs";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { ALL_OFF, ALL_ON } from "./flags";
-import { livePages, mdPath, PAGE_PATHS, PAGES } from "./pages";
+import {
+  livePages,
+  mdPath,
+  PAGE_PATHS,
+  pageInfo,
+  PAGES,
+  pageUrl,
+} from "./pages";
+
+afterEach(() => {
+  vi.unstubAllEnvs();
+});
 
 const APP = new URL("../../../app/", import.meta.url);
 
@@ -36,6 +47,34 @@ describe("the page list", () => {
     expect(PAGES["/"]).not.toHaveProperty("flag");
   });
 
+  it("puts no page under another unless both share a flag", () => {
+    const nested = PAGE_PATHS.flatMap((parent) =>
+      PAGE_PATHS.filter(
+        (child) =>
+          parent !== "/" &&
+          child.startsWith(`${parent}/`) &&
+          pageInfo(child).flag !== pageInfo(parent).flag
+      ).map((child) => `${child} under ${parent}`)
+    );
+
+    expect(nested).toEqual([]);
+  });
+
+  it.each([
+    ["none", ["https://joshuabooth.nz"]],
+    ["all", PAGE_PATHS.map(pageUrl)],
+  ])("is the sitemap, with SITE_FLAGS=%s", async (siteFlags, urls) => {
+    vi.stubEnv("SITE_FLAGS", siteFlags);
+
+    const { default: sitemap }: { default: () => Promise<{ url: string }[]> } =
+      await import(
+        /* @vite-ignore */ new URL("../../../app/sitemap.ts", import.meta.url)
+          .href
+      );
+
+    expect((await sitemap()).map(({ url }) => url)).toEqual(urls);
+  });
+
   it("lists only the pages whose flags are on", () => {
     expect(livePages(ALL_OFF)).toEqual(["/"]);
 
@@ -60,15 +99,6 @@ describe("each page's Markdown route", () => {
     expect(mdRoutes.map((route) => route.mdPath).toSorted()).toEqual(
       PAGE_PATHS.map(mdPath).toSorted()
     );
-  });
-
-  it("serves its own page's Markdown", () => {
-    for (const path of PAGE_PATHS) {
-      const route = mdRoutes.find((r) => r.mdPath === mdPath(path));
-      const source = route && readFileSync(new URL(route.file, APP), "utf8");
-
-      expect(source).toContain(`markdownResponse("${path}")`);
-    }
   });
 });
 
