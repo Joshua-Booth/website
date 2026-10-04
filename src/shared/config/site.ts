@@ -4,6 +4,11 @@ export const EMAIL = "contact@joshuabooth.nz";
 export const DESCRIPTION =
   "Joshua Booth is an AI-native frontend engineer in Auckland. He designs and builds products from first concept to live in production.";
 
+export const INTRO = {
+  lead: "I'm an AI-native frontend engineer in Auckland.",
+  rest: "I design and build products from first concept to live in production.",
+} as const;
+
 export const LINKS = {
   linkedin: "https://www.linkedin.com/in/joshua-booth",
   github: "https://github.com/Joshua-Booth",

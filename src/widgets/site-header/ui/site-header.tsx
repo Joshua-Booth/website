@@ -3,7 +3,7 @@ import Link from "next/link";
 import * as stylex from "@stylexjs/stylex";
 
 import { getSiteFlags } from "@/shared/api/site-flags";
-import { NAME } from "@/shared/config/site";
+import { INTRO, NAME } from "@/shared/config/site";
 import { sx } from "@/shared/lib/sx";
 import { display } from "@/shared/ui/display";
 import { interactive } from "@/shared/ui/interactive";
@@ -160,11 +160,7 @@ export async function SiteHeader({ current, sheet }: Props) {
             <span {...stylex.props(styles.nameLine)}>Booth</span>
           </h1>
           <p {...sx("intro", styles.intro)}>
-            <b {...stylex.props(styles.introLead)}>
-              I&apos;m an AI-native frontend engineer in Auckland.
-            </b>{" "}
-            I design and build products from first concept to live in
-            production.
+            <b {...stylex.props(styles.introLead)}>{INTRO.lead}</b> {INTRO.rest}
           </p>
         </>
       )}

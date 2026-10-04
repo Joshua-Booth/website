@@ -22,14 +22,6 @@ const SIZES = [
 
 export const NOT_FOUND = "/not-a-page";
 
-const PAGES = [
-  "/",
-  "/work/pcos-protocol",
-  "/lab",
-  "/writing/this-site",
-  NOT_FOUND,
-] as const;
-
 const LOAD_SAMPLES = [150, 400, 1400, 3300];
 
 const WHILE_RESIZING_MS = 120;
@@ -43,7 +35,16 @@ export interface Finding extends Partial<Issue> {
 
 type Where = Omit<Finding, "kind">;
 
+async function sitemapPaths(base: string) {
+  const sitemap = await (await fetch(`${base}/sitemap.xml`)).text();
+
+  return [...sitemap.matchAll(/<loc>(.+?)<\/loc>/g)].map(
+    ([, loc]) => new URL(loc!).pathname
+  );
+}
+
 export async function overlapAudit(page: Page, base: string, out: string) {
+  const pages = [...(await sitemapPaths(base)), NOT_FOUND];
   const findings: Finding[] = [];
   const shots: string[] = [];
 
@@ -203,7 +204,7 @@ export async function overlapAudit(page: Page, base: string, out: string) {
 
     await page.setViewportSize({ width, height });
 
-    for (const path of PAGES) {
+    for (const path of pages) {
       await load(path, size, width, height);
       await scroll(path, size, width, height);
       if (path === "/") await subpageAndResize(size, width, height);
@@ -215,7 +216,7 @@ export async function overlapAudit(page: Page, base: string, out: string) {
   for (const [width, height] of SIZES) {
     await page.setViewportSize({ width, height });
 
-    for (const path of PAGES) {
+    for (const path of pages) {
       await page.goto(base + path, { waitUntil: "load" });
 
       await page.waitForFunction(() => {
