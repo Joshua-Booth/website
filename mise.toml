@@ -21,9 +21,9 @@ alias = "b"
 run = "next build"
 
 [tasks.preview]
-description = "Serve the built site from out/ on port 3000 (run build first)"
+description = "Serve the built site from out/ (run build first)"
 alias = "p"
-run = "serve out -l 3000"
+run = "serve out"
 
 [tasks.format]
 description = "Format code with oxfmt"
@@ -91,7 +91,7 @@ alias = "tr"
 run = "vitest run"
 
 [tasks.audit]
-description = "Run the overlap, navigation and hover audits against a production build on port 3000 (build it with SITE_FLAGS=all mise run build, then start mise run preview)"
+description = "Run the overlap, navigation and hover audits against out/ (build it first with SITE_FLAGS=all)"
 alias = "a"
 run = "node scripts/audit/run.ts"
 

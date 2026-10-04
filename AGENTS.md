@@ -23,8 +23,8 @@ so a flag flipped in PostHog shows up after the next deploy. Netlify deploy prev
 
 ## Audit
 
-`mise run audit` checks overlaps, navigation and hover against a production build with every flag on:
-`SITE_FLAGS=all mise run build && mise run preview`, then `mise run audit`.
+`mise run audit` checks overlaps, navigation and hover against the build in `out/`, served on a free port. Build it
+with every flag on first: `SITE_FLAGS=all mise run build && mise run audit`.
 
 ## Analytics
 
