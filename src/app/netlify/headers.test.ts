@@ -15,6 +15,12 @@ describe("netlifyHeaders", () => {
 /index.md
   Content-Type: text/markdown; charset=utf-8
   Link: <https://joshuabooth.nz>; rel="canonical", </llms.txt>; rel="describedby"
+
+/llms.txt
+  Content-Type: text/plain; charset=utf-8
+
+/llms-full.txt
+  Content-Type: text/plain; charset=utf-8
 `);
   });
 
@@ -32,6 +38,8 @@ describe("netlifyHeaders", () => {
       "/lab",
       "/lab.html",
       "/lab.md",
+      "/llms.txt",
+      "/llms-full.txt",
     ]);
   });
 });
