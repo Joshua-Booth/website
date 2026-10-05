@@ -2,9 +2,11 @@ import type { Study } from "@/shared/config/pages";
 import { LINKS } from "@/shared/config/site";
 import { dropFullStop } from "@/shared/lib/markdown";
 
+export type ProjectMeta = "open source" | "closed source";
+
 export type Project = {
   name: string;
-  meta: string;
+  meta: ProjectMeta;
   sub: string;
   note?: string;
   code: `https://${string}`;
@@ -30,6 +32,7 @@ export const PROJECTS: readonly Project[] = [
     name: "Tax Calculator",
     meta: "open source",
     sub: "Works out your New Zealand take-home pay after tax, ACC, KiwiSaver and student loan.",
+    note: "Works out New Zealand take-home pay after tax, ACC, KiwiSaver and student loan",
     code: LINKS.taxCalculatorRepo,
     app: LINKS.taxCalculator,
   },
@@ -37,15 +40,21 @@ export const PROJECTS: readonly Project[] = [
     name: "creact",
     meta: "open source",
     sub: "A project template for React web apps, with the testing and coding agent setup already done.",
+    note: "React web app template with testing and coding agent setup done",
     code: LINKS.creact,
   },
   {
     name: "Audio Devotions",
     meta: "open source",
     sub: "Daily audio devotional web app designed for people with reduced vision.",
+    note: "Daily audio devotional web app for people with reduced vision",
     code: LINKS.audioDevotions,
   },
 ];
+
+function projectLabel(meta: ProjectMeta): string {
+  return `${meta.charAt(0).toUpperCase()}${meta.slice(1)}`;
+}
 
 export function projectLine({
   name,
@@ -55,10 +64,10 @@ export function projectLine({
   code,
   app,
 }: Project): string {
-  const label = `${meta.charAt(0).toUpperCase()}${meta.slice(1)}.`;
-  const summary = `${label} ${dropFullStop(note ?? sub)}`;
+  const summary = dropFullStop(note ?? sub);
+  const label = projectLabel(meta);
 
   return app
-    ? `[${name}](${app}): ${summary} ([Code](${code}))`
-    : `[${name}](${code}): ${summary}`;
+    ? `[${name}](${app}): ${summary}. ${label} ([Code](${code})).`
+    : `[${name}](${code}): ${summary}. ${label}.`;
 }

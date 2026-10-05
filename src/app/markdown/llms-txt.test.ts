@@ -54,10 +54,10 @@ Email: [contact@joshuabooth.nz](mailto:contact@joshuabooth.nz)
 
 ## Projects
 
-- [This site](https://github.com/Joshua-Booth/website): Open source. Source code for joshuabooth.nz
-- [Tax Calculator](https://calculatetax.netlify.app): Open source. Works out your New Zealand take-home pay after tax, ACC, KiwiSaver and student loan ([Code](https://github.com/Joshua-Booth/calculate-tax))
-- [creact](https://github.com/Joshua-Booth/creact): Open source. A project template for React web apps, with the testing and coding agent setup already done
-- [Audio Devotions](https://github.com/Joshua-Booth/audio-devotions): Open source. Daily audio devotional web app designed for people with reduced vision
+- [This site](https://github.com/Joshua-Booth/website): Source code for joshuabooth.nz. Open source.
+- [Tax Calculator](https://calculatetax.netlify.app): Works out New Zealand take-home pay after tax, ACC, KiwiSaver and student loan. Open source ([Code](https://github.com/Joshua-Booth/calculate-tax)).
+- [creact](https://github.com/Joshua-Booth/creact): React web app template with testing and coding agent setup done. Open source.
+- [Audio Devotions](https://github.com/Joshua-Booth/audio-devotions): Daily audio devotional web app for people with reduced vision. Open source.
 
 ## Optional
 
@@ -98,10 +98,15 @@ Email: [contact@joshuabooth.nz](mailto:contact@joshuabooth.nz)
     }
   );
 
-  it("ends no note with a full stop", () => {
-    const notes = llmsTxt(ALL_ON).match(/^- \[.*?\]\(.*?\): .*$/gm);
+  it("ends only project lines with a full stop", () => {
+    const notes = llmsTxt(ALL_ON).match(/^- \[.*?\]\(.*?\): .*$/gm) ?? [];
+    const projects = section(llmsTxt(ALL_ON), "Projects")?.split("\n") ?? [];
 
-    expect(notes?.length).toBe(PAGE_PATHS.length + PROJECTS.length + 3);
-    expect(notes?.filter((line) => line.endsWith("."))).toEqual([]);
+    expect(notes.length).toBe(PAGE_PATHS.length + PROJECTS.length + 3);
+    expect(projects.every((line) => line.endsWith("."))).toBe(true);
+
+    expect(
+      notes.filter((line) => !projects.includes(line) && line.endsWith("."))
+    ).toEqual([]);
   });
 });
