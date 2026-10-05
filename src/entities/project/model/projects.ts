@@ -47,8 +47,16 @@ export const PROJECTS: readonly Project[] = [
   },
 ];
 
-export function projectLine({ name, sub, note, code, app }: Project): string {
-  const summary = dropFullStop(note ?? sub);
+export function projectLine({
+  name,
+  meta,
+  sub,
+  note,
+  code,
+  app,
+}: Project): string {
+  const label = `${meta.charAt(0).toUpperCase()}${meta.slice(1)}.`;
+  const summary = `${label} ${dropFullStop(note ?? sub)}`;
 
   return app
     ? `[${name}](${app}): ${summary} ([Code](${code}))`

@@ -54,10 +54,10 @@ Email: [contact@joshuabooth.nz](mailto:contact@joshuabooth.nz)
 
 ## Projects
 
-- [This site](https://github.com/Joshua-Booth/website): Source code for joshuabooth.nz
-- [Tax Calculator](https://calculatetax.netlify.app): Works out your New Zealand take-home pay after tax, ACC, KiwiSaver and student loan ([Code](https://github.com/Joshua-Booth/calculate-tax))
-- [creact](https://github.com/Joshua-Booth/creact): A project template for React web apps, with the testing and coding agent setup already done
-- [Audio Devotions](https://github.com/Joshua-Booth/audio-devotions): Daily audio devotional web app designed for people with reduced vision
+- [This site](https://github.com/Joshua-Booth/website): Open source. Source code for joshuabooth.nz
+- [Tax Calculator](https://calculatetax.netlify.app): Open source. Works out your New Zealand take-home pay after tax, ACC, KiwiSaver and student loan ([Code](https://github.com/Joshua-Booth/calculate-tax))
+- [creact](https://github.com/Joshua-Booth/creact): Open source. A project template for React web apps, with the testing and coding agent setup already done
+- [Audio Devotions](https://github.com/Joshua-Booth/audio-devotions): Open source. Daily audio devotional web app designed for people with reduced vision
 
 ## Optional
 
