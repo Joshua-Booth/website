@@ -28,7 +28,7 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     name: "Tax Calculator",
-    meta: "web app",
+    meta: "open source",
     sub: "Works out your New Zealand take-home pay after tax, ACC, KiwiSaver and student loan.",
     code: LINKS.taxCalculatorRepo,
     app: LINKS.taxCalculator,
@@ -41,7 +41,7 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     name: "Audio Devotions",
-    meta: "web app",
+    meta: "open source",
     sub: "Daily audio devotional web app designed for people with reduced vision.",
     code: LINKS.audioDevotions,
   },
