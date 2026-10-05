@@ -1,11 +1,10 @@
 import { HomePage } from "@/pages/home/ui/home-page";
 
-import { getSiteFlags } from "@/shared/api/site-flags";
-import { DESCRIPTION } from "@/shared/config/site";
+import { gatePage } from "@/shared/api/gate-page";
 import { pageMetadata } from "@/shared/lib/page-metadata";
 
-export const metadata = pageMetadata({ description: DESCRIPTION, path: "/" });
+export const metadata = pageMetadata("/");
 
 export default async function Page() {
-  return <HomePage flags={await getSiteFlags()} />;
+  return <HomePage flags={await gatePage("/")} />;
 }

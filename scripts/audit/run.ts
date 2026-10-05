@@ -46,7 +46,13 @@ const heading = (t: string) => {
 
 heading("Overlap");
 
-const { findings, shots } = await overlapAudit(page, base, `${out}/overlap`);
+const { findings, pages, shots } = await overlapAudit(
+  page,
+  base,
+  `${out}/overlap`
+);
+
+console.log(`Pages: ${pages.join(", ")}`);
 
 const worst = new Map<string, { count: number; finding: Finding }>();
 

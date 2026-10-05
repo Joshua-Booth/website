@@ -5,12 +5,16 @@ import { ArrowRight } from "lucide-react";
 
 import { SiteHeader } from "@/widgets/site-header/ui/site-header";
 
+import { JOBS } from "@/entities/job/model/jobs";
 import { STRIP } from "@/entities/lab-tile/model/tiles";
 import { LabTiles } from "@/entities/lab-tile/ui/lab-tiles";
 import { TileDemo } from "@/entities/lab-tile/ui/tile-demo";
 import { TileFrame } from "@/entities/lab-tile/ui/tile-frame";
+import type { Project } from "@/entities/project/model/projects";
+import { PROJECTS } from "@/entities/project/model/projects";
 
 import type { SiteFlags } from "@/shared/config/flags";
+import { isLive, liveStudy } from "@/shared/config/pages";
 import { EMAIL, LINKS } from "@/shared/config/site";
 import { sx } from "@/shared/lib/sx";
 import { icon } from "@/shared/ui/icon";
@@ -26,6 +30,23 @@ import { CopyEmail } from "./copy-email";
 import { Row, Rows } from "./rows";
 
 const [user, domain] = EMAIL.split("@");
+
+function projectLinks(project: Project, flags: SiteFlags) {
+  if (project.app) {
+    return {
+      link: { href: project.app, go: "Try it", external: true },
+      code: project.code,
+    };
+  }
+
+  return {
+    link: liveStudy(project.study, flags) ?? {
+      href: project.code,
+      go: "Code",
+      external: true,
+    },
+  };
+}
 
 const styles = stylex.create({
   // Work and Projects assemble as you scroll to them. While one is mid-flight
@@ -109,33 +130,16 @@ export function HomePage({ flags }: { flags: SiteFlags }) {
         >
           <Label id="work-heading">Work</Label>
           <Rows>
-            <Row
-              title="Solve Data"
-              size="big"
-              meta="2021 to now"
-              job="UI Engineer"
-            />
-            <Row
-              title="stuff.co.nz"
-              size="big"
-              meta="2021"
-              job="Frontend Engineer"
-            />
-            <Row
-              title="The PCOS Nutritionist"
-              size="big"
-              meta="2020 to 2021"
-              job="Full Stack Developer"
-              link={
-                flags.pcosCaseStudy
-                  ? {
-                      href: "/work/pcos-protocol",
-                      id: "pcos-protocol",
-                      go: "Case study",
-                    }
-                  : undefined
-              }
-            />
+            {JOBS.map((job) => (
+              <Row
+                key={job.employer}
+                title={job.employer}
+                size="big"
+                meta={job.when}
+                job={job.role}
+                link={liveStudy(job.study, flags)}
+              />
+            ))}
           </Rows>
         </section>
 
@@ -147,51 +151,20 @@ export function HomePage({ flags }: { flags: SiteFlags }) {
         >
           <Label id="projects-heading">Projects</Label>
           <Rows>
-            <Row
-              title="This site"
-              size="mid"
-              meta="open source"
-              sub="The page you're on. Move your pointer over anything to see its x-ray."
-              link={
-                flags.thisSiteCaseStudy
-                  ? {
-                      href: "/writing/this-site",
-                      id: "this-site",
-                      go: "How it's built",
-                    }
-                  : { href: LINKS.repo, go: "Code", external: true }
-              }
-            />
-            <Row
-              title="Tax Calculator"
-              size="mid"
-              meta="web app"
-              sub="Works out your New Zealand take-home pay after tax, ACC, KiwiSaver and student loan."
-              link={{ href: LINKS.taxCalculator, go: "Try it", external: true }}
-              code={LINKS.taxCalculatorRepo}
-            />
-            <Row
-              title="creact"
-              size="mid"
-              meta="open source"
-              sub="A project template for React web apps, with the testing and coding agent setup already done."
-              link={{ href: LINKS.creact, go: "Code", external: true }}
-            />
-            <Row
-              title="Audio Devotions"
-              size="mid"
-              meta="web app"
-              sub="Daily audio devotional web app designed for people with reduced vision."
-              link={{
-                href: LINKS.audioDevotions,
-                go: "Code",
-                external: true,
-              }}
-            />
+            {PROJECTS.map((project) => (
+              <Row
+                key={project.name}
+                title={project.name}
+                size="mid"
+                meta={project.meta}
+                sub={project.sub}
+                {...projectLinks(project, flags)}
+              />
+            ))}
           </Rows>
         </section>
 
-        {flags.lab && (
+        {isLive("/lab", flags) && (
           <section id="lab" data-name="Lab" aria-labelledby="lab-heading">
             <Label id="lab-heading">Lab</Label>
             <LabTiles layout="strip">

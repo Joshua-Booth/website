@@ -1,5 +1,8 @@
-import type { Metadata, Route } from "next";
+import type { PagePath } from "../config/pages";
 
+import type { Metadata } from "next";
+
+import { mdPath, pageInfo } from "../config/pages";
 import { NAME } from "../config/site";
 
 const IMAGE = {
@@ -13,19 +16,16 @@ const IMAGE = {
  * Next.js replaces the layout's openGraph as a whole rather than merging it,
  * so every page sets all of its own.
  */
-export function pageMetadata({
-  title,
-  description,
-  path,
-}: {
-  title?: string;
-  description: string;
-  path: Route;
-}): Metadata {
+export function pageMetadata(path: PagePath): Metadata {
+  const { title, description } = pageInfo(path);
+
   return {
     ...(title && { title }),
     description,
-    alternates: { canonical: path },
+    alternates: {
+      canonical: path,
+      types: { "text/markdown": mdPath(path) },
+    },
     openGraph: {
       type: "website",
       siteName: NAME,

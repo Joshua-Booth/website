@@ -291,7 +291,8 @@
         "scripts/**",
         "*.config.ts",
         "*.config.js",
-        "src/shared/api/**"
+        "src/shared/api/**",
+        "**/*.test.ts"
       ],
       "rules": {
         "baseline-js/use-baseline": "off",
@@ -309,6 +310,12 @@
       "files": ["src/features/page-effects/model/**"],
       "rules": {
         "unicorn/consistent-function-scoping": "off"
+      }
+    },
+    {
+      "files": ["app/**/*.{md,txt}/**", "app/%5F*/**"],
+      "rules": {
+        "check-file/folder-naming-convention": "off"
       }
     }
   ]
