@@ -110,7 +110,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     // global.css scrolls smoothly within a page; this tells Next.js to jump,
     // not glide, when the page changes
     <html
-      lang="en"
+      lang="en-NZ"
       data-scroll-behavior="smooth"
       {...sx(`${archivo.variable} ${plexMono.variable}`, styles.html)}
     >
