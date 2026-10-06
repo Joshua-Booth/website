@@ -1,5 +1,7 @@
 "use client";
 
+import type { CopyLabel } from "../model/copy-labels";
+
 import { useEffect, useRef, useState } from "react";
 
 import * as stylex from "@stylexjs/stylex";
@@ -9,6 +11,8 @@ import { sx } from "@/shared/lib/sx";
 import { interactive } from "@/shared/ui/interactive";
 import { xrayMarker } from "@/shared/ui/markers.stylex";
 import { colors, fonts } from "@/shared/ui/tokens.stylex";
+
+import { copyLabels } from "../model/copy-labels";
 
 const styles = stylex.create({
   copy: {
@@ -27,6 +31,17 @@ const styles = stylex.create({
     paddingBlock: "6px",
     paddingInline: "14px",
     cursor: "pointer",
+    // The labels share one cell, so the button keeps the width of the longest
+    // and its x-ray copy still fits it after a click
+    display: "inline-grid",
+    justifyItems: "center",
+  },
+  label: {
+    gridRow: 1,
+    gridColumn: 1,
+  },
+  hidden: {
+    visibility: "hidden",
   },
 });
 
@@ -35,7 +50,7 @@ const styles = stylex.create({
  * mail app set up.
  */
 export function CopyEmail({ addressId }: { addressId: string }) {
-  const [label, setLabel] = useState("Copy address");
+  const [label, setLabel] = useState<CopyLabel>("Copy address");
   const reset = useRef(0);
 
   useEffect(
@@ -84,7 +99,15 @@ export function CopyEmail({ addressId }: { addressId: string }) {
         styles.copy
       )}
     >
-      {label}
+      {copyLabels(label).map(({ text, hidden }) => (
+        <span
+          key={text}
+          aria-hidden={hidden || undefined}
+          {...stylex.props(styles.label, hidden && styles.hidden)}
+        >
+          {text}
+        </span>
+      ))}
     </button>
   );
 }
