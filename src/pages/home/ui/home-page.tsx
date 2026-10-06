@@ -26,6 +26,7 @@ import { Label } from "@/shared/ui/prose";
 import { colors } from "@/shared/ui/tokens.stylex";
 import { xray } from "@/shared/ui/xray";
 
+import { homeJsonLd } from "../model/json-ld";
 import { CopyEmail } from "./copy-email";
 import { Row, Rows } from "./rows";
 
@@ -119,6 +120,10 @@ export function HomePage({ flags }: { flags: SiteFlags }) {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(homeJsonLd()) }}
+      />
       <SiteHeader current="home" sheet="Home" />
 
       <Main>
