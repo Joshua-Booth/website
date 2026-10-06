@@ -31,15 +31,15 @@ const styles = stylex.create({
     paddingBlock: "6px",
     paddingInline: "14px",
     cursor: "pointer",
-    // The labels share one cell, so the button keeps the width of the longest
-    // and its x-ray copy still fits it after a click
     display: "inline-grid",
-    justifyItems: "center",
   },
   label: {
     gridRow: 1,
     gridColumn: 1,
   },
+  // Not display: none, so every label keeps its width in the shared cell and
+  // the button, and its x-ray copy, stay as wide as the longest. aria-hidden
+  // keeps them out of the button's name
   hidden: {
     visibility: "hidden",
   },
