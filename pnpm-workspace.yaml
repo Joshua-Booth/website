@@ -1,5 +1,6 @@
 allowBuilds:
   core-js: false
+  # Its native binary comes from the optional @esbuild/<platform> package, so the install script isn't needed
   esbuild: false
   lefthook: false
   sharp: false
