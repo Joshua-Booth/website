@@ -1,6 +1,5 @@
 export const SITE_URL = "https://joshuabooth.nz";
 export const NAME = "Joshua Booth";
-export const JOB_TITLE = "UI Engineer";
 export const EMAIL = "contact@joshuabooth.nz";
 export const DESCRIPTION =
   "Joshua Booth is an AI-native frontend engineer in Auckland. He designs and builds products from first concept to live in production.";

@@ -7,8 +7,14 @@ export interface Job {
   study?: Study;
 }
 
+export const CURRENT_JOB: Job = {
+  employer: "Solve Data",
+  role: "UI Engineer",
+  when: "2021 to now",
+};
+
 export const JOBS: readonly Job[] = [
-  { employer: "Solve Data", role: "UI Engineer", when: "2021 to now" },
+  CURRENT_JOB,
   { employer: "stuff.co.nz", role: "Frontend Engineer", when: "2021" },
   {
     employer: "The PCOS Nutritionist",

@@ -1,4 +1,6 @@
-import { JOB_TITLE, LINKS, NAME, SITE_URL } from "@/shared/config/site";
+import { CURRENT_JOB } from "@/entities/job/model/jobs";
+
+import { LINKS, NAME, SITE_URL } from "@/shared/config/site";
 
 const PERSON_ID = `${SITE_URL}/#person`;
 const HOME_URL = `${SITE_URL}/`;
@@ -12,7 +14,7 @@ export function homeJsonLd() {
         "@id": PERSON_ID,
         name: NAME,
         url: HOME_URL,
-        jobTitle: JOB_TITLE,
+        jobTitle: CURRENT_JOB.role,
         sameAs: [LINKS.linkedin, LINKS.github],
       },
       {

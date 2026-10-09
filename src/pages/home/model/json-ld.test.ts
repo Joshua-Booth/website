@@ -1,6 +1,8 @@
 import { expect, it } from "vitest";
 
-import { JOB_TITLE, LINKS, NAME, SITE_URL } from "@/shared/config/site";
+import { CURRENT_JOB } from "@/entities/job/model/jobs";
+
+import { LINKS, NAME, SITE_URL } from "@/shared/config/site";
 
 import { homeJsonLd } from "./json-ld";
 
@@ -13,7 +15,7 @@ it("builds a Person + WebSite @graph from site config", () => {
         "@id": `${SITE_URL}/#person`,
         name: NAME,
         url: `${SITE_URL}/`,
-        jobTitle: JOB_TITLE,
+        jobTitle: CURRENT_JOB.role,
         sameAs: [LINKS.linkedin, LINKS.github],
       },
       {
@@ -31,5 +33,4 @@ it("stays minimal: no image, email, or address", () => {
   const payload = JSON.stringify(homeJsonLd());
 
   expect(payload).not.toMatch(/image|email|address/i);
-  expect(JOB_TITLE).toBe("UI Engineer");
 });
