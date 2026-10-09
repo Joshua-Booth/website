@@ -13,7 +13,7 @@ import { xrayMarker } from "@/shared/ui/markers.stylex";
 import { colors, fonts } from "@/shared/ui/tokens.stylex";
 import { visuallyHidden } from "@/shared/ui/visually-hidden";
 
-import { copyLabels } from "../model/copy-labels";
+import { COPY_RESET_MS, copyLabels } from "../model/copy-labels";
 
 const styles = stylex.create({
   copy: {
@@ -92,7 +92,7 @@ export function CopyEmail({ addressId }: { addressId: string }) {
     reset.current = window.setTimeout(() => {
       setLabel("Copy address");
       setAnnouncement("");
-    }, 1600);
+    }, COPY_RESET_MS);
   }
 
   return (
