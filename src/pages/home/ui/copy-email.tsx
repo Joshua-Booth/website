@@ -11,8 +11,9 @@ import { sx } from "@/shared/lib/sx";
 import { interactive } from "@/shared/ui/interactive";
 import { xrayMarker } from "@/shared/ui/markers.stylex";
 import { colors, fonts } from "@/shared/ui/tokens.stylex";
+import { visuallyHidden } from "@/shared/ui/visually-hidden";
 
-import { copyLabels, nextCopyAnnouncement } from "../model/copy-labels";
+import { copyLabels } from "../model/copy-labels";
 
 const styles = stylex.create({
   copy: {
@@ -42,14 +43,6 @@ const styles = stylex.create({
   // keeps them out of the button's name
   hidden: {
     visibility: "hidden",
-  },
-  announce: {
-    position: "absolute",
-    width: "1px",
-    height: "1px",
-    overflow: "hidden",
-    clipPath: "inset(50%)",
-    whiteSpace: "nowrap",
   },
 });
 
@@ -92,7 +85,7 @@ export function CopyEmail({ addressId }: { addressId: string }) {
     }
 
     setLabel(status);
-    setAnnouncement((current) => nextCopyAnnouncement(current, status));
+    setAnnouncement(status);
 
     clearTimeout(reset.current);
 
@@ -125,7 +118,7 @@ export function CopyEmail({ addressId }: { addressId: string }) {
           </span>
         ))}
       </button>
-      <span aria-live="polite" {...stylex.props(styles.announce)}>
+      <span aria-live="polite" {...stylex.props(visuallyHidden.text)}>
         {announcement}
       </span>
     </>
