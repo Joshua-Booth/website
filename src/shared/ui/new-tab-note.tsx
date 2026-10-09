@@ -1,16 +1,9 @@
 import * as stylex from "@stylexjs/stylex";
 
-const styles = stylex.create({
-  hidden: {
-    position: "absolute",
-    width: "1px",
-    height: "1px",
-    overflow: "hidden",
-    clipPath: "inset(50%)",
-    whiteSpace: "nowrap",
-  },
-});
+import { visuallyHidden } from "./visually-hidden";
 
 export function NewTabNote() {
-  return <span {...stylex.props(styles.hidden)}> (opens in a new tab)</span>;
+  return (
+    <span {...stylex.props(visuallyHidden.text)}> (opens in a new tab)</span>
+  );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import type { CopyLabel } from "../model/copy-labels";
+import type { CopyLabel, CopyStatus } from "../model/copy-labels";
 
 import { useEffect, useRef, useState } from "react";
 
@@ -11,6 +11,7 @@ import { sx } from "@/shared/lib/sx";
 import { interactive } from "@/shared/ui/interactive";
 import { xrayMarker } from "@/shared/ui/markers.stylex";
 import { colors, fonts } from "@/shared/ui/tokens.stylex";
+import { visuallyHidden } from "@/shared/ui/visually-hidden";
 
 import { copyLabels } from "../model/copy-labels";
 
@@ -51,6 +52,7 @@ const styles = stylex.create({
  */
 export function CopyEmail({ addressId }: { addressId: string }) {
   const [label, setLabel] = useState<CopyLabel>("Copy address");
+  const [announcement, setAnnouncement] = useState("");
   const reset = useRef(0);
 
   useEffect(
@@ -61,10 +63,12 @@ export function CopyEmail({ addressId }: { addressId: string }) {
   );
 
   async function copy() {
+    let status: CopyStatus;
+
     try {
       // eslint-disable-next-line baseline-js/use-baseline -- falls back to selecting the address below
       await navigator.clipboard.writeText(EMAIL);
-      setLabel("Copied");
+      status = "Copied";
     } catch {
       const address = document.getElementById(addressId);
       const selection = getSelection();
@@ -77,37 +81,46 @@ export function CopyEmail({ addressId }: { addressId: string }) {
         selection.addRange(range);
       }
 
-      setLabel("Selected");
+      status = "Selected";
     }
+
+    setLabel(status);
+    setAnnouncement(status);
 
     clearTimeout(reset.current);
 
     reset.current = window.setTimeout(() => {
       setLabel("Copy address");
+      setAnnouncement("");
     }, 1600);
   }
 
   return (
-    <button
-      type="button"
-      onClick={() => void copy()}
-      {...sx(
-        "copy",
-        interactive.raise,
-        interactive.pill,
-        interactive.pillOutline,
-        styles.copy
-      )}
-    >
-      {copyLabels(label).map(({ text, hidden }) => (
-        <span
-          key={text}
-          aria-hidden={hidden || undefined}
-          {...stylex.props(styles.label, hidden && styles.hidden)}
-        >
-          {text}
-        </span>
-      ))}
-    </button>
+    <>
+      <button
+        type="button"
+        onClick={() => void copy()}
+        {...sx(
+          "copy",
+          interactive.raise,
+          interactive.pill,
+          interactive.pillOutline,
+          styles.copy
+        )}
+      >
+        {copyLabels(label).map(({ text, hidden }) => (
+          <span
+            key={text}
+            aria-hidden={hidden || undefined}
+            {...stylex.props(styles.label, hidden && styles.hidden)}
+          >
+            {text}
+          </span>
+        ))}
+      </button>
+      <span aria-live="polite" {...stylex.props(visuallyHidden.text)}>
+        {announcement}
+      </span>
+    </>
   );
 }

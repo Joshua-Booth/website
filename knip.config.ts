@@ -6,7 +6,6 @@ const config: KnipConfig = {
   ignoreDependencies: [
     // Loaded by name from configs knip doesn't read
     "@feature-sliced/steiger-plugin",
-    "@stylexjs/babel-plugin",
     "postcss",
     // Run by lefthook through mise exec, which knip doesn't parse
     "@commitlint/cli",
