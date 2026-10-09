@@ -1,4 +1,13 @@
 allowBuilds:
   core-js: false
+  esbuild: false
   lefthook: false
   sharp: false
+minimumReleaseAgeExclude:
+  - "@storybook/addon-vitest@11.0.0-alpha.5"
+  - "@storybook/builder-vite@11.0.0-alpha.5"
+  - "@storybook/nextjs-vite@11.0.0-alpha.5"
+  - "@storybook/react-vite@11.0.0-alpha.5"
+  - "@storybook/react@11.0.0-alpha.5"
+  - storybook@11.0.0-alpha.5
+  - vite-plugin-storybook-nextjs@11.0.0-alpha.5

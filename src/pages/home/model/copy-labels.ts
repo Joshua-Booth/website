@@ -1,3 +1,5 @@
+export const COPY_RESET_MS = 1600;
+
 const COPY_LABELS = ["Copy address", "Copied", "Selected"] as const;
 
 export type CopyLabel = (typeof COPY_LABELS)[number];
