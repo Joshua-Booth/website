@@ -241,6 +241,20 @@ const imperativeMood: SyncRule = ({ header }) => {
   return [true];
 };
 
+const lowercaseSubject: SyncRule = ({ header }) => {
+  const subject = extractSubject(header ?? "");
+  const first = subject.charAt(0);
+
+  if (first !== first.toLowerCase()) {
+    return [
+      false,
+      `Start the subject with a lowercase letter: "${first.toLowerCase()}${subject.slice(1)}"`,
+    ];
+  }
+
+  return [true];
+};
+
 const atomicSubject: SyncRule = ({ header }) => {
   if (header && /\sand\s/i.test(header)) {
     return [
@@ -307,6 +321,7 @@ const config: UserConfig = {
       rules: {
         gitmoji,
         "imperative-mood": imperativeMood,
+        "lowercase-subject": lowercaseSubject,
         "atomic-subject": atomicSubject,
         "gitmoji-fits": gitmojiFits,
       },
@@ -321,6 +336,7 @@ const config: UserConfig = {
     "footer-leading-blank": [Error, "always"],
     gitmoji: [Error, "always"],
     "imperative-mood": [Error, "always"],
+    "lowercase-subject": [Error, "always"],
     "atomic-subject": [Warning, "always"],
     "gitmoji-fits": [Warning, "always"],
   },
