@@ -7,19 +7,36 @@ interface Step {
   label: string;
   click: string;
   path: string;
+  needs: string;
 }
 
 const STEPS: Step[] = [
-  { label: "case study", click: SELECTOR.pcosRow, path: "/work/pcos-protocol" },
-  { label: "back", click: SELECTOR.back, path: "/" },
-  { label: "lab", click: '.nav a[href="/lab"]', path: "/lab" },
-  { label: "home", click: ".mark", path: "/" },
+  {
+    label: "case study",
+    click: SELECTOR.pcosRow,
+    path: "/work/pcos-protocol",
+    needs: "/work/pcos-protocol",
+  },
+  {
+    label: "back",
+    click: SELECTOR.back,
+    path: "/",
+    needs: "/work/pcos-protocol",
+  },
+  { label: "lab", click: '.nav a[href="/lab"]', path: "/lab", needs: "/lab" },
+  { label: "home", click: ".mark", path: "/", needs: "/lab" },
   {
     label: "case study again",
     click: SELECTOR.pcosRow,
     path: "/work/pcos-protocol",
+    needs: "/work/pcos-protocol",
   },
-  { label: "back again", click: SELECTOR.back, path: "/" },
+  {
+    label: "back again",
+    click: SELECTOR.back,
+    path: "/",
+    needs: "/work/pcos-protocol",
+  },
 ];
 
 async function listeners(cdp: CDPSession) {
@@ -42,7 +59,11 @@ async function listeners(cdp: CDPSession) {
   );
 }
 
-export async function navigationAudit(page: Page, base: string) {
+export async function navigationAudit(
+  page: Page,
+  base: string,
+  live: string[]
+) {
   const problems: string[] = [];
   const log: string[] = [];
 
@@ -96,7 +117,7 @@ export async function navigationAudit(page: Page, base: string) {
 
   await settle("load", "/");
 
-  for (const step of STEPS) {
+  for (const step of STEPS.filter((s) => live.includes(s.needs))) {
     await centre(page, step.click);
     if (!(await settled(page))) problems.push(`${step.label}: never settled`);
 
