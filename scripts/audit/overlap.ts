@@ -35,7 +35,7 @@ export interface Finding extends Partial<Issue> {
 
 type Where = Omit<Finding, "kind">;
 
-async function sitemapPaths(base: string) {
+export async function sitemapPaths(base: string) {
   const res = await fetch(`${base}/sitemap.xml`);
 
   if (!res.ok) throw new Error(`${base}/sitemap.xml answered ${res.status}`);
@@ -51,8 +51,13 @@ async function sitemapPaths(base: string) {
   return paths;
 }
 
-export async function overlapAudit(page: Page, base: string, out: string) {
-  const pages = [...(await sitemapPaths(base)), NOT_FOUND];
+export async function overlapAudit(
+  page: Page,
+  base: string,
+  out: string,
+  live: string[]
+) {
+  const pages = [...live, NOT_FOUND];
   const findings: Finding[] = [];
   const shots: string[] = [];
 
@@ -158,17 +163,20 @@ export async function overlapAudit(page: Page, base: string, out: string) {
       }
     };
 
-    await centre(page, SELECTOR.pcosRow);
-    await settle("before-case");
-    await page.click(SELECTOR.pcosRow);
-    await page.waitForURL("**/work/pcos-protocol", { waitUntil: "commit" });
-    await frames(page);
-    await blueprintShows(where("case-open"), "blueprint-flash-on-subpage");
-    await settle("case");
-    await audit(where("case"));
-    await page.click(SELECTOR.back);
-    await page.waitForURL((u) => u.pathname === "/", { waitUntil: "commit" });
-    await settle("home");
+    if (live.includes("/work/pcos-protocol")) {
+      await centre(page, SELECTOR.pcosRow);
+      await settle("before-case");
+      await page.click(SELECTOR.pcosRow);
+      await page.waitForURL("**/work/pcos-protocol", { waitUntil: "commit" });
+      await frames(page);
+      await blueprintShows(where("case-open"), "blueprint-flash-on-subpage");
+      await settle("case");
+      await audit(where("case"));
+      await page.click(SELECTOR.back);
+      await page.waitForURL((u) => u.pathname === "/", { waitUntil: "commit" });
+      await settle("home");
+    }
+
     await topAt(page, SELECTOR.work, 0.75);
     await frames(page);
     await page.setViewportSize({ width: Math.max(340, width - 180), height });

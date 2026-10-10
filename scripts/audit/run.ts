@@ -6,13 +6,15 @@ import { chromium } from "playwright";
 import { hoverTest } from "./hover.ts";
 import { installAudit } from "./in-page.ts";
 import { navigationAudit } from "./navigation.ts";
-import { NOT_FOUND, overlapAudit } from "./overlap.ts";
+import { NOT_FOUND, overlapAudit, sitemapPaths } from "./overlap.ts";
 
 const base = process.env.AUDIT_URL;
 
 if (!base) {
   throw new Error("Set AUDIT_URL to the address mise run preview prints");
 }
+
+const live = await sitemapPaths(base);
 
 const out = "audit-output";
 
@@ -49,7 +51,8 @@ heading("Overlap");
 const { findings, pages, shots } = await overlapAudit(
   page,
   base,
-  `${out}/overlap`
+  `${out}/overlap`,
+  live
 );
 
 console.log(`Pages: ${pages.join(", ")}`);
@@ -80,7 +83,7 @@ for (const s of shots) console.log(`screenshot ${s}`);
 
 heading("Navigation");
 
-const nav = await navigationAudit(page, base);
+const nav = await navigationAudit(page, base, live);
 
 for (const l of nav.log) console.log(l);
 for (const p of nav.problems) console.log(`FAIL ${p}`);
@@ -88,7 +91,7 @@ if (nav.problems.length) failed = true;
 
 heading("Hover and focus above the overlays");
 
-const hover = await hoverTest(page, base, `${out}/hover`);
+const hover = await hoverTest(page, base, `${out}/hover`, live);
 
 for (const pass of ["fixed", "control"] as const) {
   const rows = hover[pass];

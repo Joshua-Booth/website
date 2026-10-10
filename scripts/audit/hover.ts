@@ -12,25 +12,63 @@ const UNFIX =
 
 const TAX_CODE = '#projects a.code[href*="calculate-tax"]';
 
-const HOME: [string, string, string?][] = [
-  ["nav-work", ".nav a:nth-child(1)"],
-  ["nav-projects", ".nav a:nth-child(2)"],
-  ["nav-lab", ".nav a:nth-child(3)"],
-  ["nav-contact", ".nav a:nth-child(4)"],
-  ["mark", ".mark"],
-  ["pcos-row", SELECTOR.pcosRow],
-  ["this-site-row", "#this-site"],
-  ["creact-row", '#projects a.row[href*="creact"]'],
-  ["tax-code", TAX_CODE],
-  ["lab-tile", "#strip .tile", "#strip .tile figcaption"],
-  ["lab-more", ".more a"],
-  ["mail", ".mail"],
-  ["copy", ".copy"],
-  ["linkedin", ".links a"],
-  ["top", ".foot a"],
+const PROJECTS_LINK = '.nav a[href="#projects"]';
+
+interface Target {
+  name: string;
+  sel: string;
+  judge?: string;
+  needs?: string;
+}
+
+const HOME: Target[] = [
+  { name: "nav-work", sel: '.nav a[href="#work"]' },
+  { name: "nav-projects", sel: PROJECTS_LINK },
+  { name: "nav-lab", sel: '.nav a[href="/lab"]', needs: "/lab" },
+  { name: "nav-contact", sel: '.nav a[href="#contact"]' },
+  { name: "mark", sel: ".mark" },
+  { name: "pcos-row", sel: SELECTOR.pcosRow, needs: "/work/pcos-protocol" },
+  { name: "this-site-row", sel: "#this-site", needs: "/writing/this-site" },
+  { name: "creact-row", sel: '#projects a.row[href*="creact"]' },
+  { name: "tax-code", sel: TAX_CODE },
+  {
+    name: "lab-tile",
+    sel: "#strip .tile",
+    judge: "#strip .tile figcaption",
+    needs: "/lab",
+  },
+  { name: "lab-more", sel: ".more a", needs: "/lab" },
+  { name: "mail", sel: ".mail" },
+  { name: "copy", sel: ".copy" },
+  { name: "linkedin", sel: ".links a" },
+  { name: "top", sel: ".foot a" },
 ];
 
-export async function hoverTest(page: Page, base: string, root: string) {
+const SUBPAGES: Record<string, Target[]> = {
+  "/work/pcos-protocol": [{ name: "case-back", sel: SELECTOR.back }],
+  "/lab": [
+    { name: "lab-filter", sel: '.filters button[aria-pressed="false"]' },
+    {
+      name: "lab-page-tile",
+      sel: "#grid .tile:nth-child(3)",
+      judge: "#grid .tile:nth-child(3) figcaption",
+    },
+  ],
+  "/writing/this-site": [{ name: "write-up-back", sel: SELECTOR.back }],
+};
+
+export async function hoverTest(
+  page: Page,
+  base: string,
+  root: string,
+  live: string[]
+) {
+  const home = HOME.filter(({ needs }) => !needs || live.includes(needs));
+
+  const subpages = Object.entries(SUBPAGES).filter(([path]) =>
+    live.includes(path)
+  );
+
   // Screenshots clear a real :hover, so hover is forced through the DevTools
   // protocol
   const cdp = await page.context().newCDPSession(page);
@@ -124,25 +162,27 @@ export async function hoverTest(page: Page, base: string, root: string) {
       () => !!document.querySelector('[data-overlay="build"][data-building]')
     );
 
-    if (building) await snap("nav-while-building", ".nav a:nth-child(2)");
+    if (building) await snap("nav-while-building", PROJECTS_LINK);
 
     await settled(page);
 
-    for (const [name, sel, judge] of HOME) {
+    for (const { name, sel, judge } of home) {
       await centre(page, sel);
       await settled(page);
       await snap(name, sel, judge);
     }
 
-    await topAt(page, SELECTOR.pcosRow, 0.86);
-    await frames(page);
+    if (live.includes("/work/pcos-protocol")) {
+      await topAt(page, SELECTOR.pcosRow, 0.86);
+      await frames(page);
 
-    const moving = await page.evaluate(
-      (s) => document.querySelector(s)!.hasAttribute("data-asm"),
-      SELECTOR.work
-    );
+      const moving = await page.evaluate(
+        (s) => document.querySelector(s)!.hasAttribute("data-asm"),
+        SELECTOR.work
+      );
 
-    if (moving) await snap("pcos-row-moving", SELECTOR.pcosRow);
+      if (moving) await snap("pcos-row-moving", SELECTOR.pcosRow);
+    }
 
     await topAt(page, TAX_CODE, 0.86);
     await frames(page);
@@ -154,22 +194,12 @@ export async function hoverTest(page: Page, base: string, root: string) {
 
     if (codeMoving) await snap("tax-code-moving", TAX_CODE);
 
-    await load("/work/pcos-protocol");
-    await settled(page);
-    await snap("case-back", SELECTOR.back);
-    await load("/lab");
-    await settled(page);
-    await snap("lab-filter", '.filters button[aria-pressed="false"]');
+    for (const [path, targets] of subpages) {
+      await load(path);
+      await settled(page);
 
-    await snap(
-      "lab-page-tile",
-      "#grid .tile:nth-child(3)",
-      "#grid .tile:nth-child(3) figcaption"
-    );
-
-    await load("/writing/this-site");
-    await settled(page);
-    await snap("write-up-back", SELECTOR.back);
+      for (const { name, sel, judge } of targets) await snap(name, sel, judge);
+    }
   }
 
   return results;
