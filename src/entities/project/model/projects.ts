@@ -49,6 +49,7 @@ export const PROJECTS: readonly Project[] = [
     sub: "Daily audio devotional web app designed for people with reduced vision.",
     note: "Daily audio devotional web app for people with reduced vision",
     code: LINKS.audioDevotions,
+    app: LINKS.audioDevotionsApp,
   },
 ];
 
