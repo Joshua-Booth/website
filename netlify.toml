@@ -15,3 +15,14 @@ Cache-Control = "public, max-age=31536000, immutable"
 # Deploy previews show every flagged part, so a PR can be reviewed with them on
 [context.deploy-preview.environment]
 SITE_FLAGS = "all"
+
+# Next.js serves app/apple-icon.png at /apple-icon.png; crawlers and audits ask for the conventional names
+[[redirects]]
+from = "/apple-touch-icon.png"
+to = "/apple-icon.png"
+status = 200
+
+[[redirects]]
+from = "/apple-touch-icon-precomposed.png"
+to = "/apple-icon.png"
+status = 200
