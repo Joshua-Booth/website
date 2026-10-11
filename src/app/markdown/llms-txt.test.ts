@@ -57,7 +57,7 @@ Email: [contact@joshuabooth.nz](mailto:contact@joshuabooth.nz)
 - [This site](https://github.com/Joshua-Booth/website): Source code for joshuabooth.nz. Open source.
 - [Tax Calculator](https://calculatetax.netlify.app): Works out New Zealand take-home pay after tax, ACC, KiwiSaver and student loan. Open source ([Code](https://github.com/Joshua-Booth/calculate-tax)).
 - [creact](https://github.com/Joshua-Booth/creact): React web app template with testing and coding agent setup done. Open source.
-- [Audio Devotions](https://github.com/Joshua-Booth/audio-devotions): Daily audio devotional web app for people with reduced vision. Open source.
+- [Audio Devotions](https://audiodevotions.netlify.app): Daily audio devotional web app for people with reduced vision. Open source ([Code](https://github.com/Joshua-Booth/audio-devotions)).
 
 ## Optional
 
