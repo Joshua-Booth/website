@@ -29,3 +29,13 @@ so a flag flipped in PostHog shows up after the next deploy. Netlify deploy prev
 ## Analytics
 
 PostHog starts only on `joshuabooth.nz`, so local builds, audits and deploy previews send no events.
+
+<!-- git-workflow:start -->
+
+## Commits
+
+- Commits use gitmoji with a lowercase imperative subject, checked by commitlint. Don't skip the hooks.
+- Before the first commit in a fresh clone, install the hooks with `pnpm install`.
+- Commits on a branch get a short body with context. PRs are squash-merged, so main gets one subject-only commit.
+
+<!-- git-workflow:end -->
