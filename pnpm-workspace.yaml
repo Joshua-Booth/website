@@ -12,3 +12,16 @@ minimumReleaseAgeExclude:
   - "@storybook/react@11.0.0-alpha.5"
   - storybook@11.0.0-alpha.5
   - vite-plugin-storybook-nextjs@11.0.0-alpha.5
+overrides:
+  # serve 14.2.6 pins compression 1.8.1, which has a memory-leak DoS
+  # (GHSA-vc2v-76pw-4v95). Remove this once a serve release allows 1.8.2.
+  compression: ^1.8.2
+auditConfig:
+  ignoreGhsas:
+    # braces <=3.0.3 stack-exhaustion DoS. No patched release exists yet. It
+    # only reaches this site through lint and build tooling (the StyleX
+    # PostCSS and ESLint plugins, eslint-plugin-check-file, steiger and
+    # stylelint-config-standard, via micromatch), which never ships in the
+    # static export. Remove this once a fixed braces is published and the
+    # lockfile picks it up.
+    - GHSA-vfj7-8cjw-p6xm

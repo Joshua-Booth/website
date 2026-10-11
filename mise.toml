@@ -95,6 +95,11 @@ description = "Run the overlap, navigation and hover audits against AUDIT_URL, t
 alias = "a"
 run = "node scripts/audit/run.ts"
 
+[tasks."audit:deps"]
+description = "Check dependencies for high-severity security advisories"
+alias = "ad"
+run = "pnpm audit --audit-level=high"
+
 [tasks.fix]
 description = "Auto-fix all code quality issues"
 alias = "x"
@@ -111,6 +116,7 @@ depends = [
   "steiger",
   "knip",
   "spell",
+  "audit:deps",
   "test:run",
 ]
 
