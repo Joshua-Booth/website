@@ -12,3 +12,7 @@ minimumReleaseAgeExclude:
   - "@storybook/react@11.0.0-alpha.5"
   - storybook@11.0.0-alpha.5
   - vite-plugin-storybook-nextjs@11.0.0-alpha.5
+overrides:
+  # serve 14.2.6 pins compression 1.8.1, which has a memory-leak DoS
+  # (GHSA-vc2v-76pw-4v95). Remove this once a serve release allows 1.8.2.
+  compression: ^1.8.2
