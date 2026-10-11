@@ -19,13 +19,6 @@
     "bash",
     "shellscript"
   ],
-  "files": [
-    "{app,src,scripts}/**/*.{ts,tsx,css,mdx}",
-    "**/*.md",
-    "*.toml",
-    "package.json",
-    "*.config.{ts,js,json}"
-  ],
   "ignorePaths": [
     "**/*.svg",
     "**/node_modules/**",
