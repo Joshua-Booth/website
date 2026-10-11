@@ -16,7 +16,6 @@ pre-commit:
       run: mise exec -- oxfmt --no-error-on-unmatched-pattern {staged_files}
       stage_fixed: true
     4_spell:
-      glob: "*.{ts,tsx,css,md,mdx,toml}"
       run: mise exec -- cspell --no-must-find-files {staged_files}
 
 commit-msg:
