@@ -16,3 +16,10 @@ overrides:
   # serve 14.2.6 pins compression 1.8.1, which has a memory-leak DoS
   # (GHSA-vc2v-76pw-4v95). Remove this once a serve release allows 1.8.2.
   compression: ^1.8.2
+auditConfig:
+  ignoreGhsas:
+    # braces <=3.0.3 stack-exhaustion DoS. No patched release exists yet. It
+    # only reaches this site through build tooling (@stylexjs/postcss-plugin
+    # via micromatch), which never ships in the static export. Remove this
+    # once a fixed braces is published and the lockfile picks it up.
+    - GHSA-vfj7-8cjw-p6xm
