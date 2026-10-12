@@ -10,6 +10,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 # Working on this site
 
+- Read `DESIGN.md` before any UI, layout, styling or visible copy change, so new work matches the site.
 - No barrel files. Import from the file that defines the thing.
 - The empty root `pages/` folder stops Next.js reading `src/pages` as the Pages Router. Keep it.
 - Commits use gitmoji. See `.claude/CLAUDE.md` and `commitlint.config.ts`.
