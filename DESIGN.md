@@ -159,7 +159,7 @@ The tile itself sits on `rgba(255, 255, 255, 0.05)`, from `src/entities/lab-tile
 
 ## Typography
 
-Archivo is for everything, set wide for display. IBM Plex Mono is for code, and the x-ray's measurements use it too.
+Archivo is for everything, set wide for display. IBM Plex Mono is for code and for every x-ray label: dimension labels, measurements, spec chips and the title block, from `overlay-styles.ts`.
 
 Source: `src/shared/ui/tokens.stylex.ts` (`fonts`) and `src/app/styles/fonts.ts`.
 
@@ -206,7 +206,7 @@ Weight 400 is the body's, from `app/layout.tsx`, and the rest is inherited.
 | Copy address button | 14px                   | 600    |                | `copy-email.tsx`, `interactive.ts` |
 | Footer              | 14px                   | 400    |                | `app/layout.tsx`                   |
 
-**The Tabular Rule.** Labels and numbers use tabular numerals, as row meta and the Lab's number readouts do.
+**The Tabular Rule.** Numbers use tabular numerals. On the site's pages only row meta sets them, from `rows.tsx`. In the Lab, the width dial and duration input readouts set them too, from `width-dial.tsx` and `duration-input.tsx`.
 
 Keep Inter and JetBrains Mono out, along with all-mono labels and `//` separators.
 
@@ -226,7 +226,7 @@ There's no spacing scale token. Components set their own spacing, and the recurr
 - Rows pad 18px on top, 16px at the bottom and 12px at the sides, with no start padding when narrow, from `rows.tsx`.
 - Anchored sections stop 24px from the top when scrolled to, from `global.css`.
 
-Check every page at 390 and 360 wide, with no sideways scroll.
+Check every page at 390 and 360 wide, with the system in light and dark mode, and with no sideways scroll. The page looks the same in both, but the tab icon and anything that follows the colour scheme can change.
 
 Radius is used sparingly:
 
@@ -245,7 +245,7 @@ The site is flat. Depth comes from rules and from inverting colour, not from sha
 - **Row pills** have a 1px border. The back link and Lab filters have 2px.
 - **Lab tiles** have a 1px `rule` border, 8px corners and the tile ground.
 - **Focus** is a 3px solid `#fff` outline, offset 4px, from `global.css`. A row link has no outline and inverts instead.
-- **Shadow**: the only shadow on a surface is on Lab demo cards, `0 1px 2px rgba(21, 23, 28, 0.06)`, from `demo-surface.ts`. The x-ray also uses box-shadow in two places. The build sweep's edge glows with `0 0 18px 4px rgba(190, 210, 255, 0.6)`, from `overlay-styles.ts`, and pills draw their x-ray outline with `inset 0 0 0 1.5px` in `faint`, from `interactive.ts`.
+- **Shadow**: the only shadow on a surface is on Lab demo cards. It's `0 1px 2px rgba(21, 23, 28, 0.06)`, from `demo-surface.ts`. The x-ray uses box-shadow in two more places. The build sweep's edge glows with `0 0 18px 4px rgba(190, 210, 255, 0.6)`, from `overlay-styles.ts`. Pills draw their x-ray outline with `inset 0 0 0 1.5px` in `faint`, from `interactive.ts`.
 
 Keep glassmorphism, rounded cards with a coloured stripe down one side, and copycat brutalism off the site.
 
@@ -333,7 +333,7 @@ Keep these off the site:
 3. Pulsing or redundant badges and dots.
 4. Rounded cards with a coloured stripe down one side.
 5. Emoji in the UI.
-6. Elements out of line. Measure baselines instead of eyeballing them.
+6. Elements out of line. Measure baselines instead of eyeballing them. The page effects do it in `src/features/page-effects/lib/measure.ts`, and the audit does the same in `scripts/audit/in-page.ts`. They set an "H" at 1000px in the page's resolved Archivo, followed by an empty inline-block `<i>`. The baseline is the bottom of the `<i>`, less the top of the letter, divided by 1000. Both sit in an unknown element, `<font-probe>`, not a `<span>`, so the page's span rules don't change the layout.
 7. Inter or JetBrains Mono by default, all-mono labels, or `//` separators.
 8. Text that only makes sense inside the project. Internal names never show up in visible text, though they're fine in code comments.
 9. Glassmorphism, or copycat brutalism.
