@@ -77,6 +77,8 @@ rounded:
   pill: "99px"
   tile: "8px"
   spec-chip: "3px"
+  lab-control-sm: "5px"
+  lab-control: "6px"
 spacing:
   gutter: "clamp(16px, 1.6vw, 20px)"
   page: "1240px"
@@ -115,7 +117,7 @@ The site's job is to show the work is well made, so the site has to be well made
 
 ## Colours
 
-The site has one look in light and dark mode alike: a royal blue ground with white ink. Only small things change in dark mode, such as the tab icon, so check both.
+The site has one dark look: a royal blue ground with white ink. Only the tab icon changes with the system theme, from `app/icon.svg`.
 
 Source: `src/shared/ui/tokens.stylex.ts` (`colors`). `src/app/styles/global.css` holds copies of `ground` and `ink` for the rules StyleX can't target, so change both together.
 
@@ -224,16 +226,16 @@ There's no spacing scale token. Components set their own spacing, and the recurr
 - Rows pad 18px on top, 16px at the bottom and 12px at the sides, with no start padding when narrow, from `rows.tsx`.
 - Anchored sections stop 24px from the top when scrolled to, from `global.css`.
 
-Check every page at 390 and 360 wide, in light and dark, with no sideways scroll.
+Check every page at 390 and 360 wide, with no sideways scroll.
 
 Radius is used sparingly:
 
-| Shape                                          | Value       | Source                              |
-| ---------------------------------------------- | ----------- | ----------------------------------- |
-| Pills (buttons, row links, filters, back link) | 99px        | `src/shared/ui/interactive.ts`      |
-| Lab tiles and light demo cards                 | 8px         | `tile-frame.tsx`, `demo-surface.ts` |
-| Controls in the recurrence editor              | 5px and 6px | `recurrence-editor.tsx`             |
-| The x-ray's spec chips                         | 3px         | `overlay-styles.ts`                 |
+| Shape                                                          | Value       | Source                                                    |
+| -------------------------------------------------------------- | ----------- | --------------------------------------------------------- |
+| Pills (buttons, row links, filters, back link)                 | 99px        | `src/shared/ui/interactive.ts`                            |
+| Lab tiles, light demo cards and the duration input's buttons   | 8px         | `tile-frame.tsx`, `demo-surface.ts`, `duration-input.tsx` |
+| Controls in the Lab demos (recurrence editor, hotkey recorder) | 5px and 6px | `recurrence-editor.tsx`, `hotkey-recorder.tsx`            |
+| The x-ray's spec chips                                         | 3px         | `overlay-styles.ts`                                       |
 
 ## Surfaces and borders
 
@@ -243,7 +245,7 @@ The site is flat. Depth comes from rules and from inverting colour, not from sha
 - **Row pills** have a 1px border. The back link and Lab filters have 2px.
 - **Lab tiles** have a 1px `rule` border, 8px corners and the tile ground.
 - **Focus** is a 3px solid `#fff` outline, offset 4px, from `global.css`. A row link has no outline and inverts instead.
-- **Shadow**: the only one is on light demo cards in the Lab, `0 1px 2px rgba(21, 23, 28, 0.06)`, from `demo-surface.ts`.
+- **Shadow**: the only shadow on a surface is on Lab demo cards, `0 1px 2px rgba(21, 23, 28, 0.06)`, from `demo-surface.ts`. The x-ray also uses box-shadow in two places. The build sweep's edge glows with `0 0 18px 4px rgba(190, 210, 255, 0.6)`, from `overlay-styles.ts`, and pills draw their x-ray outline with `inset 0 0 0 1.5px` in `faint`, from `interactive.ts`.
 
 Keep glassmorphism, rounded cards with a coloured stripe down one side, and copycat brutalism off the site.
 
@@ -296,7 +298,7 @@ The site has no photos. Its imagery is the page drawn as a technical drawing, fr
 - **Guides**: 1px lines on each heading's baseline and cap height, measured from Archivo's own metrics. Cap guides are dashed.
 - **Measurements**: 2px `measure` lines with 12px end caps, labelled in IBM Plex Mono 500 at 13px, or 10px under 600px wide.
 - **Spec chips**: IBM Plex Mono 500 at 13px in `invertInk` on `invertBg`, with 3px corners.
-- **Title block**: a 330px box with a 1.5px white border, or 250px under 600px wide.
+- **Title block**: a 330px box with a 1.5px white border, or 250px under 600px wide. Its text is IBM Plex Mono 500 at 12px, or 10px under 600px wide, from `overlay-styles.ts`.
 
 The light's glow is the one gradient allowed. Interactions work without a hidden control.
 
