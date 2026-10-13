@@ -25,6 +25,10 @@ description = "Serve the built site from out/ (run build first)"
 alias = "p"
 run = "serve out"
 
+[tasks.og]
+description = "Render public/og.png from scripts/og/og.html"
+run = "node scripts/og/render.ts"
+
 [tasks.format]
 description = "Format code with oxfmt"
 alias = "f"

@@ -1,7 +1,7 @@
 import type { KnipConfig } from "knip";
 
 const config: KnipConfig = {
-  entry: ["scripts/audit/*.ts", "mdx-components.tsx"],
+  entry: ["scripts/audit/*.ts", "scripts/og/*.ts", "mdx-components.tsx"],
   project: ["{app,src,scripts}/**/*.{ts,tsx,mdx}"],
   ignoreDependencies: [
     // Loaded by name from configs knip doesn't read
