@@ -5,5 +5,23 @@
       "maxFindings": 5,
       "maxChars": 8000
     }
+  },
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "design-system-font",
+        "value": "archivo",
+        "createdAt": "2026-10-13T03:22:39.335Z",
+        "reason": "false positive: DESIGN.md declares Archivo through var(--font-archivo); the OG template loads the same face by name"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "ibm plex mono",
+        "createdAt": "2026-10-13T03:22:39.428Z",
+        "reason": "false positive: DESIGN.md declares IBM Plex Mono through var(--font-plex-mono); the OG template loads the same face by name"
+      }
+    ]
   }
 }
