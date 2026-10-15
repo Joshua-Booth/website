@@ -38,6 +38,7 @@
     ".next/server",
     ".next/static",
     ".next/cache",
-    ".netlify"
+    ".netlify",
+    "tools/oxlint/anti-slop"
   ]
 }

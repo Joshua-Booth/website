@@ -35,8 +35,13 @@
     {
       "name": "style",
       "specifier": "@stylistic/eslint-plugin"
+    },
+    {
+      "name": "anti-slop",
+      "specifier": "./tools/oxlint/anti-slop/index.ts"
     }
   ],
+  "ignorePatterns": ["tools/oxlint/anti-slop/**"],
   "categories": {
     "correctness": "error",
     "suspicious": "error",
@@ -48,6 +53,9 @@
     "es2024": true
   },
   "rules": {
+    "anti-slop/no-chained-type-assertions": "error",
+    "anti-slop/no-widen-then-assert": "error",
+    "anti-slop/require-safety-comment-for-type-assertion": "error",
     "eslint-comments/disable-enable-pair": [
       "error",
       {

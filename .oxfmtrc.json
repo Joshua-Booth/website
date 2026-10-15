@@ -3,7 +3,7 @@
   "trailingComma": "es5",
   "printWidth": 80,
   "sortPackageJson": false,
-  "ignorePatterns": ["pnpm-lock.yaml"],
+  "ignorePatterns": ["pnpm-lock.yaml", "tools/oxlint/anti-slop/**"],
   "sortImports": {
     "newlinesBetween": true,
     "customGroups": [
