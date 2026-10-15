@@ -1,4 +1,5 @@
 import type { Cover } from "../lib/cover";
+import type { MarkGroup } from "../lib/marks";
 import type { Spring } from "../lib/motion";
 import type { Stage } from "../lib/stage";
 
@@ -16,7 +17,7 @@ import {
   tileDemos,
 } from "../lib/measure";
 import { clamp, stepSpring } from "../lib/motion";
-import { overlay } from "../ui/overlay-styles";
+import { overlay } from "../lib/overlay-styles";
 import { memory } from "./memory";
 
 const RADIUS = { share: 0.2, min: 120, max: 260 };
@@ -91,7 +92,7 @@ export function startTorch(stage: Stage) {
   let xray: Cover | null = null;
   let radius = 0;
   let keepTilt = () => {};
-  let marks: Parameters<typeof hideWhileAssembling>[0] = [];
+  let marks: MarkGroup[] = [];
   let placed = false;
 
   const light: { x: Spring; y: Spring } = {

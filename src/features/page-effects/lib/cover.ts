@@ -8,6 +8,7 @@ import {
   boxInSite,
   isAssembling,
   partName,
+  parts,
 } from "./measure";
 
 export interface Cover {
@@ -85,10 +86,20 @@ export function cover(
   return { layer, copy, box };
 }
 
+interface TiltPair {
+  section: HTMLElement;
+  twin: HTMLElement;
+  from: HTMLElement[];
+  to: HTMLElement[];
+  lastTransform: string | null;
+}
+
 export function followTilt(page: HTMLElement, copy: HTMLElement) {
-  const pairs = [
-    ...page.querySelectorAll<HTMLElement>(ASSEMBLE.sections),
-  ].flatMap((section) => {
+  const sections = parts(page).filter((part) =>
+    part.matches(ASSEMBLE.sections)
+  );
+
+  const pairs = sections.flatMap((section): TiltPair[] => {
     const twin = copy.querySelector<HTMLElement>(
       `[data-name="${CSS.escape(partName(section))}"]`
     );
@@ -101,7 +112,7 @@ export function followTilt(page: HTMLElement, copy: HTMLElement) {
         twin,
         from: assembleLayers(section),
         to: assembleLayers(twin),
-        lastTransform: null as string | null,
+        lastTransform: null,
       },
     ];
   });

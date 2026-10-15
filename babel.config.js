@@ -1,5 +1,4 @@
-// StyleX compiles styles at build time. Next.js runs app code through this;
-// next/font still goes through SWC
+// Next.js runs app code through this; next/font still goes through SWC
 import path from "node:path";
 
 export default {

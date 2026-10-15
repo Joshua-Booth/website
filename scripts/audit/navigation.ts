@@ -1,3 +1,4 @@
+import type { PagePath } from "../../src/shared/config/pages.ts";
 import type { FxState } from "./in-page.ts";
 import type { CDPSession, Page } from "playwright";
 
@@ -6,8 +7,7 @@ import { centre, SELECTOR, settled } from "./browse.ts";
 interface Step {
   label: string;
   click: string;
-  path: string;
-  needs: string;
+  path: PagePath;
 }
 
 const STEPS: Step[] = [
@@ -15,27 +15,23 @@ const STEPS: Step[] = [
     label: "case study",
     click: SELECTOR.pcosRow,
     path: "/work/pcos-protocol",
-    needs: "/work/pcos-protocol",
   },
   {
     label: "back",
     click: SELECTOR.back,
     path: "/",
-    needs: "/work/pcos-protocol",
   },
-  { label: "lab", click: '.nav a[href="/lab"]', path: "/lab", needs: "/lab" },
-  { label: "home", click: ".mark", path: "/", needs: "/lab" },
+  { label: "lab", click: '.nav a[href="/lab"]', path: "/lab" },
+  { label: "home", click: ".mark", path: "/" },
   {
     label: "case study again",
     click: SELECTOR.pcosRow,
     path: "/work/pcos-protocol",
-    needs: "/work/pcos-protocol",
   },
   {
     label: "back again",
     click: SELECTOR.back,
     path: "/",
-    needs: "/work/pcos-protocol",
   },
 ];
 
@@ -59,11 +55,7 @@ async function listeners(cdp: CDPSession) {
   );
 }
 
-export async function navigationAudit(
-  page: Page,
-  base: string,
-  live: string[]
-) {
+export async function navigationAudit(page: Page, base: string) {
   const problems: string[] = [];
   const log: string[] = [];
 
@@ -117,7 +109,7 @@ export async function navigationAudit(
 
   await settle("load", "/");
 
-  for (const step of STEPS.filter((s) => live.includes(s.needs))) {
+  for (const step of STEPS) {
     await centre(page, step.click);
     if (!(await settled(page))) problems.push(`${step.label}: never settled`);
 
