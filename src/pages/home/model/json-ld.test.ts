@@ -1,9 +1,5 @@
 import { expect, it } from "vitest";
 
-import { CURRENT_JOB } from "@/entities/job/model/jobs";
-
-import { LINKS, NAME, SITE_URL } from "@/shared/config/site";
-
 import { homeJsonLd } from "./json-ld";
 
 it("builds a Person + WebSite @graph from site config", () => {
@@ -12,17 +8,20 @@ it("builds a Person + WebSite @graph from site config", () => {
     "@graph": [
       {
         "@type": "Person",
-        "@id": `${SITE_URL}/#person`,
-        name: NAME,
-        url: `${SITE_URL}/`,
-        jobTitle: CURRENT_JOB.role,
-        sameAs: [LINKS.linkedin, LINKS.github],
+        "@id": "https://joshuabooth.nz/#person",
+        name: "Joshua Booth",
+        url: "https://joshuabooth.nz/",
+        jobTitle: "UI Engineer",
+        sameAs: [
+          "https://www.linkedin.com/in/joshua-booth",
+          "https://github.com/Joshua-Booth",
+        ],
       },
       {
         "@type": "WebSite",
-        name: NAME,
-        url: `${SITE_URL}/`,
-        author: { "@id": `${SITE_URL}/#person` },
+        name: "Joshua Booth",
+        url: "https://joshuabooth.nz/",
+        author: { "@id": "https://joshuabooth.nz/#person" },
         inLanguage: "en-NZ",
       },
     ],

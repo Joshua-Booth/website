@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { ALL_OFF, ALL_ON } from "@/shared/config/flags";
-import { isLive, mdPath, PAGE_PATHS } from "@/shared/config/pages";
+import { exportPath, isLive, PAGE_PATHS } from "@/shared/config/pages";
 
 import { pageMarkdown } from "./pages";
 
@@ -19,7 +19,7 @@ async function markdownRoute(
 ): Promise<MarkdownRoute> {
   return import(
     /* @vite-ignore */ new URL(
-      `../../../app${mdPath(path)}/route.ts`,
+      `../../../app${exportPath(path, "md")}/route.ts`,
       import.meta.url
     ).href
   );

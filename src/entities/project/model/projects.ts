@@ -15,6 +15,12 @@ export type Project = {
   | { app?: undefined; study?: Study }
 );
 
+export const THIS_SITE_STUDY: Study = {
+  href: "/writing/this-site",
+  id: "this-site",
+  go: "How it's built",
+};
+
 export const PROJECTS: readonly Project[] = [
   {
     name: "This site",
@@ -22,11 +28,7 @@ export const PROJECTS: readonly Project[] = [
     sub: "The page you're on. Move your pointer over anything to see its x-ray.",
     note: "Source code for joshuabooth.nz",
     code: LINKS.repo,
-    study: {
-      href: "/writing/this-site",
-      id: "this-site",
-      go: "How it's built",
-    },
+    study: THIS_SITE_STUDY,
   },
   {
     name: "Tax Calculator",

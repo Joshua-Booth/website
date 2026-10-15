@@ -72,8 +72,11 @@ export function livePages(flags: SiteFlags): PagePath[] {
   return PAGE_PATHS.filter((path) => isLive(path, flags));
 }
 
-export function mdPath(path: PagePath): string {
-  return path === "/" ? "/index.md" : `${path}.md`;
+export function exportPath(
+  path: PagePath,
+  extension: "html" | "txt" | "md"
+): string {
+  return path === "/" ? `/index.${extension}` : `${path}.${extension}`;
 }
 
 export function pageUrl(path: PagePath): string {
@@ -81,7 +84,7 @@ export function pageUrl(path: PagePath): string {
 }
 
 export function mdUrl(path: PagePath): string {
-  return `${SITE_URL}${mdPath(path)}`;
+  return `${SITE_URL}${exportPath(path, "md")}`;
 }
 
 export function pageHeading(path: PagePath): string {

@@ -7,6 +7,12 @@ export interface Job {
   study?: Study;
 }
 
+export const PCOS_PROTOCOL_STUDY: Study = {
+  href: "/work/pcos-protocol",
+  id: "pcos-protocol",
+  go: "Case study",
+};
+
 export const CURRENT_JOB: Job = {
   employer: "Solve Data",
   role: "UI Engineer",
@@ -20,11 +26,7 @@ export const JOBS: readonly Job[] = [
     employer: "The PCOS Nutritionist",
     role: "Full Stack Developer",
     when: "2020 to 2021",
-    study: {
-      href: "/work/pcos-protocol",
-      id: "pcos-protocol",
-      go: "Case study",
-    },
+    study: PCOS_PROTOCOL_STUDY,
   },
 ];
 
