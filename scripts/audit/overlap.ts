@@ -163,19 +163,17 @@ export async function overlapAudit(
       }
     };
 
-    if (live.includes("/work/pcos-protocol")) {
-      await centre(page, SELECTOR.pcosRow);
-      await settle("before-case");
-      await page.click(SELECTOR.pcosRow);
-      await page.waitForURL("**/work/pcos-protocol", { waitUntil: "commit" });
-      await frames(page);
-      await blueprintShows(where("case-open"), "blueprint-flash-on-subpage");
-      await settle("case");
-      await audit(where("case"));
-      await page.click(SELECTOR.back);
-      await page.waitForURL((u) => u.pathname === "/", { waitUntil: "commit" });
-      await settle("home");
-    }
+    await centre(page, SELECTOR.pcosRow);
+    await settle("before-case");
+    await page.click(SELECTOR.pcosRow);
+    await page.waitForURL("**/work/pcos-protocol", { waitUntil: "commit" });
+    await frames(page);
+    await blueprintShows(where("case-open"), "blueprint-flash-on-subpage");
+    await settle("case");
+    await audit(where("case"));
+    await page.click(SELECTOR.back);
+    await page.waitForURL((u) => u.pathname === "/", { waitUntil: "commit" });
+    await settle("home");
 
     await topAt(page, SELECTOR.work, 0.75);
     await frames(page);

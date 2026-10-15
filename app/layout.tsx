@@ -9,7 +9,7 @@ import "@/app/styles/global.css";
 
 import { PageEffects } from "@/features/page-effects/ui/page-effects";
 
-import { DESCRIPTION, NAME, SITE_URL } from "@/shared/config/site";
+import { DESCRIPTION, LOCALE, NAME, SITE_URL } from "@/shared/config/site";
 import { sx } from "@/shared/lib/sx";
 import { icon } from "@/shared/ui/icon";
 import { interactive } from "@/shared/ui/interactive";
@@ -110,7 +110,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     // global.css scrolls smoothly within a page; this tells Next.js to jump,
     // not glide, when the page changes
     <html
-      lang="en-NZ"
+      lang={LOCALE.lang}
       data-scroll-behavior="smooth"
       {...sx(`${archivo.variable} ${plexMono.variable}`, styles.html)}
     >
