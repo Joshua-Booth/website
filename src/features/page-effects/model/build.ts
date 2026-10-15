@@ -6,7 +6,7 @@ import { frameLoop } from "../lib/frames";
 import { drawMarks } from "../lib/marks";
 import { ASSEMBLE, HERO, partName, parts } from "../lib/measure";
 import { clamp, easeInOut } from "../lib/motion";
-import { overlay } from "../ui/overlay-styles";
+import { overlay } from "../lib/overlay-styles";
 import { memory } from "./memory";
 
 const GUIDES_AT = 200;

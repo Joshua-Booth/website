@@ -1,7 +1,6 @@
 import type { Box, Line } from "./measure";
 import type { Stage } from "./stage";
 
-import { overlay } from "../ui/overlay-styles";
 import {
   atRest,
   boxInSite,
@@ -9,6 +8,7 @@ import {
   lineMetrics,
   tileDemos,
 } from "./measure";
+import { overlay } from "./overlay-styles";
 
 interface Ink {
   owner: Element;
@@ -47,9 +47,12 @@ const inkOf = (owner: Element, box: Box): Ink => ({
   bottom: box.y + box.height,
 });
 
-export function hideWhileAssembling(
-  groups: { measures: HTMLElement[]; marks: HTMLElement | SVGElement }[]
-) {
+export interface MarkGroup {
+  measures: HTMLElement[];
+  marks: HTMLElement | SVGElement;
+}
+
+export function hideWhileAssembling(groups: MarkGroup[]) {
   for (const { measures, marks } of groups) {
     marks.style.visibility = measures.some(isAssembling) ? "hidden" : "";
   }
