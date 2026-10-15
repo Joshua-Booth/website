@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { ALL_OFF, ALL_ON } from "@/shared/config/flags";
+import { ALL_OFF, ALL_ON, siteFlagsValue } from "@/shared/config/flags";
 
 import { flagsOverride, getSiteFlags } from "./site-flags";
 
@@ -59,6 +59,23 @@ describe("flagsOverride", () => {
   });
 });
 
+describe("siteFlagsValue", () => {
+  it("names the PostHog keys that are on", () => {
+    expect(siteFlagsValue({ ...ALL_OFF, lab: true, pcosCaseStudy: true })).toBe(
+      "lab,pcos-case-study"
+    );
+
+    expect(siteFlagsValue(ALL_OFF)).toBe("none");
+  });
+
+  it.each([ALL_ON, ALL_OFF, { ...ALL_OFF, thisSiteCaseStudy: true }])(
+    "passes %j through SITE_FLAGS unchanged",
+    (flags) => {
+      expect(flagsOverride(siteFlagsValue(flags))).toEqual(flags);
+    }
+  );
+});
+
 describe("getSiteFlags", () => {
   it("turns on the flags PostHog has on, and leaves the rest off", async () => {
     postHogReturns({
@@ -100,6 +117,17 @@ describe("getSiteFlags", () => {
     postHogReturns(null);
 
     await expect(getSiteFlags()).rejects.toThrow("no answer");
+  });
+
+  it("won't ask PostHog in the middle of next build", async () => {
+    const fetch = vi.fn<typeof globalThis.fetch>();
+
+    vi.stubEnv("SITE_FLAGS", "");
+    vi.stubEnv("NEXT_PHASE", "phase-production-build");
+    vi.stubGlobal("fetch", fetch);
+
+    await expect(getSiteFlags()).rejects.toThrow("next build needs SITE_FLAGS");
+    expect(fetch).not.toHaveBeenCalled();
   });
 
   it("uses SITE_FLAGS without asking PostHog", async () => {

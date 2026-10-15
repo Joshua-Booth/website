@@ -18,7 +18,7 @@ run = "next dev"
 [tasks.build]
 description = "Build the static site into out/"
 alias = "b"
-run = "next build"
+run = "node scripts/build.ts"
 
 [tasks.preview]
 description = "Serve the built site from out/ (run build first)"
