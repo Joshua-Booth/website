@@ -2,6 +2,7 @@ import type { ComponentProps, ReactNode } from "react";
 
 import * as stylex from "@stylexjs/stylex";
 
+import { HOOK } from "../config/effect-hooks";
 import { sx } from "../lib/sx";
 import { display } from "./display";
 import { interactive } from "./interactive";
@@ -119,7 +120,7 @@ export function Label({
   flush?: boolean;
 }) {
   return (
-    <h2 id={id} {...sx("label", styles.label, flush && styles.flush)}>
+    <h2 id={id} {...sx(HOOK.label, styles.label, flush && styles.flush)}>
       {children}
     </h2>
   );
@@ -127,7 +128,7 @@ export function Label({
 
 export function Big({ children }: { children: ReactNode }) {
   return (
-    <p {...sx("big", display.type, display.big, xray.outlined, styles.big)}>
+    <p {...sx(HOOK.big, display.type, display.big, xray.outlined, styles.big)}>
       {children}
     </p>
   );
@@ -152,7 +153,7 @@ export function Facts({
 
 export function CutList({ items }: { items: readonly string[] }) {
   return (
-    <ul {...sx("cutlist", styles.cutlist)}>
+    <ul {...sx(HOOK.cutlist, styles.cutlist)}>
       {items.map((item) => (
         <li
           key={item}

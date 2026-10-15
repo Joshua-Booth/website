@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import * as stylex from "@stylexjs/stylex";
 import { ArrowLeft } from "lucide-react";
 
+import { HOOK } from "../config/effect-hooks";
 import { sx } from "../lib/sx";
 import { display } from "./display";
 import { icon } from "./icon";
@@ -82,7 +83,7 @@ export function PageTitle({
   children: ReactNode;
 }) {
   return (
-    <h1 id={id} {...sx("case-h", display.type, xray.outlined, styles.title)}>
+    <h1 id={id} {...sx(HOOK.caseH, display.type, xray.outlined, styles.title)}>
       {children}
     </h1>
   );

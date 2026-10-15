@@ -6,6 +6,7 @@ import { useId } from "react";
 import * as stylex from "@stylexjs/stylex";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 
+import { HOOK } from "@/shared/config/effect-hooks";
 import { sx } from "@/shared/lib/sx";
 import { display } from "@/shared/ui/display";
 import { icon } from "@/shared/ui/icon";
@@ -245,7 +246,7 @@ const styles = stylex.create({
 });
 
 export function Rows({ children }: { children: ReactNode }) {
-  return <ul {...sx("rows", xray.ruleTop, styles.rows)}>{children}</ul>;
+  return <ul {...sx(HOOK.rows, xray.ruleTop, styles.rows)}>{children}</ul>;
 }
 
 type RowLink =
@@ -254,7 +255,7 @@ type RowLink =
 
 interface RowText {
   title: string;
-  size: "big" | "mid";
+  size: (typeof HOOK)["big" | "mid"];
   meta: string;
   job?: string;
   sub?: ReactNode;
@@ -292,18 +293,18 @@ export function Row({ title, size, meta, job, sub, link, code }: RowProps) {
       >
         {title}
       </span>
-      <span id={`${id}-meta`} {...sx("meta", styles.meta)}>
+      <span id={`${id}-meta`} {...sx(HOOK.meta, styles.meta)}>
         {meta}
       </span>
       {job !== undefined && (
-        <span id={`${id}-job`} {...sx("role", styles.detail, styles.beside)}>
+        <span id={`${id}-job`} {...sx(HOOK.role, styles.detail, styles.beside)}>
           {job}
         </span>
       )}
       {sub !== undefined && (
         <span
           id={`${id}-sub`}
-          {...sx("sub", styles.detail, styles.sub, link && styles.beside)}
+          {...sx(HOOK.sub, styles.detail, styles.sub, link && styles.beside)}
         >
           {sub}
         </span>
@@ -312,7 +313,7 @@ export function Row({ title, size, meta, job, sub, link, code }: RowProps) {
         <span
           id={`${id}-go`}
           {...sx(
-            "go",
+            HOOK.go,
             interactive.pill,
             styles.pill,
             styles.go,
@@ -339,7 +340,7 @@ export function Row({ title, size, meta, job, sub, link, code }: RowProps) {
   };
 
   const linked = sx(
-    "row",
+    HOOK.row,
     styles.row,
     interactive.raise,
     styles.linked,
@@ -348,8 +349,9 @@ export function Row({ title, size, meta, job, sub, link, code }: RowProps) {
 
   let row: ReactNode;
 
-  if (!link) row = <div {...sx("row", styles.row, styles.still)}>{cells}</div>;
-  else if ("external" in link) {
+  if (!link) {
+    row = <div {...sx(HOOK.row, styles.row, styles.still)}>{cells}</div>;
+  } else if ("external" in link) {
     row = (
       <a href={link.href} target="_blank" {...named} {...linked}>
         {cells}
@@ -372,7 +374,7 @@ export function Row({ title, size, meta, job, sub, link, code }: RowProps) {
           href={code}
           target="_blank"
           aria-labelledby={`${id}-title ${id}-code`}
-          {...sx("code", interactive.pill, styles.pill, styles.code)}
+          {...sx(HOOK.code, interactive.pill, styles.pill, styles.code)}
         >
           Code
           <ArrowUpRight {...stylex.props(icon.inline)} />

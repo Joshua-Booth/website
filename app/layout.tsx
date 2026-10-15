@@ -9,6 +9,7 @@ import "@/app/styles/global.css";
 
 import { PageEffects } from "@/features/page-effects/ui/page-effects";
 
+import { HOOK } from "@/shared/config/effect-hooks";
 import { DESCRIPTION, LOCALE, NAME, SITE_URL } from "@/shared/config/site";
 import { sx } from "@/shared/lib/sx";
 import { icon } from "@/shared/ui/icon";
@@ -120,8 +121,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </noscript>
       </head>
       <body {...stylex.props(styles.body, rootMarker)}>
-        <div {...sx("site", styles.site)}>
-          <div {...sx("page", styles.page)}>
+        <div {...sx(HOOK.site, styles.site)}>
+          <div {...sx(HOOK.page, styles.page)}>
             {children}
             <footer
               data-name="Footer"

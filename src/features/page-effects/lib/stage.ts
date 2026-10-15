@@ -1,5 +1,6 @@
 import type { FontMetrics } from "./measure";
 
+import { HOOK } from "@/shared/config/effect-hooks";
 import { RELAYOUT } from "@/shared/lib/relayout";
 
 import { measureFont } from "./measure";
@@ -21,7 +22,7 @@ export function createStage(
   fx: HTMLElement,
   signal: AbortSignal
 ): Stage {
-  const page = site.querySelector<HTMLElement>(".page");
+  const page = site.querySelector<HTMLElement>(`.${HOOK.page}`);
 
   if (!page) throw new Error("The page effects need a .page inside .site");
 
