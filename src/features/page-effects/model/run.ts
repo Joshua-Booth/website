@@ -1,4 +1,5 @@
-import { HERO } from "../lib/measure";
+import { HERO_PART } from "@/shared/config/effect-hooks";
+
 import { createStage } from "../lib/stage";
 import { startAssemble } from "./assemble";
 import { startBlueprint } from "./blueprint";
@@ -18,7 +19,7 @@ export function startEffects(site: HTMLElement, fx: HTMLElement) {
     startAssemble(stage);
 
     startBuild(stage, (name) => {
-      if (name === HERO) heroBuilt();
+      if (name === HERO_PART) heroBuilt();
     });
 
     startTorch(stage);

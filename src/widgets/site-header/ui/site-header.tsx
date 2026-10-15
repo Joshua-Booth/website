@@ -3,6 +3,7 @@ import Link from "next/link";
 import * as stylex from "@stylexjs/stylex";
 
 import { getSiteFlags } from "@/shared/api/site-flags";
+import { HERO_PART, HOOK } from "@/shared/config/effect-hooks";
 import { isLive } from "@/shared/config/pages";
 import { INTRO, NAME } from "@/shared/config/site";
 import { sx } from "@/shared/lib/sx";
@@ -107,7 +108,7 @@ export async function SiteHeader({ current, sheet }: Props) {
   return (
     <header
       id="top"
-      data-name="Hero"
+      data-name={HERO_PART}
       data-sheet={sheet}
       {...sx(
         home ? "hero u" : "hero bar-only u",
@@ -115,7 +116,7 @@ export async function SiteHeader({ current, sheet }: Props) {
         !home && styles.barOnly
       )}
     >
-      <nav aria-label="Main" {...sx("bar", styles.bar)}>
+      <nav aria-label="Main" {...sx(HOOK.bar, styles.bar)}>
         {home ? (
           <a
             href="#top"
@@ -156,11 +157,11 @@ export async function SiteHeader({ current, sheet }: Props) {
       </nav>
       {home && (
         <>
-          <h1 {...sx("name", display.type, xray.outlined, styles.name)}>
+          <h1 {...sx(HOOK.name, display.type, xray.outlined, styles.name)}>
             <span {...stylex.props(styles.nameLine)}>Joshua</span>
             <span {...stylex.props(styles.nameLine)}>Booth</span>
           </h1>
-          <p {...sx("intro", styles.intro)}>
+          <p {...sx(HOOK.intro, styles.intro)}>
             <b {...stylex.props(styles.introLead)}>{INTRO.lead}</b> {INTRO.rest}
           </p>
         </>

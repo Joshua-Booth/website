@@ -3,6 +3,8 @@ import type { MarkGroup } from "../lib/marks";
 import type { Spring } from "../lib/motion";
 import type { Stage } from "../lib/stage";
 
+import { HERO_PART } from "@/shared/config/effect-hooks";
+
 import { cover, followTilt, overlayLayer } from "../lib/cover";
 import { frameLoop } from "../lib/frames";
 import { drawMarks, hideWhileAssembling, SPEC_CHIP } from "../lib/marks";
@@ -10,7 +12,6 @@ import {
   atRest,
   boxInSite,
   gapBetween,
-  HERO,
   hero,
   parts,
   partsWithAbove,
@@ -64,7 +65,7 @@ export function lightAfterHero({ reducedMotion, signal }: Stage) {
     document.body.dataset.lit = "";
   };
 
-  if (reducedMotion || memory.built.has(HERO)) light();
+  if (reducedMotion || memory.built.has(HERO_PART)) light();
   if ("lit" in document.body.dataset) return light;
 
   const anyway = setTimeout(light, LIGHT_ANYWAY_MS);

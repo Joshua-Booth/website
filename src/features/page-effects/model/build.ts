@@ -1,10 +1,12 @@
 import type { Cover } from "../lib/cover";
 import type { Stage } from "../lib/stage";
 
+import { HERO_PART } from "@/shared/config/effect-hooks";
+
 import { cover } from "../lib/cover";
 import { frameLoop } from "../lib/frames";
 import { drawMarks } from "../lib/marks";
-import { ASSEMBLE, HERO, partName, parts } from "../lib/measure";
+import { ASSEMBLE, partName, parts } from "../lib/measure";
 import { clamp, easeInOut } from "../lib/motion";
 import { overlay } from "../lib/overlay-styles";
 import { memory } from "./memory";
@@ -119,7 +121,7 @@ export function startBuild(stage: Stage, onBuilt: (name: string) => void) {
 
   function paint(part: HTMLElement, state: Building, now: number) {
     const elapsed = now - state.startedAt;
-    const sweep = partName(part) === HERO ? HERO_SWEEP : SWEEP;
+    const sweep = partName(part) === HERO_PART ? HERO_SWEEP : SWEEP;
 
     state.layer.toggleAttribute("data-guides", elapsed > GUIDES_AT);
     state.layer.toggleAttribute("data-letters", elapsed > LETTERS_AT);

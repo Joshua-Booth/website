@@ -13,6 +13,7 @@ import { TileFrame } from "@/entities/lab-tile/ui/tile-frame";
 import type { Project } from "@/entities/project/model/projects";
 import { PROJECTS } from "@/entities/project/model/projects";
 
+import { HOOK } from "@/shared/config/effect-hooks";
 import type { SiteFlags } from "@/shared/config/flags";
 import { isLive, liveStudy } from "@/shared/config/pages";
 import { EMAIL, LINKS } from "@/shared/config/site";
@@ -202,7 +203,7 @@ export function HomePage({ flags }: { flags: SiteFlags }) {
           <a
             id="contact-email"
             href={`mailto:${EMAIL}`}
-            {...sx("mail", interactive.raise, xray.outlined, styles.mail)}
+            {...sx(HOOK.mail, interactive.raise, xray.outlined, styles.mail)}
           >
             {user}@<wbr />
             {domain}

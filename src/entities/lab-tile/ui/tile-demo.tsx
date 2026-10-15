@@ -2,6 +2,7 @@ import type { TileId } from "../model/tiles";
 
 import type { ComponentType } from "react";
 
+import { HOOK } from "@/shared/config/effect-hooks";
 import { sx } from "@/shared/lib/sx";
 
 import { TILES } from "../model/tiles";
@@ -34,7 +35,7 @@ export function TileDemo({ id, layout }: Props) {
   return (
     <div
       {...sx(
-        "demo",
+        HOOK.demo,
         demo.base,
         layout === "strip" && demo.strip,
         surface !== "site" && demo[surface]

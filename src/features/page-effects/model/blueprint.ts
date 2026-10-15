@@ -2,6 +2,8 @@ import type { Cover } from "../lib/cover";
 import type { Box, Line } from "../lib/measure";
 import type { Stage } from "../lib/stage";
 
+import { anyOf, HOOK } from "@/shared/config/effect-hooks";
+
 import { cover, followTilt } from "../lib/cover";
 import { frameLoop } from "../lib/frames";
 import { hideWhileAssembling } from "../lib/marks";
@@ -34,8 +36,8 @@ const ROW_HEIGHT_INSET = 6;
 
 const NAME_GAP_AT = 0.62;
 
-const PART_HEADING = ":is(.big, .mid, .mail, .case-h)";
-const ROW_ENDS = ".meta, .go, .code";
+const PART_HEADING = `:is(${anyOf(HOOK.big, HOOK.mid, HOOK.mail, HOOK.caseH)})`;
+const ROW_ENDS = anyOf(HOOK.meta, HOOK.go, HOOK.code);
 
 const TITLE_BLOCK = {
   narrow: { width: 250, above: 96 },
@@ -191,7 +193,7 @@ export function startBlueprint(stage: Stage) {
   function heroDimensions(pen: Drafting, at: At, siteWidth: number) {
     const found = hero(page);
 
-    const lines = [...page.querySelectorAll<HTMLElement>(".name span")]
+    const lines = [...page.querySelectorAll<HTMLElement>(`.${HOOK.name} span`)]
       .flatMap((span) => lineMetrics(site, stage.font, span).slice(0, 1))
       .map(at.line);
 
@@ -293,7 +295,7 @@ export function startBlueprint(stage: Stage) {
           );
         }
 
-        const row = part.querySelector(".rows > li");
+        const row = part.querySelector(`.${HOOK.rows} > li`);
 
         if (row) {
           const rowBox = at.box(row);

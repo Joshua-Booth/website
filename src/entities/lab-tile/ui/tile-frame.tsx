@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 
 import * as stylex from "@stylexjs/stylex";
 
+import { HOOK } from "@/shared/config/effect-hooks";
 import { sx } from "@/shared/lib/sx";
 import { xrayMarker } from "@/shared/ui/markers.stylex";
 import { colors, fonts } from "@/shared/ui/tokens.stylex";
@@ -75,7 +76,7 @@ export function TileFrame({ id, layout, hidden, children }: Props) {
     <figure
       hidden={hidden}
       {...sx(
-        "tile",
+        HOOK.tile,
         xray.ruleAll,
         styles.tile,
         layout === "strip" && styles.strip

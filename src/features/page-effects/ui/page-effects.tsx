@@ -3,6 +3,8 @@
 import { usePathname } from "next/navigation";
 import { useLayoutEffect, useRef } from "react";
 
+import { HOOK } from "@/shared/config/effect-hooks";
+
 import { startEffects } from "../model/run";
 import { useHashFocus } from "./use-hash-focus";
 
@@ -21,7 +23,7 @@ function EffectsRun() {
 
   useLayoutEffect(() => {
     const layer = fx.current;
-    const site = layer?.closest<HTMLElement>(".site");
+    const site = layer?.closest<HTMLElement>(`.${HOOK.site}`);
 
     if (!layer || !site) return;
 
@@ -30,5 +32,5 @@ function EffectsRun() {
 
   useHashFocus();
 
-  return <div className="fx" ref={fx} />;
+  return <div className={HOOK.fx} ref={fx} />;
 }

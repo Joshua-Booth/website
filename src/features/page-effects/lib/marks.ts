@@ -1,6 +1,8 @@
 import type { Box, Line } from "./measure";
 import type { Stage } from "./stage";
 
+import { anyOf, HOOK } from "@/shared/config/effect-hooks";
+
 import {
   atRest,
   boxInSite,
@@ -18,8 +20,9 @@ interface Ink {
   bottom: number;
 }
 
-const HEADINGS =
-  ".name, .big, .mid, .case-h, .mail, .cutlist li, .tile figcaption b";
+const CUT = `.${HOOK.cutlist} li`;
+
+const HEADINGS = `${anyOf(HOOK.name, HOOK.big, HOOK.mid, HOOK.caseH, HOOK.mail)}, ${CUT}, .${HOOK.tile} figcaption b`;
 
 export const SPEC_CHIP = '[data-mark="spec"]';
 
@@ -34,7 +37,7 @@ const CHIP_STEP = 10;
 
 const CHIP_BESIDE = 16;
 
-const ROW = "a.row";
+const ROW = `a.${HOOK.row}`;
 
 const CAPTION_PADDING = 12;
 const CAPTION_CLEARANCE = 8;
@@ -216,15 +219,14 @@ export function drawMarks(
     for (const heading of within.querySelectorAll<HTMLElement>(HEADINGS)) {
       const style = getComputedStyle(heading);
       const lines = lineMetrics(site, font, heading);
-      const tile = heading.closest(".tile");
+      const tile = heading.closest(`.${HOOK.tile}`);
       const tileBox = tile ? boxInSite(site, tile) : null;
 
       for (const line of lines) drawGuides(into, line, offset, tileBox);
 
       const [first] = lines;
 
-      const laterCut =
-        heading.matches(".cutlist li") && heading.previousElementSibling;
+      const laterCut = heading.matches(CUT) && heading.previousElementSibling;
 
       if (!first || laterCut) continue;
 

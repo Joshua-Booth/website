@@ -1,3 +1,5 @@
+import { anyOf, HOOK } from "@/shared/config/effect-hooks";
+
 export interface Box {
   x: number;
   y: number;
@@ -28,12 +30,17 @@ export interface FontMetrics {
 
 export const NARROW = 700;
 
-export const HERO = "Hero";
-
 export const ASSEMBLE = {
   sections: "#work, #projects",
-  headings: ".big, .mid",
-  details: ".label, .meta, .sub, .role, .go, .code",
+  headings: anyOf(HOOK.big, HOOK.mid),
+  details: anyOf(
+    HOOK.label,
+    HOOK.meta,
+    HOOK.sub,
+    HOOK.role,
+    HOOK.go,
+    HOOK.code
+  ),
 };
 
 const ASSEMBLE_LAYERS = `${ASSEMBLE.headings}, ${ASSEMBLE.details}`;
@@ -86,15 +93,15 @@ export const assembleLayers = (section: HTMLElement) => [
 ];
 
 export function hero(page: HTMLElement) {
-  const bar = page.querySelector<HTMLElement>(".bar");
-  const name = page.querySelector<HTMLElement>(".name");
-  const intro = page.querySelector<HTMLElement>(".intro");
+  const bar = page.querySelector<HTMLElement>(`.${HOOK.bar}`);
+  const name = page.querySelector<HTMLElement>(`.${HOOK.name}`);
+  const intro = page.querySelector<HTMLElement>(`.${HOOK.intro}`);
 
   return name?.offsetParent && bar && intro ? { bar, name, intro } : null;
 }
 
 export const tileDemos = (page: HTMLElement) =>
-  [...page.querySelectorAll<HTMLElement>(".tile .demo")].filter(
+  [...page.querySelectorAll<HTMLElement>(`.${HOOK.tile} .${HOOK.demo}`)].filter(
     (demo) => !demo.closest("[hidden]")
   );
 
@@ -194,7 +201,7 @@ export function lineMetrics(
   const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
 
   for (let text; (text = walker.nextNode());) {
-    if (text.parentElement?.closest(".go")) continue;
+    if (text.parentElement?.closest(`.${HOOK.go}`)) continue;
 
     const range = document.createRange();
 
