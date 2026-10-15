@@ -15,7 +15,7 @@ import {
   partName,
   partsWithAbove,
 } from "../lib/measure";
-import { overlay } from "../ui/overlay-styles";
+import { overlay } from "../lib/overlay-styles";
 
 const LINGER_MS = 500;
 
