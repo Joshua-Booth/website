@@ -1,8 +1,9 @@
+import type { SiteFlags } from "../config/flags.ts";
+
 import { cache } from "react";
 
-import type { SiteFlags } from "@/shared/config/flags";
-import { ALL_OFF, ALL_ON, FLAG_KEYS, flagsWhere } from "@/shared/config/flags";
-import { POSTHOG } from "@/shared/config/site";
+import { ALL_OFF, ALL_ON, FLAG_KEYS, flagsWhere } from "../config/flags.ts";
+import { POSTHOG } from "../config/site.ts";
 
 /**
  * Every visitor gets the same page, so the flags are asked for one fixed id.
@@ -82,11 +83,7 @@ function parseFlags(answer: unknown): SiteFlags {
  * Netlify keeps the last good deploy live instead of one with its flagged
  * parts missing.
  */
-export const getSiteFlags = cache(async (): Promise<SiteFlags> => {
-  const override = flagsOverride();
-
-  if (override) return override;
-
+export async function askPostHog(): Promise<SiteFlags> {
   const res = await fetch(`${POSTHOG.host}/flags?v=2`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -101,4 +98,12 @@ export const getSiteFlags = cache(async (): Promise<SiteFlags> => {
   if (!res.ok) throw new Error(`PostHog flags returned ${res.status}`);
 
   return parseFlags(await res.json());
-});
+}
+
+/**
+ * A build asks PostHog once, in `scripts/build.ts`, and passes the answer on
+ * in `SITE_FLAGS`, so this only asks when that's empty, as in `next dev`.
+ */
+export const getSiteFlags = cache(
+  async (): Promise<SiteFlags> => flagsOverride() ?? askPostHog()
+);

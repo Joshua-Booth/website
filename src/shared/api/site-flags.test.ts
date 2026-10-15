@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { ALL_OFF, ALL_ON } from "@/shared/config/flags";
+import { ALL_OFF, ALL_ON, siteFlagsValue } from "@/shared/config/flags";
 
 import { flagsOverride, getSiteFlags } from "./site-flags";
 
@@ -57,6 +57,23 @@ describe("flagsOverride", () => {
   it("ignores empty entries", () => {
     expect(flagsOverride("lab, ")).toEqual({ ...ALL_OFF, lab: true });
   });
+});
+
+describe("siteFlagsValue", () => {
+  it("names the PostHog keys that are on", () => {
+    expect(siteFlagsValue({ ...ALL_OFF, lab: true, pcosCaseStudy: true })).toBe(
+      "lab,pcos-case-study"
+    );
+
+    expect(siteFlagsValue(ALL_OFF)).toBe("none");
+  });
+
+  it.each([ALL_ON, ALL_OFF, { ...ALL_OFF, thisSiteCaseStudy: true }])(
+    "passes %j through SITE_FLAGS unchanged",
+    (flags) => {
+      expect(flagsOverride(siteFlagsValue(flags))).toEqual(flags);
+    }
+  );
 });
 
 describe("getSiteFlags", () => {
