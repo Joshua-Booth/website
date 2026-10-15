@@ -1,3 +1,4 @@
+import type { PagePath } from "../../src/shared/config/pages.ts";
 import type { Page } from "playwright";
 
 import { mkdirSync } from "node:fs";
@@ -18,33 +19,31 @@ interface Target {
   name: string;
   sel: string;
   judge?: string;
-  needs?: string;
 }
 
 const HOME: Target[] = [
   { name: "nav-work", sel: '.nav a[href="#work"]' },
   { name: "nav-projects", sel: PROJECTS_LINK },
-  { name: "nav-lab", sel: '.nav a[href="/lab"]', needs: "/lab" },
+  { name: "nav-lab", sel: '.nav a[href="/lab"]' },
   { name: "nav-contact", sel: '.nav a[href="#contact"]' },
   { name: "mark", sel: ".mark" },
-  { name: "pcos-row", sel: SELECTOR.pcosRow, needs: "/work/pcos-protocol" },
-  { name: "this-site-row", sel: "#this-site", needs: "/writing/this-site" },
+  { name: "pcos-row", sel: SELECTOR.pcosRow },
+  { name: "this-site-row", sel: "#this-site" },
   { name: "creact-row", sel: '#projects a.row[href*="creact"]' },
   { name: "tax-code", sel: TAX_CODE },
   {
     name: "lab-tile",
     sel: "#strip .tile",
     judge: "#strip .tile figcaption",
-    needs: "/lab",
   },
-  { name: "lab-more", sel: ".more a", needs: "/lab" },
+  { name: "lab-more", sel: ".more a" },
   { name: "mail", sel: ".mail" },
   { name: "copy", sel: ".copy" },
   { name: "linkedin", sel: ".links a" },
   { name: "top", sel: ".foot a" },
 ];
 
-const SUBPAGES: Record<string, Target[]> = {
+const SUBPAGES: Record<Exclude<PagePath, "/">, Target[]> = {
   "/work/pcos-protocol": [{ name: "case-back", sel: SELECTOR.back }],
   "/lab": [
     { name: "lab-filter", sel: '.filters button[aria-pressed="false"]' },
@@ -57,17 +56,8 @@ const SUBPAGES: Record<string, Target[]> = {
   "/writing/this-site": [{ name: "write-up-back", sel: SELECTOR.back }],
 };
 
-export async function hoverTest(
-  page: Page,
-  base: string,
-  root: string,
-  live: string[]
-) {
-  const home = HOME.filter(({ needs }) => !needs || live.includes(needs));
-
-  const subpages = Object.entries(SUBPAGES).filter(([path]) =>
-    live.includes(path)
-  );
+export async function hoverTest(page: Page, base: string, root: string) {
+  const subpages = Object.entries(SUBPAGES);
 
   // Screenshots clear a real :hover, so hover is forced through the DevTools
   // protocol
@@ -166,23 +156,21 @@ export async function hoverTest(
 
     await settled(page);
 
-    for (const { name, sel, judge } of home) {
+    for (const { name, sel, judge } of HOME) {
       await centre(page, sel);
       await settled(page);
       await snap(name, sel, judge);
     }
 
-    if (live.includes("/work/pcos-protocol")) {
-      await topAt(page, SELECTOR.pcosRow, 0.86);
-      await frames(page);
+    await topAt(page, SELECTOR.pcosRow, 0.86);
+    await frames(page);
 
-      const moving = await page.evaluate(
-        (s) => document.querySelector(s)!.hasAttribute("data-asm"),
-        SELECTOR.work
-      );
+    const moving = await page.evaluate(
+      (s) => document.querySelector(s)!.hasAttribute("data-asm"),
+      SELECTOR.work
+    );
 
-      if (moving) await snap("pcos-row-moving", SELECTOR.pcosRow);
-    }
+    if (moving) await snap("pcos-row-moving", SELECTOR.pcosRow);
 
     await topAt(page, TAX_CODE, 0.86);
     await frames(page);

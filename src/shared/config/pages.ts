@@ -1,8 +1,8 @@
-import type { SiteFlags } from "./flags";
+import type { SiteFlags } from "./flags.ts";
 
 import type { Route } from "next";
 
-import { DESCRIPTION, NAME, SITE_URL } from "./site";
+import { DESCRIPTION, NAME, SITE_URL } from "./site.ts";
 
 export type PageInfo = {
   description: string;
