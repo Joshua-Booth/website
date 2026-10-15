@@ -96,10 +96,16 @@ export async function askPostHog(): Promise<SiteFlags> {
   return parseFlags(await res.json());
 }
 
-/**
- * A build asks PostHog once, in `scripts/build.ts`, and passes the answer on
- * in `SITE_FLAGS`, so this only asks when that's empty, as in `next dev`.
- */
-export const getSiteFlags = cache(
-  async (): Promise<SiteFlags> => flagsOverride() ?? askPostHog()
-);
+export const getSiteFlags = cache(async (): Promise<SiteFlags> => {
+  const override = flagsOverride();
+
+  if (override) return override;
+
+  if (process.env.NEXT_PHASE === "phase-production-build") {
+    throw new Error(
+      "next build needs SITE_FLAGS. Build with pnpm run build, which asks PostHog first"
+    );
+  }
+
+  return askPostHog();
+});

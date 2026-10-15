@@ -24,9 +24,6 @@ export function flagsWhere(isOn: (key: string) => boolean): SiteFlags {
 
 const isFlag = (key: string): key is keyof SiteFlags => key in FLAG_KEYS;
 
-/**
- * The `SITE_FLAGS` value that turns on exactly these flags.
- */
 export function siteFlagsValue(flags: SiteFlags) {
   const on = Object.entries(FLAG_KEYS).flatMap(([key, name]) =>
     isFlag(key) && flags[key] ? [name] : []
