@@ -97,8 +97,6 @@ export async function SiteHeader({ current, sheet }: Props) {
   const flags = await getSiteFlags();
   const home = current === "home";
 
-  // On the home page the sections are right here; from anywhere else they're on
-  // the home page
   const at = (id: "contact" | "projects" | "work") =>
     home ? (`#${id}` as const) : (`/#${id}` as const);
 
