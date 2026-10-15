@@ -47,6 +47,16 @@ describe("flagsOverride", () => {
       thisSiteCaseStudy: true,
     });
   });
+
+  it("throws on a flag it doesn't know, naming it", () => {
+    expect(() => flagsOverride("labs, pcos-case-study")).toThrow(
+      "SITE_FLAGS names unknown flags: labs."
+    );
+  });
+
+  it("ignores empty entries", () => {
+    expect(flagsOverride("lab, ")).toEqual({ ...ALL_OFF, lab: true });
+  });
 });
 
 describe("getSiteFlags", () => {
@@ -61,14 +71,26 @@ describe("getSiteFlags", () => {
     await expect(getSiteFlags()).resolves.toEqual({ ...ALL_OFF, lab: true });
   });
 
-  it.each([{}, [], { flags: "lab" }, { flags: { lab: true } }])(
-    "treats an answer it can't read (%j) as everything off",
-    async (body) => {
-      postHogReturns(body);
+  it("treats a flag PostHog leaves out as off, as it leaves out flags that are off", async () => {
+    postHogReturns({ errorsWhileComputingFlags: false, flags: {} });
 
-      await expect(getSiteFlags()).resolves.toEqual(ALL_OFF);
-    }
-  );
+    await expect(getSiteFlags()).resolves.toEqual(ALL_OFF);
+  });
+
+  it.each([
+    [{}, "no answer"],
+    [[], "no answer"],
+    [{ flags: "lab" }, "no answer"],
+    [{ flags: [] }, "no answer"],
+    [{ flags: { lab: true } }, "lab flag can't be read"],
+    [{ flags: { lab: { enabled: "true" } } }, "lab flag can't be read"],
+    [{ flags: {}, errorsWhileComputingFlags: true }, "had errors"],
+    [{ flags: {}, quotaLimited: ["feature_flags"] }, "quota is used up"],
+  ])("throws on an answer it can't trust (%j)", async (body, message) => {
+    postHogReturns(body);
+
+    await expect(getSiteFlags()).rejects.toThrow(message);
+  });
 
   it("throws when PostHog fails, so the last good page stays up", async () => {
     postHogReturns({ error: "down" }, 500);

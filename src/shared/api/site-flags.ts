@@ -9,6 +9,8 @@ import { POSTHOG } from "@/shared/config/site";
  */
 const DISTINCT_ID = "joshuabooth.nz";
 
+const FLAG_NAMES: readonly string[] = Object.values(FLAG_KEYS);
+
 export function flagsOverride(
   value = process.env.SITE_FLAGS
 ): SiteFlags | null {
@@ -18,17 +20,67 @@ export function flagsOverride(
   if (v === "all") return ALL_ON;
   if (v === "none") return ALL_OFF;
 
-  const on = new Set(v.split(",").map((s) => s.trim()));
+  const on = new Set(
+    v
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean)
+  );
+
+  const unknown = [...on].filter((key) => !FLAG_NAMES.includes(key));
+
+  if (unknown.length > 0) {
+    throw new Error(
+      `SITE_FLAGS names unknown flags: ${unknown.join(", ")}. Use all, none or a comma list of ${FLAG_NAMES.join(", ")}`
+    );
+  }
 
   return flagsWhere((key) => on.has(key));
 }
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
-  typeof value === "object" && value !== null;
+  typeof value === "object" && value !== null && !Array.isArray(value);
 
 /**
- * A failed request throws: the build fails and Netlify keeps the last good
- * deploy live instead of one with its flagged parts missing.
+ * Reads PostHog's answer. It leaves out flags that are off or deleted, so a
+ * missing flag is off, but an answer it can't read, or one PostHog says has
+ * errors, throws.
+ */
+function parseFlags(answer: unknown): SiteFlags {
+  if (!isRecord(answer) || !isRecord(answer.flags)) {
+    throw new Error("PostHog flags gave no answer");
+  }
+
+  if (answer.errorsWhileComputingFlags === true) {
+    throw new Error("PostHog had errors working out the flags");
+  }
+
+  if (
+    Array.isArray(answer.quotaLimited) &&
+    answer.quotaLimited.includes("feature_flags")
+  ) {
+    throw new Error("PostHog's feature flag quota is used up");
+  }
+
+  const { flags } = answer;
+
+  return flagsWhere((key) => {
+    const flag = flags[key];
+
+    if (flag === undefined) return false;
+
+    if (!isRecord(flag) || typeof flag.enabled !== "boolean") {
+      throw new Error(`PostHog's answer for the ${key} flag can't be read`);
+    }
+
+    return flag.enabled;
+  });
+}
+
+/**
+ * A failed request or an unreadable answer throws: the build fails and
+ * Netlify keeps the last good deploy live instead of one with its flagged
+ * parts missing.
  */
 export const getSiteFlags = cache(async (): Promise<SiteFlags> => {
   const override = flagsOverride();
@@ -48,15 +100,5 @@ export const getSiteFlags = cache(async (): Promise<SiteFlags> => {
 
   if (!res.ok) throw new Error(`PostHog flags returned ${res.status}`);
 
-  const answer: unknown = await res.json();
-
-  if (!isRecord(answer)) throw new Error("PostHog flags gave no answer");
-
-  const flags = isRecord(answer.flags) ? answer.flags : {};
-
-  return flagsWhere((key) => {
-    const flag = flags[key];
-
-    return isRecord(flag) && flag.enabled === true;
-  });
+  return parseFlags(await res.json());
 });
