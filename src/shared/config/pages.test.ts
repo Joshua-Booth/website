@@ -3,8 +3,8 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { ALL_OFF, ALL_ON } from "./flags";
 import {
+  exportPath,
   livePages,
-  mdPath,
   PAGE_PATHS,
   pageInfo,
   PAGES,
@@ -97,15 +97,19 @@ describe("the Markdown route files", () => {
 
   it("is at the page's Markdown path, for every page and no other", () => {
     expect(mdRoutes.map((route) => route.mdPath).toSorted()).toEqual(
-      PAGE_PATHS.map(mdPath).toSorted()
+      PAGE_PATHS.map((path) => exportPath(path, "md")).toSorted()
     );
   });
 });
 
-describe("mdPath", () => {
-  it("is index.md for the homepage, and the path plus .md for the rest", () => {
-    expect(mdPath("/")).toBe("/index.md");
-    expect(mdPath("/lab")).toBe("/lab.md");
-    expect(mdPath("/work/pcos-protocol")).toBe("/work/pcos-protocol.md");
+describe("exportPath", () => {
+  it("is index for the homepage, and the path for the rest", () => {
+    expect(exportPath("/", "md")).toBe("/index.md");
+    expect(exportPath("/", "html")).toBe("/index.html");
+    expect(exportPath("/lab", "txt")).toBe("/lab.txt");
+
+    expect(exportPath("/work/pcos-protocol", "md")).toBe(
+      "/work/pcos-protocol.md"
+    );
   });
 });

@@ -1,7 +1,5 @@
 import type { SiteFlags } from "@/shared/config/flags";
-import { isLive, mdPath, PAGE_PATHS } from "@/shared/config/pages";
-
-import { exportPath } from "./paths";
+import { exportPath, isLive, PAGE_PATHS } from "@/shared/config/pages";
 
 export function netlifyRedirects(flags: SiteFlags): string {
   return PAGE_PATHS.flatMap((path) =>
@@ -11,7 +9,7 @@ export function netlifyRedirects(flags: SiteFlags): string {
           path,
           exportPath(path, "html"),
           exportPath(path, "txt"),
-          mdPath(path),
+          exportPath(path, "md"),
           `${path}/*`,
         ]
   )
