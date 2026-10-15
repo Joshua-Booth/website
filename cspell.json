@@ -28,7 +28,8 @@
     "**/coverage/**",
     "**/audit-output/**",
     "**/pnpm-lock.yaml",
-    "**/*.tsbuildinfo"
+    "**/*.tsbuildinfo",
+    "tools/oxlint/anti-slop/**"
   ],
   "words": [
     "Archivo",

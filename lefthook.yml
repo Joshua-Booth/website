@@ -5,6 +5,8 @@ pre-commit:
   commands:
     1_lint:
       glob: "*.{ts,tsx}"
+      exclude:
+        - "tools/oxlint/anti-slop/**"
       run: mise exec -- oxlint --type-aware --max-warnings 0 --fix {staged_files}
       stage_fixed: true
     2_stylelint:

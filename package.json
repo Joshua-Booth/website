@@ -24,6 +24,7 @@
     "@commitlint/types": "^21.2.3",
     "@eslint-community/eslint-plugin-eslint-comments": "^4.8.1",
     "@feature-sliced/steiger-plugin": "^0.8.0",
+    "@oxlint/plugins": "1.87.0",
     "@storybook/addon-vitest": "11.0.0-alpha.5",
     "@storybook/nextjs-vite": "11.0.0-alpha.5",
     "@stylexjs/babel-plugin": "^0.19.1",
