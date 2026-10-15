@@ -2,8 +2,8 @@ import type { PagePath } from "../config/pages";
 
 import type { Metadata } from "next";
 
-import { mdPath, pageInfo } from "../config/pages";
-import { NAME } from "../config/site";
+import { exportPath, pageInfo } from "../config/pages";
+import { LOCALE, NAME } from "../config/site";
 
 const IMAGE = {
   url: "/og.png",
@@ -24,12 +24,12 @@ export function pageMetadata(path: PagePath): Metadata {
     description,
     alternates: {
       canonical: path,
-      types: { "text/markdown": mdPath(path) },
+      types: { "text/markdown": exportPath(path, "md") },
     },
     openGraph: {
       type: "website",
       siteName: NAME,
-      locale: "en_NZ",
+      locale: LOCALE.og,
       url: path,
       title: title ? `${title} · ${NAME}` : NAME,
       description,

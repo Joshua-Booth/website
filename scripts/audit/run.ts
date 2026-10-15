@@ -3,6 +3,7 @@ import type { Finding } from "./overlap.ts";
 import { mkdirSync, rmSync } from "node:fs";
 import { chromium } from "playwright";
 
+import { PAGE_PATHS } from "../../src/shared/config/pages.ts";
 import { hoverTest } from "./hover.ts";
 import { installAudit } from "./in-page.ts";
 import { navigationAudit } from "./navigation.ts";
@@ -15,6 +16,13 @@ if (!base) {
 }
 
 const live = await sitemapPaths(base);
+const missing = PAGE_PATHS.filter((path) => !live.includes(path));
+
+if (missing.length > 0) {
+  throw new Error(
+    `${base}/sitemap.xml leaves out ${missing.join(", ")}. The audit needs every page, so build with SITE_FLAGS=all`
+  );
+}
 
 const out = "audit-output";
 
@@ -83,7 +91,7 @@ for (const s of shots) console.log(`screenshot ${s}`);
 
 heading("Navigation");
 
-const nav = await navigationAudit(page, base, live);
+const nav = await navigationAudit(page, base);
 
 for (const l of nav.log) console.log(l);
 for (const p of nav.problems) console.log(`FAIL ${p}`);
@@ -91,7 +99,7 @@ if (nav.problems.length) failed = true;
 
 heading("Hover and focus above the overlays");
 
-const hover = await hoverTest(page, base, `${out}/hover`, live);
+const hover = await hoverTest(page, base, `${out}/hover`);
 
 for (const pass of ["fixed", "control"] as const) {
   const rows = hover[pass];

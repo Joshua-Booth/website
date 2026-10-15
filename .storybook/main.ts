@@ -1,6 +1,7 @@
-import { loadPartialConfigAsync, transformAsync } from "@babel/core";
+import { transformAsync } from "@babel/core";
 import { defineMain } from "@storybook/nextjs-vite/node";
-import { fileURLToPath } from "node:url";
+
+import babelConfig from "../babel.config.js";
 
 export default defineMain({
   framework: "@storybook/nextjs-vite",
@@ -8,17 +9,6 @@ export default defineMain({
   addons: ["@storybook/addon-vitest"],
   features: { experimentalTestSyntax: true },
   async viteFinal(config) {
-    const babel = await loadPartialConfigAsync({
-      configFile: fileURLToPath(new URL("../babel.config.js", import.meta.url)),
-    });
-
-    const stylexPlugins = (babel?.options.plugins ?? []).filter(
-      (plugin) =>
-        typeof plugin === "object" &&
-        "file" in plugin &&
-        plugin.file?.request === "@stylexjs/babel-plugin"
-    );
-
     config.plugins = [
       {
         name: "stylex",
@@ -33,7 +23,7 @@ export default defineMain({
             babelrc: false,
             configFile: false,
             parserOpts: { plugins: ["typescript", "jsx"] },
-            plugins: stylexPlugins,
+            plugins: babelConfig.plugins,
             sourceMaps: true,
           });
 

@@ -290,7 +290,7 @@ Icons are Lucide arrows at 1em, stroke 2.25, from `src/shared/ui/icon.ts`. No em
 
 ## Imagery and blueprint marks
 
-The site has no photos. Its imagery is the page drawn as a technical drawing, from `src/features/page-effects/ui/overlay-styles.ts`.
+The site has no photos. Its imagery is the page drawn as a technical drawing, from `src/features/page-effects/lib/overlay-styles.ts`.
 
 - **X-ray**: the page under a light that follows the pointer, and that you drag on a phone. The ground gets 1px lines every 8px at `rgba(255, 255, 255, 0.09)`. Display type turns to a 1.5px outline in `xrayStroke`, rules turn dashed, and pills draw a 1.5px inset outline in `faint` so they keep the same box.
 - **Blueprint**: shown while the window resizes. A 40px grid at `rgba(255, 255, 255, 0.08)` over an 8px grid at `rgba(255, 255, 255, 0.035)`, on the ground.

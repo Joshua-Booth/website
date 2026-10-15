@@ -1,6 +1,6 @@
 import { CURRENT_JOB } from "@/entities/job/model/jobs";
 
-import { LINKS, NAME, SITE_URL } from "@/shared/config/site";
+import { LINKS, LOCALE, NAME, SITE_URL } from "@/shared/config/site";
 
 const PERSON_ID = `${SITE_URL}/#person`;
 const HOME_URL = `${SITE_URL}/`;
@@ -22,7 +22,7 @@ export function homeJsonLd() {
         name: NAME,
         url: HOME_URL,
         author: { "@id": PERSON_ID },
-        inLanguage: "en-NZ",
+        inLanguage: LOCALE.lang,
       },
     ],
   };

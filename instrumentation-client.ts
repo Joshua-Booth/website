@@ -3,8 +3,6 @@ import { POSTHOG, SITE_URL } from "@/shared/config/site";
 // Started once the browser is idle, so PostHog's script stays off the critical
 // path. Only the live site starts it, so local builds, audits and deploy
 // previews send no events.
-// Page views on client-side navigation come from the history tracking in
-// PostHog's `defaults`
 
 async function startPostHog() {
   const { default: posthog } = await import("posthog-js");
@@ -12,10 +10,12 @@ async function startPostHog() {
   posthog.init(POSTHOG.key, {
     api_host: POSTHOG.proxyHost,
     ui_host: POSTHOG.uiHost,
+    // Page views on client-side navigation come from the history tracking in
+    // PostHog's `defaults`
     defaults: "2026-01-30",
     person_profiles: "always",
-    // Flags are decided on the server when a page renders, so the browser
-    // doesn't ask for them again on every view
+    // Flags are decided when the site is built, so the browser doesn't ask for
+    // them again on every view
     advanced_disable_feature_flags: true,
   });
 }
