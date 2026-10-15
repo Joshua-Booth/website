@@ -88,7 +88,7 @@ describe("getSiteFlags", () => {
     await expect(getSiteFlags()).resolves.toEqual({ ...ALL_OFF, lab: true });
   });
 
-  it("treats a flag PostHog leaves out as off, as it leaves out flags that are off", async () => {
+  it("treats a flag PostHog leaves out as off, as it leaves out switched-off flags", async () => {
     postHogReturns({ errorsWhileComputingFlags: false, flags: {} });
 
     await expect(getSiteFlags()).resolves.toEqual(ALL_OFF);

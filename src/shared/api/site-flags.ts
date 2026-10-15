@@ -42,11 +42,6 @@ export function flagsOverride(
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === "object" && value !== null && !Array.isArray(value);
 
-/**
- * Reads PostHog's answer. It leaves out flags that are off or deleted, so a
- * missing flag is off, but an answer it can't read, or one PostHog says has
- * errors, throws.
- */
 function parseFlags(answer: unknown): SiteFlags {
   if (!isRecord(answer) || !isRecord(answer.flags)) {
     throw new Error("PostHog flags gave no answer");
@@ -68,6 +63,7 @@ function parseFlags(answer: unknown): SiteFlags {
   return flagsWhere((key) => {
     const flag = flags[key];
 
+    // PostHog leaves out flags that are switched off or deleted
     if (flag === undefined) return false;
 
     if (!isRecord(flag) || typeof flag.enabled !== "boolean") {
