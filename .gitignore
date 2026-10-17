@@ -13,6 +13,7 @@ pnpm-debug.log*
 # test and audit output
 coverage/
 audit-output/
+.cursor/skills/verify-website/artifacts/
 
 # environment variables
 .env*
