@@ -270,16 +270,6 @@ type RowProps = RowText &
 export function Row({ title, size, meta, job, sub, link, code }: RowProps) {
   const id = useId();
 
-  // A link row is named by its title and what it does ("creact, Code"), and
-  // the rest is read after as its description, not as one long name
-  const described = [
-    `${id}-meta`,
-    job !== undefined && `${id}-job`,
-    sub !== undefined && `${id}-sub`,
-  ]
-    .filter(Boolean)
-    .join(" ");
-
   const cells = (
     <>
       <span
@@ -293,17 +283,12 @@ export function Row({ title, size, meta, job, sub, link, code }: RowProps) {
       >
         {title}
       </span>
-      <span id={`${id}-meta`} {...sx(HOOK.meta, styles.meta)}>
-        {meta}
-      </span>
+      <span {...sx(HOOK.meta, styles.meta)}>{meta}</span>
       {job !== undefined && (
-        <span id={`${id}-job`} {...sx(HOOK.role, styles.detail, styles.beside)}>
-          {job}
-        </span>
+        <span {...sx(HOOK.role, styles.detail, styles.beside)}>{job}</span>
       )}
       {sub !== undefined && (
         <span
-          id={`${id}-sub`}
           {...sx(HOOK.sub, styles.detail, styles.sub, link && styles.beside)}
         >
           {sub}
@@ -311,7 +296,6 @@ export function Row({ title, size, meta, job, sub, link, code }: RowProps) {
       )}
       {link && (
         <span
-          id={`${id}-go`}
           {...sx(
             HOOK.go,
             interactive.pill,
@@ -334,11 +318,8 @@ export function Row({ title, size, meta, job, sub, link, code }: RowProps) {
     </>
   );
 
-  const named = {
-    "aria-labelledby": `${id}-title ${id}-go`,
-    "aria-describedby": described,
-  };
-
+  // A link row takes its name from all the text it shows, so the name holds
+  // every word a sighted user sees (WCAG 2.5.3, Label in Name)
   const linked = sx(
     HOOK.row,
     styles.row,
@@ -353,13 +334,13 @@ export function Row({ title, size, meta, job, sub, link, code }: RowProps) {
     row = <div {...sx(HOOK.row, styles.row, styles.still)}>{cells}</div>;
   } else if ("external" in link) {
     row = (
-      <a href={link.href} target="_blank" {...named} {...linked}>
+      <a href={link.href} target="_blank" {...linked}>
         {cells}
       </a>
     );
   } else {
     row = (
-      <Link href={link.href} id={link.id} {...named} {...linked}>
+      <Link href={link.href} id={link.id} {...linked}>
         {cells}
       </Link>
     );
