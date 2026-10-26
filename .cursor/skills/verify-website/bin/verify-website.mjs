@@ -478,7 +478,12 @@ async function daemon(id) {
 
   try {
     await waitForHttp(url);
-    browser = await chromium.launch({ headless: true });
+    // A machine with its own Chromium, like a cloud session, names it here
+    // instead of running playwright install
+    browser = await chromium.launch({
+      headless: true,
+      executablePath: process.env.VERIFY_CHROMIUM,
+    });
     const context = await browser.newContext({
       baseURL: `${url}/`,
       viewport: { width: 1280, height: 900 },

@@ -25,6 +25,8 @@ node .cursor/skills/verify-website/bin/verify-website.mjs launch
 
 Ready when launch prints a line of the form `Accepting connections at http://127.0.0.1:<port>`, then `url`, `pid`, and `git`. The home page is open, the heading `Joshua Booth` is visible, and the page script has hydrated. The port is a free port unless you set `VERIFY_PORT`.
 
+Where Chromium is already installed and `playwright install` would fetch a different build, as in a Claude Code cloud session, set `VERIFY_CHROMIUM` to its path before launch, like `VERIFY_CHROMIUM=/opt/pw-browsers/chromium`.
+
 A second run needs a different `VERIFY_RUN_ID`. If it also sets `VERIFY_PORT`, use a different port. The helper will not attach to an instance it did not start.
 
 There is no database and no seed. The pages are the build.
