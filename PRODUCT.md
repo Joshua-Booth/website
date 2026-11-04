@@ -67,7 +67,7 @@ Constraints:
 ## Brand Commitments
 
 - **Name and contact:** Joshua Booth, joshuabooth.nz, contact@joshuabooth.nz.
-- **Current introduction:** "I'm an AI-native frontend engineer in Auckland. I design and build products from first
+- **Current introduction:** "I'm an AI-native frontend lead in Auckland. I design and build products from first
   concept to live in production."
 - **Voice:** first person, plain and sincere. One small, concrete claim per line, warm and direct. No wordplay, no
   punchlines, no smugness.
@@ -76,7 +76,8 @@ Constraints:
 
 ## Evidence on Hand
 
-- Work history: `src/entities/job/model/jobs.ts` (Solve Data, stuff.co.nz, The PCOS Nutritionist).
+- Work history: `src/entities/job/model/jobs.ts` (Solve Data, stuff.co.nz, The PCOS Nutritionist). Joshua left Solve
+  Data in 2026, so no job is shown as current.
 - Projects: `src/entities/project/model/projects.ts`. All four are open source, and Tax Calculator and Audio Devotions
   have live apps.
 - The PCOS Protocol case study: `src/pages/pcos-protocol/ui/pcos-protocol.mdx`. It covers the client, dates, role and

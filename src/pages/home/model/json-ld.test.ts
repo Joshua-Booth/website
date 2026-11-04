@@ -11,7 +11,7 @@ it("builds a Person + WebSite @graph from site config", () => {
         "@id": "https://joshuabooth.nz/#person",
         name: "Joshua Booth",
         url: "https://joshuabooth.nz/",
-        jobTitle: "UI Engineer",
+        jobTitle: "Frontend Lead",
         sameAs: [
           "https://www.linkedin.com/in/joshua-booth",
           "https://github.com/Joshua-Booth",
