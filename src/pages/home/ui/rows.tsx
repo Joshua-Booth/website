@@ -139,6 +139,36 @@ const styles = stylex.create({
       [stylex.when.ancestor("[data-xray]", xrayMarker)]: colors.xrayText,
     },
   },
+  roles: {
+    gridColumnStart: "1",
+    gridColumnEnd: "-1",
+    display: "flex",
+    flexDirection: "column",
+  },
+  roleLine: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "baseline",
+    columnGap: "24px",
+  },
+  roleYears: {
+    marginInlineStart: 0,
+    textAlign: "right",
+  },
+  earlier: {
+    color: {
+      default: colors.faint,
+      [stylex.when.ancestor(":hover", rowMarker)]: colors.invertInk,
+      [stylex.when.ancestor(":focus-visible", rowMarker)]: colors.invertInk,
+      [stylex.when.ancestor(CODE_ACTIVE, rowMarker)]: colors.invertInk,
+      [stylex.when.ancestor("[data-xray]", xrayMarker)]: colors.xrayText,
+    },
+  },
+  goByTitle: {
+    // On a wide screen the pill sits beside the name. When narrow it drops
+    // under the roles
+    order: { default: 0, [breakpoints.narrow]: 1 },
+  },
   sub: {
     gridColumnStart: "1",
     gridColumnEnd: "-1",
@@ -253,13 +283,20 @@ type RowLink =
   | { href: Route; go: string; id?: string }
   | { href: string; go: string; external: true };
 
-interface RowText {
+interface RowRole {
+  title: string;
+  when: string;
+}
+
+type RowText = {
   title: string;
   size: (typeof HOOK)["big" | "mid"];
-  meta: string;
-  job?: string;
   sub?: ReactNode;
-}
+} & (
+  | { meta: string; roles?: never }
+  // A ledger of roles, each with its years on its own line, latest first
+  | { roles: readonly RowRole[]; meta?: never }
+);
 
 type RowProps = RowText &
   (
@@ -267,14 +304,14 @@ type RowProps = RowText &
     | { link: RowLink; code: `https://${string}` }
   );
 
-export function Row({ title, size, meta, job, sub, link, code }: RowProps) {
+export function Row({ title, size, meta, roles, sub, link, code }: RowProps) {
   const id = useId();
 
   // A link row is named by its title and what it does ("creact, Code"), and
   // the rest is read after as its description, not as one long name
   const described = [
-    `${id}-meta`,
-    job !== undefined && `${id}-job`,
+    meta !== undefined && `${id}-meta`,
+    ...(roles ?? []).map((_, i) => `${id}-role-${i}`),
     sub !== undefined && `${id}-sub`,
   ]
     .filter(Boolean)
@@ -293,12 +330,9 @@ export function Row({ title, size, meta, job, sub, link, code }: RowProps) {
       >
         {title}
       </span>
-      <span id={`${id}-meta`} {...sx(HOOK.meta, styles.meta)}>
-        {meta}
-      </span>
-      {job !== undefined && (
-        <span id={`${id}-job`} {...sx(HOOK.role, styles.detail, styles.beside)}>
-          {job}
+      {meta !== undefined && (
+        <span id={`${id}-meta`} {...sx(HOOK.meta, styles.meta)}>
+          {meta}
         </span>
       )}
       {sub !== undefined && (
@@ -317,7 +351,8 @@ export function Row({ title, size, meta, job, sub, link, code }: RowProps) {
             interactive.pill,
             styles.pill,
             styles.go,
-            code === undefined && styles.goAlone
+            code === undefined && styles.goAlone,
+            roles !== undefined && styles.goByTitle
           )}
         >
           {link.go}
@@ -329,6 +364,24 @@ export function Row({ title, size, meta, job, sub, link, code }: RowProps) {
           ) : (
             <ArrowRight {...stylex.props(icon.inline)} />
           )}
+        </span>
+      )}
+      {roles !== undefined && (
+        <span {...stylex.props(styles.roles)}>
+          {roles.map((role, i) => (
+            <span
+              key={role.title}
+              id={`${id}-role-${i}`}
+              {...stylex.props(styles.roleLine)}
+            >
+              <span {...sx(HOOK.role, styles.detail, i > 0 && styles.earlier)}>
+                {role.title}
+              </span>{" "}
+              <span {...sx(HOOK.meta, styles.meta, styles.roleYears)}>
+                {role.when}
+              </span>
+            </span>
+          ))}
         </span>
       )}
     </>

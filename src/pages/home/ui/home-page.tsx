@@ -141,8 +141,7 @@ export function HomePage({ flags }: { flags: SiteFlags }) {
                 key={job.employer}
                 title={job.employer}
                 size="big"
-                meta={job.when}
-                job={job.role}
+                roles={job.roles}
                 link={liveStudy(job.study, flags)}
               />
             ))}

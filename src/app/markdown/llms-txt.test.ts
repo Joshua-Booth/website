@@ -38,11 +38,11 @@ describe("llmsTxt", () => {
   it("is the exact text with every flag off", () => {
     expect(llmsTxt(ALL_OFF)).toBe(`# Joshua Booth
 
-> Joshua Booth is an AI-native frontend engineer in Auckland. He designs and builds products from first concept to live in production.
+> Joshua Booth is an AI-native frontend lead in Auckland. He designs and builds products from first concept to live in production.
 
 Work:
 
-- UI Engineer at Solve Data, 2021 to now
+- Frontend Lead at Solve Data, 2024 to 2026; UI Engineer at Solve Data, 2021 to 2023
 - Frontend Engineer at stuff.co.nz, 2021
 - Full Stack Developer at The PCOS Nutritionist, 2020 to 2021
 

@@ -253,7 +253,9 @@ Keep glassmorphism, rounded cards with a coloured stripe down one side, and copy
 
 ### Rows
 
-Work and Projects are lists of rows, from `src/pages/home/ui/rows.tsx`. A row has a big or mid title, meta to the right, an optional role or detail, and an optional pill. When narrow, the meta and pill drop under the title on the left.
+Work and Projects are lists of rows, from `src/pages/home/ui/rows.tsx`. A project row has a mid title, meta to the right, an optional detail, and optional pills. When narrow, the meta and pills drop under the title on the left.
+
+A work row is a role ledger: the employer once in big type, then one line per role with the role on the left and its years on the right, latest first. Earlier roles are a step quieter, and the years line up down the whole list. Every role has an end year, as none is current, so nothing says "now" or "present". The case study pill sits beside the name, and when narrow it drops under the roles.
 
 A linked row inverts on hover or focus, to `invertBg` with `invertInk` text, and the pill flips with it. A row can carry a second Code pill beside it, which inverts on its own.
 
