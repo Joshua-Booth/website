@@ -1,4 +1,4 @@
-import { CURRENT_JOB } from "@/entities/job/model/jobs";
+import { LATEST_ROLE } from "@/entities/job/model/jobs";
 
 import { LINKS, LOCALE, NAME, SITE_URL } from "@/shared/config/site";
 
@@ -14,7 +14,7 @@ export function homeJsonLd() {
         "@id": PERSON_ID,
         name: NAME,
         url: HOME_URL,
-        jobTitle: CURRENT_JOB.role,
+        jobTitle: LATEST_ROLE,
         sameAs: [LINKS.linkedin, LINKS.github],
       },
       {

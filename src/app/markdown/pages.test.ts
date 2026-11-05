@@ -27,11 +27,11 @@ async function markdownRoute(
 
 const INDEX_OFF = `# Joshua Booth
 
-**I'm an AI-native frontend engineer in Auckland.** I design and build products from first concept to live in production.
+**I'm an AI-native frontend lead in Auckland.** I design and build products from first concept to live in production.
 
 ## Work
 
-- UI Engineer at Solve Data, 2021 to now
+- Frontend Lead at Solve Data, 2024 to 2026; UI Engineer at Solve Data, 2021 to 2023
 - Frontend Engineer at stuff.co.nz, 2021
 - Full Stack Developer at The PCOS Nutritionist, 2020 to 2021
 
@@ -51,11 +51,11 @@ const INDEX_OFF = `# Joshua Booth
 
 const INDEX_ON = `# Joshua Booth
 
-**I'm an AI-native frontend engineer in Auckland.** I design and build products from first concept to live in production.
+**I'm an AI-native frontend lead in Auckland.** I design and build products from first concept to live in production.
 
 ## Work
 
-- UI Engineer at Solve Data, 2021 to now
+- Frontend Lead at Solve Data, 2024 to 2026; UI Engineer at Solve Data, 2021 to 2023
 - Frontend Engineer at stuff.co.nz, 2021
 - Full Stack Developer at The PCOS Nutritionist, 2020 to 2021 ([Case study](https://joshuabooth.nz/work/pcos-protocol.md))
 
