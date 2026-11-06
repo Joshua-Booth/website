@@ -105,7 +105,7 @@ No formal WCAG level has been set. Already in place:
 
 - Effects stop at the finished page under reduced motion.
 - Hover states have matching `:focus-visible` states, so keyboard users see the same feedback.
-- Linked rows are named by their title and action, and the rest is read as the description. Copying the email
+- Linked rows are named by all the text they show, so the name holds every word a sighted user sees. Copying the email
   announces itself through `aria-live`, and links that open a new tab say so.
 - The audit (`mise run audit`) checks each page at six widths for overlapping text, and checks that the light never
   covers what the pointer is on.
