@@ -42,12 +42,12 @@ run = "oxfmt --check"
 [tasks.lint]
 description = "Fix code with oxlint"
 alias = "l"
-run = "oxlint --type-aware --max-warnings 0 --fix"
+run = "oxlint --type-aware --max-warnings 0 --fix --ignore-pattern '.claude/**'"
 
 [tasks."lint:check"]
 description = "Check code with oxlint"
 alias = "lc"
-run = "oxlint --type-aware --max-warnings 0"
+run = "oxlint --type-aware --max-warnings 0 --ignore-pattern '.claude/**'"
 
 [tasks.stylelint]
 description = "Fix CSS with Stylelint"
