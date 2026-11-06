@@ -8,9 +8,6 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
   typedRoutes: true,
-  experimental: {
-    agentUpgrade: "security",
-  },
 };
 
 const withMDX = createMDX();
