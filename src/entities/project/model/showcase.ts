@@ -129,7 +129,7 @@ export const BIG_PROJECTS: readonly BigProject[] = [
     kind: "apps",
     tag: "2020 to 2021",
     about:
-      "A course app for people with PCOS, with daily lessons, a knowledge base and recipes. I built it as the full stack developer at The PCOS Nutritionist. Shown here with made-up content.",
+      "A course app for people with PCOS, with daily lessons, a knowledge base and recipes. I built it at The PCOS Nutritionist. Shown with made-up content.",
     links: [],
     picture: big(
       "pcos-protocol",
@@ -156,7 +156,7 @@ export const BIG_PROJECTS: readonly BigProject[] = [
     kind: "apps",
     tag: OPEN_SOURCE,
     about:
-      "An app for Realive Youth members to share and deepen their faith. I built it with four others in 2019.",
+      "An app for Realive Youth members to share and deepen their faith. I led the team of five that built it in 2019.",
     links: [
       { label: "Open the app", href: LINKS.equippedYouth },
       { label: "View the code", href: LINKS.equippedYouthRepo },
