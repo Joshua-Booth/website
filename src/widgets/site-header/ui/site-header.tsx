@@ -132,26 +132,40 @@ export async function SiteHeader({ current, sheet }: Props) {
             <JbMark />
           </Link>
         )}
-        <span {...sx("nav", styles.nav)}>
-          <Link href={at("work")} {...navLink}>
-            Work
-          </Link>
-          <Link href={at("projects")} {...navLink}>
-            Projects
-          </Link>
-          {isLive("/lab", flags) && (
-            <Link
-              href="/lab"
-              aria-current={current === "lab" ? "page" : undefined}
-              {...navLink}
-            >
-              Lab
+        {flags.redesign ? (
+          <span {...sx("nav", styles.nav)}>
+            <Link href={at("projects")} {...navLink}>
+              Projects
             </Link>
-          )}
-          <Link href={at("contact")} {...navLink}>
-            Contact
-          </Link>
-        </span>
+            <Link href={at("work")} {...navLink}>
+              Work
+            </Link>
+            <Link href={at("contact")} {...navLink}>
+              Contact
+            </Link>
+          </span>
+        ) : (
+          <span {...sx("nav", styles.nav)}>
+            <Link href={at("work")} {...navLink}>
+              Work
+            </Link>
+            <Link href={at("projects")} {...navLink}>
+              Projects
+            </Link>
+            {isLive("/lab", flags) && (
+              <Link
+                href="/lab"
+                aria-current={current === "lab" ? "page" : undefined}
+                {...navLink}
+              >
+                Lab
+              </Link>
+            )}
+            <Link href={at("contact")} {...navLink}>
+              Contact
+            </Link>
+          </span>
+        )}
       </nav>
       {home && (
         <>

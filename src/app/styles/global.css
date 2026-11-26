@@ -26,6 +26,16 @@
     outline-offset: 4px;
   }
 
+  /* The white look, from shared/ui/white-look.ts */
+  [data-look="white"] ::selection {
+    background: #0e0e10;
+    color: #fff;
+  }
+
+  [data-look="white"] :focus-visible {
+    outline-color: #0e0e10;
+  }
+
   button {
     font: inherit;
     color: inherit;

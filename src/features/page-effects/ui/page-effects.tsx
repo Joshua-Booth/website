@@ -13,6 +13,20 @@ export function PageEffects() {
 }
 
 /**
+ * The white look has no x-ray or covers, but a link to a button or link on
+ * the page still moves focus to it.
+ */
+export function HashFocus() {
+  return <HashFocusRun key={usePathname()} />;
+}
+
+function HashFocusRun() {
+  useHashFocus();
+
+  return null;
+}
+
+/**
  * Holds the overlays, as the last thing inside `.site`. React renders it empty
  * and never looks inside, so it leaves them alone. It isn't positioned, so
  * overlays measure from `.site`. The effects start in a layout effect, so a new

@@ -7,8 +7,12 @@ import { ArrowUp } from "lucide-react";
 import { archivo, plexMono } from "@/app/styles/fonts";
 import "@/app/styles/global.css";
 
-import { PageEffects } from "@/features/page-effects/ui/page-effects";
+import {
+  HashFocus,
+  PageEffects,
+} from "@/features/page-effects/ui/page-effects";
 
+import { getSiteFlags } from "@/shared/api/site-flags";
 import { HOOK } from "@/shared/config/effect-hooks";
 import { DESCRIPTION, LOCALE, NAME, SITE_URL } from "@/shared/config/site";
 import { sx } from "@/shared/lib/sx";
@@ -16,6 +20,7 @@ import { icon } from "@/shared/ui/icon";
 import { interactive } from "@/shared/ui/interactive";
 import { rootMarker, xrayMarker } from "@/shared/ui/markers.stylex";
 import { colors, fonts, sizes, space } from "@/shared/ui/tokens.stylex";
+import { whiteLook } from "@/shared/ui/white-look";
 import { xray } from "@/shared/ui/xray";
 
 export const metadata: Metadata = {
@@ -25,11 +30,15 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image" },
 };
 
-export const viewport: Viewport = {
-  themeColor: "#034694",
-  colorScheme: "dark",
-  viewportFit: "cover",
-};
+export async function generateViewport(): Promise<Viewport> {
+  const { redesign } = await getSiteFlags();
+
+  return {
+    themeColor: redesign ? "#fff" : "#034694",
+    colorScheme: redesign ? "light" : "dark",
+    viewportFit: "cover",
+  };
+}
 
 const show = stylex.keyframes({ to: { opacity: 1 } });
 
@@ -37,6 +46,9 @@ const styles = stylex.create({
   html: {
     backgroundColor: colors.ground,
     colorScheme: "dark",
+  },
+  htmlWhite: {
+    colorScheme: "light",
   },
   body: {
     margin: 0,
@@ -69,6 +81,11 @@ const styles = stylex.create({
     animationDuration: "0s",
     animationDelay: "2.5s",
     animationFillMode: "forwards",
+  },
+  // With no covers to wait for, the white look shows at once
+  siteShown: {
+    opacity: 1,
+    animationName: "none",
   },
   page: {
     position: "relative",
@@ -106,14 +123,25 @@ const styles = stylex.create({
   },
 });
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const { redesign } = await getSiteFlags();
+
   return (
     // global.css scrolls smoothly within a page; this tells Next.js to jump,
     // not glide, when the page changes
     <html
       lang={LOCALE.lang}
       data-scroll-behavior="smooth"
-      {...sx(`${archivo.variable} ${plexMono.variable}`, styles.html)}
+      data-look={redesign ? "white" : undefined}
+      {...sx(
+        `${archivo.variable} ${plexMono.variable}`,
+        styles.html,
+        redesign && [whiteLook, styles.htmlWhite]
+      )}
     >
       <head>
         <noscript>
@@ -121,7 +149,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </noscript>
       </head>
       <body {...stylex.props(styles.body, rootMarker)}>
-        <div {...sx(HOOK.site, styles.site)}>
+        <div {...sx(HOOK.site, styles.site, redesign && styles.siteShown)}>
           <div {...sx(HOOK.page, styles.page)}>
             {children}
             <footer
@@ -137,7 +165,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               </a>
             </footer>
           </div>
-          <PageEffects />
+          {redesign ? <HashFocus /> : <PageEffects />}
         </div>
       </body>
     </html>

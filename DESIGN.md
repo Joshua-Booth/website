@@ -138,6 +138,21 @@ The x-ray has its own three, used only while it's on: `xrayStroke` (`rgba(255, 2
 
 **The One Accent Rule.** Pink is only for the x-ray's measurements. Nothing else on the site is pink, and no colour is added that doesn't mean something.
 
+### The white look (behind the `redesign` flag)
+
+The site is moving to a white look. While the `redesign` flag is off, nothing on the live site changes. With it on, `whiteLook` from `src/shared/ui/white-look.ts` re-themes the same tokens on the html element, and `global.css` follows it through `[data-look="white"]` for selection and focus.
+
+| Role         | Token                   | Value             | Where                                 |
+| ------------ | ----------------------- | ----------------- | ------------------------------------- |
+| Canvas       | `ground`                | `#fff`            | The page and the theme colour         |
+| Text         | `ink`                   | `#0e0e10`         | Headings, strong text and focus rings |
+| Muted text   | `soft`                  | `#55575d`         | The intro, paragraphs and nav links   |
+| Quieter text | `faint`                 | `#8a8c92`         | Labels, meta and the footer           |
+| Rule         | `rule`                  | `#e4e4e7`         | Borders between rows                  |
+| Action       | `invertBg`, `invertInk` | `#0e0e10`, `#fff` | Buttons and selection                 |
+
+The white look has no x-ray and no covers: the page shows at once, and only the hash focus from `page-effects` runs. The nav is Projects, Work and Contact.
+
 ### Lab surfaces
 
 Lab demos are light or code panels set inside a tile, so they carry their own palette. Source: `src/entities/lab-tile/ui/tile-tokens.stylex.ts` (`surface`).
