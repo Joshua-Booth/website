@@ -14,6 +14,7 @@ export const whiteLook = stylex.createTheme(colors, {
   invertBg: "#0e0e10",
   invertInk: "#fff",
   measure: "#ff9ebb",
+  mat: "#f3f3f1",
   xrayStroke: "#0e0e10",
   xrayText: "#55575d",
   xrayDash: "#e4e4e7",

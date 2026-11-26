@@ -54,6 +54,7 @@ const SUBPAGES: Record<Exclude<PagePath, "/">, Target[]> = {
     },
   ],
   "/writing/this-site": [{ name: "write-up-back", sel: SELECTOR.back }],
+  "/projects": [],
 };
 
 export async function hoverTest(page: Page, base: string, root: string) {

@@ -153,6 +153,8 @@ The site is moving to a white look. While the `redesign` flag is off, nothing on
 
 The white look has no x-ray and no covers: the page shows at once, and only the hash focus from `page-effects` runs. The nav is Projects, Work and Contact.
 
+Under the flag, the home page and `/projects` follow the Figma Projects page trial. Projects are tiles: a picture on a `mat` (#f3f3f1, 12px corners), the name in 24px semibold with a quiet tag beside it, a 16px line about it and underlined text links. Earlier work uses small tiles of a picture, name, year and one line. Tile pictures are exported from the Figma mats at 2x into `public/projects/` as WebP.
+
 ### Lab surfaces
 
 Lab demos are light or code panels set inside a tile, so they carry their own palette. Source: `src/entities/lab-tile/ui/tile-tokens.stylex.ts` (`surface`).

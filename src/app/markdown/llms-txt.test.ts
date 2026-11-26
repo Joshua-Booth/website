@@ -73,6 +73,7 @@ Email: [contact@joshuabooth.nz](mailto:contact@joshuabooth.nz)
         "- [Home](https://joshuabooth.nz/index.md): Work, projects and contact details",
         "- [PCOS Protocol](https://joshuabooth.nz/work/pcos-protocol.md): A course app for a nutrition business, designed and built by Joshua Booth as its only developer",
         "- [How this site is built](https://joshuabooth.nz/writing/this-site.md): How joshuabooth.nz is built in Next.js, and how its pages build themselves",
+        "- [Projects](https://joshuabooth.nz/projects.md): Apps, app designs, games and tools by Joshua Booth",
         "- [Lab](https://joshuabooth.nz/lab.md): Small interfaces and components Joshua Booth builds to get the details right",
       ].join("\n")
     );

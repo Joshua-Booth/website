@@ -113,6 +113,15 @@ const styles = stylex.create({
       [stylex.when.ancestor("[data-xray]", xrayMarker)]: colors.xrayText,
     },
   },
+  // The redesign's page is 1200 wide, with a hairline over the footer
+  footWhite: {
+    maxWidth: "1200px",
+    marginTop: "120px",
+    borderTopWidth: "1px",
+    borderTopStyle: "solid",
+    borderTopColor: colors.rule,
+    fontSize: "13px",
+  },
   footLink: {
     color: {
       default: colors.faint,
@@ -154,7 +163,12 @@ export default async function RootLayout({
             {children}
             <footer
               data-name="Footer"
-              {...sx("foot", xray.ruleTop, styles.foot)}
+              {...sx(
+                "foot",
+                xray.ruleTop,
+                styles.foot,
+                redesign && styles.footWhite
+              )}
             >
               <span>© 2026</span>
               <a

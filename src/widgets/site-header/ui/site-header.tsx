@@ -14,6 +14,8 @@ import { xrayMarker } from "@/shared/ui/markers.stylex";
 import { colors, sizes } from "@/shared/ui/tokens.stylex";
 import { xray } from "@/shared/ui/xray";
 
+import { WhiteHeader } from "./white-header";
+
 interface Props {
   current?: "home" | "lab";
   sheet: string;
@@ -98,6 +100,10 @@ export async function SiteHeader({ current, sheet }: Props) {
   const flags = await getSiteFlags();
   const home = current === "home";
 
+  if (flags.redesign) {
+    return <WhiteHeader current={home ? "home" : undefined} />;
+  }
+
   const at = (id: "contact" | "projects" | "work") =>
     home ? (`#${id}` as const) : (`/#${id}` as const);
 
@@ -132,40 +138,26 @@ export async function SiteHeader({ current, sheet }: Props) {
             <JbMark />
           </Link>
         )}
-        {flags.redesign ? (
-          <span {...sx("nav", styles.nav)}>
-            <Link href={at("projects")} {...navLink}>
-              Projects
+        <span {...sx("nav", styles.nav)}>
+          <Link href={at("work")} {...navLink}>
+            Work
+          </Link>
+          <Link href={at("projects")} {...navLink}>
+            Projects
+          </Link>
+          {isLive("/lab", flags) && (
+            <Link
+              href="/lab"
+              aria-current={current === "lab" ? "page" : undefined}
+              {...navLink}
+            >
+              Lab
             </Link>
-            <Link href={at("work")} {...navLink}>
-              Work
-            </Link>
-            <Link href={at("contact")} {...navLink}>
-              Contact
-            </Link>
-          </span>
-        ) : (
-          <span {...sx("nav", styles.nav)}>
-            <Link href={at("work")} {...navLink}>
-              Work
-            </Link>
-            <Link href={at("projects")} {...navLink}>
-              Projects
-            </Link>
-            {isLive("/lab", flags) && (
-              <Link
-                href="/lab"
-                aria-current={current === "lab" ? "page" : undefined}
-                {...navLink}
-              >
-                Lab
-              </Link>
-            )}
-            <Link href={at("contact")} {...navLink}>
-              Contact
-            </Link>
-          </span>
-        )}
+          )}
+          <Link href={at("contact")} {...navLink}>
+            Contact
+          </Link>
+        </span>
       </nav>
       {home && (
         <>
