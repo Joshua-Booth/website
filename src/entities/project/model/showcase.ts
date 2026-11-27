@@ -155,6 +155,16 @@ const PYTHON_CLI = "Python CLI";
 
 export const SMALL_PROJECTS: readonly SmallProject[] = [
   {
+    name: "joshuabooth.nz",
+    kind: "designs",
+    when: "Since 2018",
+    what: "Website",
+    picture: small(
+      "this-site",
+      "Six versions of this site stacked, oldest at the back."
+    ),
+  },
+  {
     name: "VPN subscription",
     kind: "designs",
     when: "2022",
@@ -283,16 +293,6 @@ export const SMALL_PROJECTS: readonly SmallProject[] = [
     picture: small(
       "virtual-world",
       "Virtual World's login window and its coffee shop menu."
-    ),
-  },
-  {
-    name: "joshuabooth.nz",
-    kind: "designs",
-    when: "Since 2018",
-    what: "Website",
-    picture: small(
-      "this-site",
-      "Six versions of this site stacked, oldest at the back."
     ),
   },
 ];
