@@ -1,4 +1,4 @@
-import { EMAIL, LINKS } from "@/shared/config/site";
+import { LINKS } from "@/shared/config/site";
 
 /** What a project is, for the Projects page's filter. */
 export type ProjectKind = "apps" | "designs" | "games" | "tools";
@@ -54,35 +54,6 @@ const small = (slug: string, alt: string): Picture => ({
 const OPEN_SOURCE = "Open source";
 
 export const BIG_PROJECTS: readonly BigProject[] = [
-  {
-    name: "Frontend Craft",
-    kind: "apps",
-    tag: "Invite only",
-    about:
-      "A course on everything I know about frontend work in production: architecture, testing, performance, and the developer and agent experience around them.",
-    links: [
-      {
-        label: "Ask for an invite",
-        href: `mailto:${EMAIL}?subject=${encodeURIComponent("Frontend Craft invite")}`,
-      },
-    ],
-    picture: big(
-      "frontend-craft",
-      "A Frontend Craft lesson on setting up Feature-Sliced Design in a Next.js project, with the module's lessons down the side and a quick check question.",
-      true
-    ),
-    wide: true,
-  },
-  {
-    name: "Email client",
-    kind: "apps",
-    about: "A mail app built around Inbox, Later and Done.",
-    links: [{ label: "Try the demo", href: LINKS.emailClientDemo }],
-    picture: big(
-      "email",
-      "The email client's inbox on a laptop and on a phone."
-    ),
-  },
   {
     name: "creact",
     kind: "tools",

@@ -17,7 +17,6 @@ export const LINKS = {
   repo: "https://github.com/Joshua-Booth/website",
   creact: "https://github.com/Joshua-Booth/creact",
   creactNpm: "https://www.npmjs.com/package/create-creact",
-  emailClientDemo: "https://jbemailclient.netlify.app/demo",
   recipesSite: "https://jb-recipes.netlify.app",
   recipesApp: "https://jb-recipes-app.netlify.app",
   equippedYouth: "https://realiveyouth.netlify.app",
