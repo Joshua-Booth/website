@@ -43,7 +43,7 @@ const WHITE_CARD = {
   url: "/og-white.png",
   width: 1200,
   height: 630,
-  alt: "Joshua Booth, design engineer in Auckland, above pictures of three of his projects: creact in a terminal, the Recipes app and the Tax Calculator.",
+  alt: "Joshua Booth in large black type on white, with Design engineer, Auckland below and the jb mark above.",
 };
 
 /** The same metadata with the white look's share card, with the redesign on. */

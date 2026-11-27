@@ -8,8 +8,8 @@
       href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500&display=block"
     />
     <style>
-      /* The redesign's share card: name, role and three project mats, in the
-         colours of shared/ui/white-look.ts */
+      /* The redesign's share card: the jb mark, then the name and role set
+         large, in the colours of shared/ui/white-look.ts */
       html,
       body {
         margin: 0;
@@ -20,7 +20,7 @@
         box-sizing: border-box;
         width: 1200px;
         height: 630px;
-        padding: 56px 64px 64px;
+        padding: 72px 80px 80px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -28,23 +28,30 @@
         color: #0e0e10;
       }
 
-      .top {
+      .mark {
+        display: block;
+        width: 48px;
+        height: 48px;
+        fill: #0e0e10;
+      }
+
+      h1 {
+        margin: 0 0 0 -6px;
+        font-size: 128px;
+        font-weight: 500;
+        line-height: 1;
+        letter-spacing: -0.03em;
+      }
+
+      .foot {
+        margin-top: 24px;
         display: flex;
         justify-content: space-between;
         align-items: baseline;
       }
 
-      h1 {
-        margin: 0;
-        font-size: 72px;
-        font-weight: 500;
-        line-height: 1.05;
-        letter-spacing: -0.025em;
-      }
-
       .role {
-        margin: 4px 0 0;
-        font-size: 32px;
+        font-size: 40px;
         color: #55575d;
       }
 
@@ -52,40 +59,29 @@
         font-size: 24px;
         color: #8a8c92;
       }
-
-      .mats {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 24px;
-      }
-
-      .mats img {
-        display: block;
-        width: 100%;
-        aspect-ratio: 756 / 568;
-        border-radius: 12px;
-      }
     </style>
   </head>
   <body>
     <div class="card">
-      <div class="top">
-        <div>
-          <h1>Joshua Booth</h1>
-          <p class="role">Design engineer, Auckland</p>
+      <svg class="mark" viewBox="0 0 16 16" aria-hidden="true">
+        <path d="M2 2h3v2H2z" />
+        <path d="M2 5h3v7.5Q5 15 2.5 15H0v-2h2z" />
+        <path
+          fill-rule="evenodd"
+          d="M6 2h3v3h3.5Q15 5 15 7.5v2Q15 12 12.5 12H6zm3 5v3h2.25Q12 10 12 9.25v-1.5Q12 7 11.25 7z"
+        />
+      </svg>
+      <div>
+        <h1>Joshua Booth</h1>
+        <div class="foot">
+          <span class="role">Design engineer, Auckland</span>
+          <span class="url">joshuabooth.nz</span>
         </div>
-        <span class="url">joshuabooth.nz</span>
-      </div>
-      <div class="mats">
-        <img src="../../public/projects/creact.webp" alt="" />
-        <img src="../../public/projects/recipes.webp" alt="" />
-        <img src="../../public/projects/tax-calculator.webp" alt="" />
       </div>
     </div>
     <script type="module">
-      await document.fonts.load("500 72px Archivo");
-      await document.fonts.load("400 32px Archivo");
-      await Promise.all([...document.images].map((img) => img.decode()));
+      await document.fonts.load("500 128px Archivo");
+      await document.fonts.load("400 40px Archivo");
       document.body.dataset.ready = "true";
     </script>
   </body>
