@@ -20,7 +20,8 @@ const styles = stylex.create({
     fontSize: "15px",
     fontWeight: 600,
     color: colors.ink,
-    textDecoration: "none",
+    textDecorationLine: { default: "none", ":hover": "underline" },
+    textUnderlineOffset: "4px",
     paddingBlock: "6px",
   },
   nav: {

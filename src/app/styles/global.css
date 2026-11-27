@@ -36,6 +36,11 @@
     outline-color: #0e0e10;
   }
 
+  /* A section focused by a link on the page only marks where Tab goes next */
+  [data-look="white"] section[tabindex="-1"]:focus {
+    outline: none;
+  }
+
   button {
     font: inherit;
     color: inherit;

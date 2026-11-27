@@ -6,7 +6,7 @@ import { useLayoutEffect, useRef } from "react";
 import { HOOK } from "@/shared/config/effect-hooks";
 
 import { startEffects } from "../model/run";
-import { useHashFocus } from "./use-hash-focus";
+import { useHashFocus, useSectionFocus } from "./use-hash-focus";
 
 export function PageEffects() {
   return <EffectsRun key={usePathname()} />;
@@ -14,7 +14,7 @@ export function PageEffects() {
 
 /**
  * The white look has no x-ray or covers, but a link to a button or link on
- * the page still moves focus to it.
+ * the page still moves focus to it, and a link to a section moves focus there.
  */
 export function HashFocus() {
   return <HashFocusRun key={usePathname()} />;
@@ -22,6 +22,7 @@ export function HashFocus() {
 
 function HashFocusRun() {
   useHashFocus();
+  useSectionFocus();
 
   return null;
 }

@@ -306,7 +306,7 @@ export function RedesignHome({ flags }: { flags: SiteFlags }) {
             {domain}
           </a>
           <div {...stylex.props(styles.actions)}>
-            <CopyEmail addressId="contact-email" />
+            <CopyEmail addressId="contact-email" white />
             <a
               href={LINKS.linkedin}
               target="_blank"
