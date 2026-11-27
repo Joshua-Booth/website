@@ -166,6 +166,17 @@ export const BIG_PROJECTS: readonly BigProject[] = [
       "The Equipped Youth Manual on a phone, showing a featured video."
     ),
   },
+  {
+    name: "Two Ticks",
+    kind: "apps",
+    about:
+      "A visual explainer of how split votes created overhang seats in New Zealand's 2026 election.",
+    links: [{ label: "Open the app", href: LINKS.twoTicks }],
+    picture: big(
+      "two-ticks",
+      "Two Ticks' chart of the House after the 2026 election: 130 seats, 66 to govern."
+    ),
+  },
 ];
 
 const APP_DESIGN = "App design";

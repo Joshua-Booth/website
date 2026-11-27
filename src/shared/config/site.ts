@@ -26,6 +26,7 @@ export const LINKS = {
   audioDevotionsApp: "https://audiodevotions.netlify.app",
   taxCalculator: "https://calculatetax.netlify.app",
   taxCalculatorRepo: "https://github.com/Joshua-Booth/calculate-tax",
+  twoTicks: "https://twoticks.netlify.app",
 } as const;
 
 /** PostHog's project key is public: it only lets a browser send events. */
