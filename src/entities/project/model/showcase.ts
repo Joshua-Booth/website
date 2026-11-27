@@ -129,7 +129,7 @@ export const BIG_PROJECTS: readonly BigProject[] = [
     kind: "apps",
     tag: "2020 to 2021",
     about:
-      "A course app for people with PCOS, with daily lessons, a knowledge base and recipes. I built it at The PCOS Nutritionist. Shown with made-up content.",
+      "A nutrition course app, with daily lessons, a knowledge base and recipes. I built it at The PCOS Nutritionist. Shown with made-up content.",
     links: [],
     picture: big(
       "pcos-protocol",
