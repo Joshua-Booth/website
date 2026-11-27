@@ -14,6 +14,8 @@ import { xrayMarker } from "@/shared/ui/markers.stylex";
 import { colors, sizes } from "@/shared/ui/tokens.stylex";
 import { xray } from "@/shared/ui/xray";
 
+import { WhiteHeader } from "./white-header";
+
 interface Props {
   current?: "home" | "lab";
   sheet: string;
@@ -97,6 +99,10 @@ const styles = stylex.create({
 export async function SiteHeader({ current, sheet }: Props) {
   const flags = await getSiteFlags();
   const home = current === "home";
+
+  if (flags.redesign) {
+    return <WhiteHeader current={home ? "home" : undefined} />;
+  }
 
   const at = (id: "contact" | "projects" | "work") =>
     home ? (`#${id}` as const) : (`/#${id}` as const);

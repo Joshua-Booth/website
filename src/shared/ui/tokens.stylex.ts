@@ -11,6 +11,8 @@ export const colors = stylex.defineVars({
   invertBg: "#fff",
   invertInk: "#034694",
   measure: "#ff9ebb",
+  // The ground a project's picture sits on
+  mat: "rgba(255, 255, 255, 0.08)",
   xrayStroke: "rgba(255, 255, 255, 0.95)",
   xrayText: "rgba(255, 255, 255, 0.5)",
   xrayDash: "rgba(255, 255, 255, 0.55)",
@@ -33,4 +35,5 @@ export const sizes = stylex.defineConsts({
 // the same
 export const breakpoints = stylex.defineConsts({
   narrow: "@container (max-width: 760px)",
+  mid: "@container (min-width: 761px) and (max-width: 1040px)",
 });

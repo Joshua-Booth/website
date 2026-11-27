@@ -1,14 +1,15 @@
 import { JOBS, jobLine } from "@/entities/job/model/jobs";
 import { PROJECTS, projectLine } from "@/entities/project/model/projects";
+import { BIG_PROJECTS, showcaseLine } from "@/entities/project/model/showcase";
 
 import type { SiteFlags } from "@/shared/config/flags";
 import { livePages } from "@/shared/config/pages";
 import {
-  DESCRIPTION,
   EMAIL,
   LINKS,
   NAME,
   SITE_URL,
+  siteDescription,
 } from "@/shared/config/site";
 import { pageLine } from "@/shared/lib/markdown";
 
@@ -16,7 +17,7 @@ export function llmsTxt(flags: SiteFlags): string {
   return [
     `# ${NAME}`,
     "",
-    `> ${DESCRIPTION}`,
+    `> ${siteDescription(flags.redesign)}`,
     "",
     "Work:",
     "",
@@ -30,7 +31,9 @@ export function llmsTxt(flags: SiteFlags): string {
     "",
     "## Projects",
     "",
-    ...PROJECTS.map((project) => `- ${projectLine(project)}`),
+    ...(flags.redesign
+      ? BIG_PROJECTS.map((project) => `- ${showcaseLine(project)}`)
+      : PROJECTS.map((project) => `- ${projectLine(project)}`)),
     "",
     "## Optional",
     "",

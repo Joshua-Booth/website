@@ -7,29 +7,55 @@ import { ArrowUp } from "lucide-react";
 import { archivo, plexMono } from "@/app/styles/fonts";
 import "@/app/styles/global.css";
 
-import { PageEffects } from "@/features/page-effects/ui/page-effects";
+import {
+  HashFocus,
+  PageEffects,
+} from "@/features/page-effects/ui/page-effects";
 
+import { getSiteFlags } from "@/shared/api/site-flags";
 import { HOOK } from "@/shared/config/effect-hooks";
-import { DESCRIPTION, LOCALE, NAME, SITE_URL } from "@/shared/config/site";
+import { LOCALE, NAME, SITE_URL, siteDescription } from "@/shared/config/site";
 import { sx } from "@/shared/lib/sx";
 import { icon } from "@/shared/ui/icon";
 import { interactive } from "@/shared/ui/interactive";
 import { rootMarker, xrayMarker } from "@/shared/ui/markers.stylex";
 import { colors, fonts, sizes, space } from "@/shared/ui/tokens.stylex";
+import { whiteLook } from "@/shared/ui/white-look";
 import { xray } from "@/shared/ui/xray";
 
-export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
-  title: { default: NAME, template: `%s · ${NAME}` },
-  description: DESCRIPTION,
-  twitter: { card: "summary_large_image" },
-};
+// Files in public/, so each look links its own. The .ico is for browsers that
+// can't use the SVG
+const iconSet = (look: string) => ({
+  icon: [
+    { url: `/favicon${look}.ico`, sizes: "48x48", type: "image/x-icon" },
+    { url: `/icon${look}.svg`, sizes: "any", type: "image/svg+xml" },
+  ],
+  apple: { url: `/apple-icon${look}.png`, sizes: "180x180" },
+});
 
-export const viewport: Viewport = {
-  themeColor: "#034694",
-  colorScheme: "dark",
-  viewportFit: "cover",
-};
+const ICONS = { blue: iconSet(""), white: iconSet("-white") };
+
+export async function generateMetadata(): Promise<Metadata> {
+  const { redesign } = await getSiteFlags();
+
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: { default: NAME, template: `%s · ${NAME}` },
+    description: siteDescription(redesign),
+    twitter: { card: "summary_large_image" },
+    icons: redesign ? ICONS.white : ICONS.blue,
+  };
+}
+
+export async function generateViewport(): Promise<Viewport> {
+  const { redesign } = await getSiteFlags();
+
+  return {
+    themeColor: redesign ? "#fff" : "#034694",
+    colorScheme: redesign ? "light" : "dark",
+    viewportFit: "cover",
+  };
+}
 
 const show = stylex.keyframes({ to: { opacity: 1 } });
 
@@ -37,6 +63,9 @@ const styles = stylex.create({
   html: {
     backgroundColor: colors.ground,
     colorScheme: "dark",
+  },
+  htmlWhite: {
+    colorScheme: "light",
   },
   body: {
     margin: 0,
@@ -70,6 +99,11 @@ const styles = stylex.create({
     animationDelay: "2.5s",
     animationFillMode: "forwards",
   },
+  // With no covers to wait for, the white look shows at once
+  siteShown: {
+    opacity: 1,
+    animationName: "none",
+  },
   page: {
     position: "relative",
     display: "flex",
@@ -96,6 +130,15 @@ const styles = stylex.create({
       [stylex.when.ancestor("[data-xray]", xrayMarker)]: colors.xrayText,
     },
   },
+  // The redesign's page is 1200 wide, with a hairline over the footer
+  footWhite: {
+    maxWidth: "1200px",
+    marginTop: "120px",
+    borderTopWidth: "1px",
+    borderTopStyle: "solid",
+    borderTopColor: colors.rule,
+    fontSize: "13px",
+  },
   footLink: {
     color: {
       default: colors.faint,
@@ -106,14 +149,25 @@ const styles = stylex.create({
   },
 });
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const { redesign } = await getSiteFlags();
+
   return (
     // global.css scrolls smoothly within a page; this tells Next.js to jump,
     // not glide, when the page changes
     <html
       lang={LOCALE.lang}
       data-scroll-behavior="smooth"
-      {...sx(`${archivo.variable} ${plexMono.variable}`, styles.html)}
+      data-look={redesign ? "white" : undefined}
+      {...sx(
+        `${archivo.variable} ${plexMono.variable}`,
+        styles.html,
+        redesign && [whiteLook, styles.htmlWhite]
+      )}
     >
       <head>
         <noscript>
@@ -121,12 +175,17 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </noscript>
       </head>
       <body {...stylex.props(styles.body, rootMarker)}>
-        <div {...sx(HOOK.site, styles.site)}>
+        <div {...sx(HOOK.site, styles.site, redesign && styles.siteShown)}>
           <div {...sx(HOOK.page, styles.page)}>
             {children}
             <footer
               data-name="Footer"
-              {...sx("foot", xray.ruleTop, styles.foot)}
+              {...sx(
+                "foot",
+                xray.ruleTop,
+                styles.foot,
+                redesign && styles.footWhite
+              )}
             >
               <span>© 2026</span>
               <a
@@ -137,7 +196,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               </a>
             </footer>
           </div>
-          <PageEffects />
+          {redesign ? <HashFocus /> : <PageEffects />}
         </div>
       </body>
     </html>

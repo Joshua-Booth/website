@@ -1,13 +1,16 @@
 import type { Finding } from "./overlap.ts";
+import type { WhiteFinding } from "./white.ts";
 
 import { mkdirSync, rmSync } from "node:fs";
 import { chromium } from "playwright";
 
-import { PAGE_PATHS } from "../../src/shared/config/pages.ts";
+import { ALL_ON } from "../../src/shared/config/flags.ts";
+import { livePages } from "../../src/shared/config/pages.ts";
 import { hoverTest } from "./hover.ts";
 import { installAudit } from "./in-page.ts";
 import { navigationAudit } from "./navigation.ts";
 import { NOT_FOUND, overlapAudit, sitemapPaths } from "./overlap.ts";
+import { isWhite, whiteAudit } from "./white.ts";
 
 const base = process.env.AUDIT_URL;
 
@@ -16,11 +19,18 @@ if (!base) {
 }
 
 const live = await sitemapPaths(base);
-const missing = PAGE_PATHS.filter((path) => !live.includes(path));
+const white = await isWhite(base);
 
-if (missing.length > 0) {
+// The x-ray look has every page but the ones only the redesign adds
+const missing = livePages({ ...ALL_ON, redesign: false }).filter(
+  (path) => !live.includes(path)
+);
+
+// The white look is checked on the pages it ships, so a build with only the
+// redesign flag on can be audited too
+if (!white && missing.length > 0) {
   throw new Error(
-    `${base}/sitemap.xml leaves out ${missing.join(", ")}. The audit needs every page, so build with SITE_FLAGS=all`
+    `${base}/sitemap.xml leaves out ${missing.join(", ")}. The x-ray audit needs every page, so build with every flag but the redesign: SITE_FLAGS=lab,pcos-case-study,this-site-case-study`
   );
 }
 
@@ -29,7 +39,11 @@ const out = "audit-output";
 rmSync(out, { recursive: true, force: true });
 mkdirSync(`${out}/overlap`, { recursive: true });
 
-const browser = await chromium.launch();
+// AUDIT_CHROME points at a browser when Playwright's own isn't installed
+const browser = await chromium.launch({
+  executablePath: process.env.AUDIT_CHROME,
+});
+
 const context = await browser.newContext({ deviceScaleFactor: 1 });
 
 await context.addInitScript(installAudit);
@@ -54,74 +68,137 @@ const heading = (t: string) => {
   console.log(`\n== ${t}`);
 };
 
-heading("Overlap");
+if (white) {
+  const result = await whiteAudit(page, base, live);
 
-const { findings, pages, shots } = await overlapAudit(
-  page,
-  base,
-  `${out}/overlap`,
-  live
-);
+  const report = (title: string, rows: WhiteFinding[], none: string) => {
+    heading(title);
 
-console.log(`Pages: ${pages.join(", ")}`);
+    const grouped = new Map<string, WhiteFinding[]>();
 
-const worst = new Map<string, { count: number; finding: Finding }>();
+    for (const row of rows) {
+      const key = `${row.kind} ${row.page} ${row.detail}`;
 
-for (const finding of findings) {
-  const key = `${finding.page} ${finding.size} ${finding.kind}`;
-  const seen = worst.get(key);
-  const count = (seen?.count ?? 0) + 1;
+      grouped.set(key, [...(grouped.get(key) ?? []), row]);
+    }
 
-  if (!seen || (finding.px ?? 0) > (seen.finding.px ?? 0)) {
-    worst.set(key, { count, finding });
-  } else seen.count = count;
-}
+    for (const [, group] of grouped) {
+      const [row] = group;
 
-for (const [key, { count, finding }] of worst) {
-  const size = finding.px === undefined ? "" : ` worst ${finding.px}px`;
+      console.log(
+        `FAIL ${row!.kind} ${row!.page} @${group.map((g) => g.size).join(",")}: ${row!.detail}`
+      );
+    }
 
-  console.log(
-    `${key} ×${count}${size} @${finding.when}: ${finding.a ?? ""} | ${finding.b ?? ""}`
+    if (rows.length) failed = true;
+    else console.log(none);
+  };
+
+  console.log(`White look. Pages: ${result.paths.join(", ")}`);
+
+  report(
+    "Layout",
+    result.layout,
+    "Nothing overlaps, clips or scrolls sideways"
   );
-}
 
-if (worst.size) failed = true;
-else console.log("Nothing overlaps");
-for (const s of shots) console.log(`screenshot ${s}`);
+  report(
+    "Links",
+    result.links.findings,
+    `All ${result.links.checked} paths on this site answer, and every hash has its id`
+  );
 
-heading("Navigation");
+  console.log(`Outside links, not fetched: ${result.links.outside.join(", ")}`);
 
-const nav = await navigationAudit(page, base);
+  report(
+    "Keyboard",
+    result.keyboard.findings,
+    "Every tab stop shows a ring, on screen"
+  );
 
-for (const l of nav.log) console.log(l);
-for (const p of nav.problems) console.log(`FAIL ${p}`);
-if (nav.problems.length) failed = true;
+  for (const [where, names] of Object.entries(result.keyboard.stops)) {
+    console.log(`${where}: ${names.join(" > ")}`);
+  }
 
-heading("Hover and focus above the overlays");
+  report("Hover", result.hover, "Every link and button changes on hover");
 
-const hover = await hoverTest(page, base, `${out}/hover`);
+  report(
+    "Navigation",
+    result.navigation.findings,
+    "Header links land and move focus"
+  );
 
-for (const pass of ["fixed", "control"] as const) {
-  const rows = hover[pass];
-  const bad = rows.filter((r) => r.kept < 0.9);
+  for (const line of result.navigation.log) console.log(line);
+} else {
+  heading("Overlap");
 
-  console.log(`-- ${pass}`);
+  const { findings, pages, shots } = await overlapAudit(
+    page,
+    base,
+    `${out}/overlap`,
+    live
+  );
 
-  for (const r of rows) {
+  console.log(`Pages: ${pages.join(", ")}`);
+
+  const worst = new Map<string, { count: number; finding: Finding }>();
+
+  for (const finding of findings) {
+    const key = `${finding.page} ${finding.size} ${finding.kind}`;
+    const seen = worst.get(key);
+    const count = (seen?.count ?? 0) + 1;
+
+    if (!seen || (finding.px ?? 0) > (seen.finding.px ?? 0)) {
+      worst.set(key, { count, finding });
+    } else seen.count = count;
+  }
+
+  for (const [key, { count, finding }] of worst) {
+    const size = finding.px === undefined ? "" : ` worst ${finding.px}px`;
+
     console.log(
-      `${r.kept < 0.9 ? "FAIL" : "ok  "} ${r.name.padEnd(22)} bright px ${String(r.bright).padStart(6)}  kept ${Math.round(r.kept * 100)}%`
+      `${key} ×${count}${size} @${finding.when}: ${finding.a ?? ""} | ${finding.b ?? ""}`
     );
   }
 
-  console.log(`${bad.length} of ${rows.length} hover states hidden`);
-  if (pass === "fixed" && bad.length) failed = true;
+  if (worst.size) failed = true;
+  else console.log("Nothing overlaps");
+  for (const s of shots) console.log(`screenshot ${s}`);
 
-  if (pass === "control" && !bad.length) {
-    console.log(
-      "FAIL the control pass should fail, so the test isn't checking anything"
-    );
+  heading("Navigation");
 
-    failed = true;
+  const nav = await navigationAudit(page, base);
+
+  for (const l of nav.log) console.log(l);
+  for (const p of nav.problems) console.log(`FAIL ${p}`);
+  if (nav.problems.length) failed = true;
+
+  heading("Hover and focus above the overlays");
+
+  const hover = await hoverTest(page, base, `${out}/hover`);
+
+  for (const pass of ["fixed", "control"] as const) {
+    const rows = hover[pass];
+    const bad = rows.filter((r) => r.kept < 0.9);
+
+    console.log(`-- ${pass}`);
+
+    for (const r of rows) {
+      console.log(
+        `${r.kept < 0.9 ? "FAIL" : "ok  "} ${r.name.padEnd(22)} bright px ${String(r.bright).padStart(6)}  kept ${Math.round(r.kept * 100)}%`
+      );
+    }
+
+    console.log(`${bad.length} of ${rows.length} hover states hidden`);
+    if (pass === "fixed" && bad.length) failed = true;
+
+    if (pass === "control" && !bad.length) {
+      console.log(
+        "FAIL the control pass should fail, so the test isn't checking anything"
+      );
+
+      failed = true;
+    }
   }
 }
 

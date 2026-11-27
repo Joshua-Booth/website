@@ -33,3 +33,9 @@ it("stays minimal: no image, email, or address", () => {
 
   expect(payload).not.toMatch(/image|email|address/i);
 });
+
+it("takes the redesign's job title", () => {
+  const [person] = homeJsonLd("Design engineer")["@graph"];
+
+  expect(person).toMatchObject({ jobTitle: "Design engineer" });
+});

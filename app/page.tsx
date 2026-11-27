@@ -1,10 +1,32 @@
+import type { Metadata } from "next";
+
 import { HomePage } from "@/pages/home/ui/home-page";
+import { RedesignHome } from "@/pages/home/ui/redesign-home";
 
 import { gatePage } from "@/shared/api/gate-page";
-import { pageMetadata } from "@/shared/lib/page-metadata";
+import { getSiteFlags } from "@/shared/api/site-flags";
+import { siteDescription } from "@/shared/config/site";
+import {
+  inLook,
+  pageMetadata,
+  withDescription,
+} from "@/shared/lib/page-metadata";
 
-export const metadata = pageMetadata("/");
+export async function generateMetadata(): Promise<Metadata> {
+  const { redesign } = await getSiteFlags();
+
+  return inLook(
+    withDescription(pageMetadata("/"), siteDescription(redesign)),
+    redesign
+  );
+}
 
 export default async function Page() {
-  return <HomePage flags={await gatePage("/")} />;
+  const flags = await gatePage("/");
+
+  return flags.redesign ? (
+    <RedesignHome flags={flags} />
+  ) : (
+    <HomePage flags={flags} />
+  );
 }

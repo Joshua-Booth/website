@@ -4,6 +4,22 @@ export const EMAIL = "contact@joshuabooth.nz";
 export const DESCRIPTION =
   "Joshua Booth is an AI-native frontend lead in Auckland. He designs and builds products from first concept to live in production.";
 
+/**
+ * How the redesign introduces Josh. The live site keeps DESCRIPTION and
+ * INTRO until the redesign flag is on.
+ */
+export const DESIGN_ENGINEER = {
+  role: "Design engineer, Auckland",
+  line: "I design and build interfaces.",
+  jobTitle: "Design engineer",
+  description:
+    "Joshua Booth is a design engineer in Auckland. He designs and builds interfaces.",
+} as const;
+
+export function siteDescription(redesign: boolean): string {
+  return redesign ? DESIGN_ENGINEER.description : DESCRIPTION;
+}
+
 export const LOCALE = { lang: "en-NZ", og: "en_NZ" } as const;
 
 export const INTRO = {
@@ -16,10 +32,16 @@ export const LINKS = {
   github: "https://github.com/Joshua-Booth",
   repo: "https://github.com/Joshua-Booth/website",
   creact: "https://github.com/Joshua-Booth/creact",
+  creactNpm: "https://www.npmjs.com/package/create-creact",
+  recipesSite: "https://jb-recipes.netlify.app",
+  recipesApp: "https://jb-recipes-app.netlify.app",
+  equippedYouth: "https://realiveyouth.netlify.app",
+  equippedYouthRepo: "https://github.com/Joshua-Booth/realiveyouth",
   audioDevotions: "https://github.com/Joshua-Booth/audio-devotions",
   audioDevotionsApp: "https://audiodevotions.netlify.app",
   taxCalculator: "https://calculatetax.netlify.app",
   taxCalculatorRepo: "https://github.com/Joshua-Booth/calculate-tax",
+  twoTicks: "https://twoticks.netlify.app",
 } as const;
 
 /** PostHog's project key is public: it only lets a browser send events. */

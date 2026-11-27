@@ -26,8 +26,11 @@ alias = "p"
 run = "serve out"
 
 [tasks.og]
-description = "Render public/og.png from scripts/og/og.html"
-run = "node scripts/og/render.ts"
+description = "Render public/og.png from scripts/og/og.html, and the redesign's public/og-white.png from og-white.html"
+run = [
+  "node scripts/og/render.ts",
+  "node scripts/og/render.ts public/og-white.png og-white.html",
+]
 
 [tasks.format]
 description = "Format code with oxfmt"

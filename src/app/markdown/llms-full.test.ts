@@ -24,6 +24,7 @@ describe("llmsFull", () => {
       ["Joshua Booth", "https://joshuabooth.nz"],
       ["PCOS Protocol", "https://joshuabooth.nz/work/pcos-protocol"],
       ["How this site is built", "https://joshuabooth.nz/writing/this-site"],
+      ["Projects", "https://joshuabooth.nz/projects"],
       ["Lab", "https://joshuabooth.nz/lab"],
     ]);
   });

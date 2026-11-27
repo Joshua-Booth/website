@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en-NZ">
+  <head>
+    <meta charset="utf-8" />
+    <title>Open Graph image, white look</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500&display=block"
+    />
+    <style>
+      /* The redesign's share card: the jb mark, then the name and role set
+         large, in the colours of shared/ui/white-look.ts */
+      html,
+      body {
+        margin: 0;
+        background: #fff;
+      }
+
+      .card {
+        box-sizing: border-box;
+        width: 1200px;
+        height: 630px;
+        padding: 72px 80px 80px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        font-family: Archivo, sans-serif;
+        color: #0e0e10;
+      }
+
+      .mark {
+        display: block;
+        width: 48px;
+        height: 48px;
+        fill: #0e0e10;
+      }
+
+      h1 {
+        margin: 0 0 0 -6px;
+        font-size: 128px;
+        font-weight: 500;
+        line-height: 1;
+        letter-spacing: -0.03em;
+      }
+
+      .foot {
+        margin-top: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+      }
+
+      .role {
+        font-size: 40px;
+        color: #55575d;
+      }
+
+      .url {
+        font-size: 24px;
+        color: #8a8c92;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <svg class="mark" viewBox="0 0 16 16" aria-hidden="true">
+        <path d="M2 2h3v2H2z" />
+        <path d="M2 5h3v7.5Q5 15 2.5 15H0v-2h2z" />
+        <path
+          fill-rule="evenodd"
+          d="M6 2h3v3h3.5Q15 5 15 7.5v2Q15 12 12.5 12H6zm3 5v3h2.25Q12 10 12 9.25v-1.5Q12 7 11.25 7z"
+        />
+      </svg>
+      <div>
+        <h1>Joshua Booth</h1>
+        <div class="foot">
+          <span class="role">Design engineer, Auckland</span>
+          <span class="url">joshuabooth.nz</span>
+        </div>
+      </div>
+    </div>
+    <script type="module">
+      await document.fonts.load("500 128px Archivo");
+      await document.fonts.load("400 40px Archivo");
+      document.body.dataset.ready = "true";
+    </script>
+  </body>
+</html>

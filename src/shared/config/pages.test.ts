@@ -82,6 +82,7 @@ describe("the page list", () => {
       "/",
       "/work/pcos-protocol",
       "/writing/this-site",
+      "/projects",
       "/lab",
     ]);
   });

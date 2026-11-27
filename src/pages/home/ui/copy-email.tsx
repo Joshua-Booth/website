@@ -34,6 +34,10 @@ const styles = stylex.create({
     cursor: "pointer",
     display: "inline-grid",
   },
+  // The white look's dark pill lightens on hover, like its other buttons
+  whiteHover: {
+    backgroundColor: { default: colors.invertBg, ":hover": colors.soft },
+  },
   label: {
     gridRow: 1,
     gridColumn: 1,
@@ -50,7 +54,13 @@ const styles = stylex.create({
  * Copies the address, since a mailto link alone depends on the visitor having a
  * mail app set up.
  */
-export function CopyEmail({ addressId }: { addressId: string }) {
+export function CopyEmail({
+  addressId,
+  white = false,
+}: {
+  addressId: string;
+  white?: boolean;
+}) {
   const [label, setLabel] = useState<CopyLabel>("Copy address");
   const [announcement, setAnnouncement] = useState("");
   const reset = useRef(0);
@@ -105,7 +115,8 @@ export function CopyEmail({ addressId }: { addressId: string }) {
           interactive.raise,
           interactive.pill,
           interactive.pillOutline,
-          styles.copy
+          styles.copy,
+          white && styles.whiteHover
         )}
       >
         {copyLabels(label).map(({ text, hidden }) => (

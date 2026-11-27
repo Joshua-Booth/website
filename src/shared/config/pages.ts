@@ -31,6 +31,11 @@ export const PAGES = {
       "How joshuabooth.nz is built in Next.js, and how its pages build themselves.",
     flag: "thisSiteCaseStudy",
   },
+  "/projects": {
+    title: "Projects",
+    description: "Apps, app designs, games and tools by Joshua Booth.",
+    flag: "redesign",
+  },
   "/lab": {
     title: "Lab",
     description:

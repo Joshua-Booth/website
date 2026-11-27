@@ -21,12 +21,19 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 Parts of the site are behind PostHog feature flags, listed in `src/shared/config/flags.ts`. Locally they're all
 off. Set `SITE_FLAGS` to `all`, or a comma list of flag keys, to turn parts on, or leave it empty to ask PostHog.
 Flags are read when the site is built, so set it for the build. The live site asks PostHog when Netlify builds it,
-so a flag flipped in PostHog shows up after the next deploy. Netlify deploy previews turn every flag on.
+so a flag flipped in PostHog shows up after the next deploy. Netlify deploy previews build with `redesign` on.
 
 ## Audit
 
-`mise run audit` checks overlaps, navigation and hover against a production build with every flag on:
-`SITE_FLAGS=all mise run build && mise run preview`, then `AUDIT_URL=<the address it prints> mise run audit`.
+`mise run audit` checks a production build: `mise run build && mise run preview`, then
+`AUDIT_URL=<the address it prints> mise run audit`. It reads the look from the home page.
+
+- The redesign's white look: build with `SITE_FLAGS=redesign`, which is what it will ship. It checks layout at six
+  widths, links, keyboard focus, hover and the header's links.
+- The live x-ray look: build with every flag but the redesign, `SITE_FLAGS=lab,pcos-case-study,this-site-case-study`.
+  It checks overlaps against the x-ray, navigation and hover above the overlays.
+
+The `verify-site` skill in `.claude/skills/` has the full loop and what to check on each page.
 
 ## Analytics
 

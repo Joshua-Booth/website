@@ -90,8 +90,22 @@ describe("pageMarkdown", () => {
     await expect(pageMarkdown("/", ALL_OFF)).resolves.toBe(INDEX_OFF);
   });
 
-  it("adds the case studies and the Lab with every flag on", async () => {
-    await expect(pageMarkdown("/", ALL_ON)).resolves.toBe(INDEX_ON);
+  it("adds the case studies and the Lab with every other flag on", async () => {
+    await expect(
+      pageMarkdown("/", { ...ALL_ON, redesign: false })
+    ).resolves.toBe(INDEX_ON);
+  });
+
+  it("introduces a design engineer and lists the showcase with the redesign on", async () => {
+    const md = await pageMarkdown("/", { ...ALL_OFF, redesign: true });
+
+    expect(md).toMatch(
+      /^# Joshua Booth\n\n\*\*Design engineer, Auckland\.\*\* I design and build interfaces\.\n/
+    );
+
+    expect(md).toContain("- **Two Ticks**: ");
+    expect(md).toContain("[All projects](https://joshuabooth.nz/projects.md)");
+    expect(md).not.toMatch(/AI-native|frontend lead in/i);
   });
 });
 

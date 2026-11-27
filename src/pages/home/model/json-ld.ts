@@ -5,7 +5,7 @@ import { LINKS, LOCALE, NAME, SITE_URL } from "@/shared/config/site";
 const PERSON_ID = `${SITE_URL}/#person`;
 const HOME_URL = `${SITE_URL}/`;
 
-export function homeJsonLd() {
+export function homeJsonLd(jobTitle: string = LATEST_ROLE) {
   return {
     "@context": "https://schema.org",
     "@graph": [
@@ -14,7 +14,7 @@ export function homeJsonLd() {
         "@id": PERSON_ID,
         name: NAME,
         url: HOME_URL,
-        jobTitle: LATEST_ROLE,
+        jobTitle,
         sameAs: [LINKS.linkedin, LINKS.github],
       },
       {
