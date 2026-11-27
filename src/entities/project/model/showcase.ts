@@ -34,6 +34,8 @@ export interface SmallProject {
   kind: ProjectKind;
   when: string;
   what: string;
+  /** Its code on GitHub, until small tiles get their own write-ups. */
+  code?: string;
   picture: Picture;
 }
 
@@ -159,6 +161,7 @@ export const SMALL_PROJECTS: readonly SmallProject[] = [
     kind: "designs",
     when: "Since 2018",
     what: "Website",
+    code: LINKS.repo,
     picture: small(
       "this-site",
       "Six versions of this site stacked, oldest at the back."
@@ -239,6 +242,7 @@ export const SMALL_PROJECTS: readonly SmallProject[] = [
     kind: "games",
     when: "2019",
     what: "Unity game",
+    code: LINKS.justDriveRepo,
     picture: small("just-drive", "A sports car driving down a city street."),
   },
   {
@@ -253,6 +257,7 @@ export const SMALL_PROJECTS: readonly SmallProject[] = [
     kind: "games",
     when: "2019",
     what: "Unity game, team project",
+    code: LINKS.extremePongRepo,
     picture: small("extreme-pong", "A game of Pong with a high score."),
   },
   {
@@ -260,6 +265,7 @@ export const SMALL_PROJECTS: readonly SmallProject[] = [
     kind: "tools",
     when: "2019",
     what: PYTHON_CLI,
+    code: LINKS.priceFinderRepo,
     picture: small(
       "price-finder",
       "A terminal listing the three best prices found for AirPods."
@@ -270,6 +276,7 @@ export const SMALL_PROJECTS: readonly SmallProject[] = [
     kind: "tools",
     when: "2018",
     what: PYTHON_CLI,
+    code: LINKS.docxDiaryRepo,
     picture: small(
       "docx-diary",
       "A terminal writing a diary entry and listing the diary's Word files."
@@ -280,6 +287,7 @@ export const SMALL_PROJECTS: readonly SmallProject[] = [
     kind: "tools",
     when: "2018",
     what: PYTHON_CLI,
+    code: LINKS.textCryptographyRepo,
     picture: small(
       "text-cryptography",
       "A terminal encrypting a file with a Caesar cipher."
@@ -314,5 +322,8 @@ export function showcaseLine(project: BigProject | SmallProject): string {
     return `**${project.name}**: ${project.about}${links ? ` ${links}.` : ""}`;
   }
 
-  return `**${project.name}** (${project.when}): ${project.what}.`;
+  const code =
+    project.code === undefined ? "" : ` [View the code](${project.code}).`;
+
+  return `**${project.name}** (${project.when}): ${project.what}.${code}`;
 }
