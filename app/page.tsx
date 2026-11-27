@@ -6,12 +6,19 @@ import { RedesignHome } from "@/pages/home/ui/redesign-home";
 import { gatePage } from "@/shared/api/gate-page";
 import { getSiteFlags } from "@/shared/api/site-flags";
 import { siteDescription } from "@/shared/config/site";
-import { pageMetadata, withDescription } from "@/shared/lib/page-metadata";
+import {
+  inLook,
+  pageMetadata,
+  withDescription,
+} from "@/shared/lib/page-metadata";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { redesign } = await getSiteFlags();
 
-  return withDescription(pageMetadata("/"), siteDescription(redesign));
+  return inLook(
+    withDescription(pageMetadata("/"), siteDescription(redesign)),
+    redesign
+  );
 }
 
 export default async function Page() {

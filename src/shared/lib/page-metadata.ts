@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import { exportPath, pageInfo } from "../config/pages";
 import { LOCALE, NAME } from "../config/site";
 
-const IMAGE = {
+const BLUE_CARD = {
   url: "/og.png",
   width: 1200,
   height: 630,
@@ -33,9 +33,27 @@ export function pageMetadata(path: PagePath): Metadata {
       url: path,
       title: title ? `${title} · ${NAME}` : NAME,
       description,
-      images: [IMAGE],
+      images: [BLUE_CARD],
     },
   };
+}
+
+// The redesign's card, from scripts/og/og-white.html
+const WHITE_CARD = {
+  url: "/og-white.png",
+  width: 1200,
+  height: 630,
+  alt: "Joshua Booth, design engineer in Auckland, above pictures of three of his projects: creact in a terminal, the Recipes app and the Tax Calculator.",
+};
+
+/** The same metadata with the white look's share card, with the redesign on. */
+export function inLook(metadata: Metadata, redesign: boolean): Metadata {
+  return redesign
+    ? {
+        ...metadata,
+        openGraph: { ...metadata.openGraph, images: [WHITE_CARD] },
+      }
+    : metadata;
 }
 
 /** The same metadata with another description, in the share card too. */

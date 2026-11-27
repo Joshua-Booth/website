@@ -23,6 +23,18 @@ import { colors, fonts, sizes, space } from "@/shared/ui/tokens.stylex";
 import { whiteLook } from "@/shared/ui/white-look";
 import { xray } from "@/shared/ui/xray";
 
+// Files in public/, so each look links its own. The .ico is for browsers that
+// can't use the SVG
+const iconSet = (look: string) => ({
+  icon: [
+    { url: `/favicon${look}.ico`, sizes: "48x48", type: "image/x-icon" },
+    { url: `/icon${look}.svg`, sizes: "any", type: "image/svg+xml" },
+  ],
+  apple: { url: `/apple-icon${look}.png`, sizes: "180x180" },
+});
+
+const ICONS = { blue: iconSet(""), white: iconSet("-white") };
+
 export async function generateMetadata(): Promise<Metadata> {
   const { redesign } = await getSiteFlags();
 
@@ -31,6 +43,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: { default: NAME, template: `%s · ${NAME}` },
     description: siteDescription(redesign),
     twitter: { card: "summary_large_image" },
+    icons: redesign ? ICONS.white : ICONS.blue,
   };
 }
 

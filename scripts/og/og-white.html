@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en-NZ">
+  <head>
+    <meta charset="utf-8" />
+    <title>Open Graph image, white look</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500&display=block"
+    />
+    <style>
+      /* The redesign's share card: name, role and three project mats, in the
+         colours of shared/ui/white-look.ts */
+      html,
+      body {
+        margin: 0;
+        background: #fff;
+      }
+
+      .card {
+        box-sizing: border-box;
+        width: 1200px;
+        height: 630px;
+        padding: 56px 64px 64px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        font-family: Archivo, sans-serif;
+        color: #0e0e10;
+      }
+
+      .top {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 72px;
+        font-weight: 500;
+        line-height: 1.05;
+        letter-spacing: -0.025em;
+      }
+
+      .role {
+        margin: 4px 0 0;
+        font-size: 32px;
+        color: #55575d;
+      }
+
+      .url {
+        font-size: 24px;
+        color: #8a8c92;
+      }
+
+      .mats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+      }
+
+      .mats img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 756 / 568;
+        border-radius: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="top">
+        <div>
+          <h1>Joshua Booth</h1>
+          <p class="role">Design engineer, Auckland</p>
+        </div>
+        <span class="url">joshuabooth.nz</span>
+      </div>
+      <div class="mats">
+        <img src="../../public/projects/creact.webp" alt="" />
+        <img src="../../public/projects/recipes.webp" alt="" />
+        <img src="../../public/projects/tax-calculator.webp" alt="" />
+      </div>
+    </div>
+    <script type="module">
+      await document.fonts.load("500 72px Archivo");
+      await document.fonts.load("400 32px Archivo");
+      await Promise.all([...document.images].map((img) => img.decode()));
+      document.body.dataset.ready = "true";
+    </script>
+  </body>
+</html>
