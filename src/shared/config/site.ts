@@ -42,6 +42,11 @@ export const LINKS = {
   taxCalculator: "https://calculatetax.netlify.app",
   taxCalculatorRepo: "https://github.com/Joshua-Booth/calculate-tax",
   twoTicks: "https://twoticks.netlify.app",
+  priceFinderRepo: "https://github.com/Joshua-Booth/price-finder",
+  docxDiaryRepo: "https://github.com/Joshua-Booth/docx-diary",
+  textCryptographyRepo: "https://github.com/Joshua-Booth/text-cryptography",
+  justDriveRepo: "https://github.com/Joshua-Booth/just-drive",
+  extremePongRepo: "https://github.com/Joshua-Booth/extreme-pong",
 } as const;
 
 /** PostHog's project key is public: it only lets a browser send events. */

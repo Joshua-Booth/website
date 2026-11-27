@@ -109,6 +109,9 @@ const styles = stylex.create({
     lineHeight: 1.1,
     color: colors.faint,
   },
+  smallLinks: {
+    marginTop: "8px",
+  },
   links: {
     display: "flex",
     flexWrap: "wrap",
@@ -206,7 +209,7 @@ export function SmallTile({
   project: SmallProject;
   hidden?: boolean;
 }) {
-  const { name, when, what, picture } = project;
+  const { name, when, what, code, picture } = project;
 
   return (
     <li hidden={hidden} {...stylex.props(styles.tile)}>
@@ -226,6 +229,11 @@ export function SmallTile({
         <span {...stylex.props(styles.tag)}>{when}</span>
       </div>
       <p {...stylex.props(styles.what)}>{what}</p>
+      {code !== undefined && (
+        <div {...stylex.props(styles.smallLinks)}>
+          <OutLink href={code} label="View the code" />
+        </div>
+      )}
     </li>
   );
 }
