@@ -11,16 +11,12 @@ import { BigTile, BigTiles, textLink } from "@/entities/project/ui/tiles";
 
 import type { SiteFlags } from "@/shared/config/flags";
 import { isLive, pageInfo } from "@/shared/config/pages";
-import { EMAIL, LINKS, NAME } from "@/shared/config/site";
+import { DESIGN_ENGINEER, EMAIL, LINKS, NAME } from "@/shared/config/site";
 import { NewTabNote } from "@/shared/ui/new-tab-note";
 import { breakpoints, colors } from "@/shared/ui/tokens.stylex";
 
 import { homeJsonLd } from "../model/json-ld";
 import { CopyEmail } from "./copy-email";
-
-// The mock's words. Not yet settled against the live intro
-const ROLE = "Design engineer, Auckland";
-const INTRO = "I design and build interfaces.";
 
 const [user, domain] = EMAIL.split("@");
 
@@ -216,16 +212,18 @@ export function RedesignHome({ flags }: { flags: SiteFlags }) {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(homeJsonLd()) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(homeJsonLd(DESIGN_ENGINEER.jobTitle)),
+        }}
       />
       <WhiteHeader current="home" />
 
       <main {...stylex.props(styles.main)}>
         <div {...stylex.props(styles.hero)}>
           <h1 {...stylex.props(styles.name)}>{NAME}</h1>
-          <p {...stylex.props(styles.role)}>{ROLE}</p>
+          <p {...stylex.props(styles.role)}>{DESIGN_ENGINEER.role}</p>
         </div>
-        <p {...stylex.props(styles.intro)}>{INTRO}</p>
+        <p {...stylex.props(styles.intro)}>{DESIGN_ENGINEER.line}</p>
 
         <section
           id="projects"

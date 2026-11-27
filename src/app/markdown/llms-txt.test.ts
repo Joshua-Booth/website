@@ -2,9 +2,10 @@ import { existsSync } from "node:fs";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { PROJECTS } from "@/entities/project/model/projects";
+import { BIG_PROJECTS } from "@/entities/project/model/showcase";
 
 import { ALL_OFF, ALL_ON } from "@/shared/config/flags";
-import { PAGE_PATHS } from "@/shared/config/pages";
+import { livePages } from "@/shared/config/pages";
 import { SITE_URL } from "@/shared/config/site";
 
 import { llmsTxt } from "./llms-txt";
@@ -100,14 +101,30 @@ Email: [contact@joshuabooth.nz](mailto:contact@joshuabooth.nz)
   );
 
   it("ends only project lines with a full stop", () => {
-    const notes = llmsTxt(ALL_ON).match(/^- \[.*?\]\(.*?\): .*$/gm) ?? [];
-    const projects = section(llmsTxt(ALL_ON), "Projects")?.split("\n") ?? [];
+    const flags = { ...ALL_ON, redesign: false };
+    const text = llmsTxt(flags);
+    const notes = text.match(/^- \[.*?\]\(.*?\): .*$/gm) ?? [];
+    const projects = section(text, "Projects")?.split("\n") ?? [];
 
-    expect(notes.length).toBe(PAGE_PATHS.length + PROJECTS.length + 3);
+    expect(notes.length).toBe(livePages(flags).length + PROJECTS.length + 3);
     expect(projects.every((line) => line.endsWith("."))).toBe(true);
 
     expect(
       notes.filter((line) => !projects.includes(line) && line.endsWith("."))
     ).toEqual([]);
+  });
+
+  it("describes a design engineer and lists the showcase with the redesign on", () => {
+    const text = llmsTxt({ ...ALL_OFF, redesign: true });
+
+    expect(text).toContain(
+      "> Joshua Booth is a design engineer in Auckland. He designs and builds interfaces."
+    );
+
+    expect(section(text, "Projects")?.split("\n")).toHaveLength(
+      BIG_PROJECTS.length
+    );
+
+    expect(text).not.toMatch(/AI-native/);
   });
 });

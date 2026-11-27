@@ -37,3 +37,15 @@ export function pageMetadata(path: PagePath): Metadata {
     },
   };
 }
+
+/** The same metadata with another description, in the share card too. */
+export function withDescription(
+  metadata: Metadata,
+  description: string
+): Metadata {
+  return {
+    ...metadata,
+    description,
+    openGraph: { ...metadata.openGraph, description },
+  };
+}

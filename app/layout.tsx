@@ -14,7 +14,7 @@ import {
 
 import { getSiteFlags } from "@/shared/api/site-flags";
 import { HOOK } from "@/shared/config/effect-hooks";
-import { DESCRIPTION, LOCALE, NAME, SITE_URL } from "@/shared/config/site";
+import { LOCALE, NAME, SITE_URL, siteDescription } from "@/shared/config/site";
 import { sx } from "@/shared/lib/sx";
 import { icon } from "@/shared/ui/icon";
 import { interactive } from "@/shared/ui/interactive";
@@ -23,12 +23,16 @@ import { colors, fonts, sizes, space } from "@/shared/ui/tokens.stylex";
 import { whiteLook } from "@/shared/ui/white-look";
 import { xray } from "@/shared/ui/xray";
 
-export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
-  title: { default: NAME, template: `%s · ${NAME}` },
-  description: DESCRIPTION,
-  twitter: { card: "summary_large_image" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { redesign } = await getSiteFlags();
+
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: { default: NAME, template: `%s · ${NAME}` },
+    description: siteDescription(redesign),
+    twitter: { card: "summary_large_image" },
+  };
+}
 
 export async function generateViewport(): Promise<Viewport> {
   const { redesign } = await getSiteFlags();

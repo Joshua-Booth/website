@@ -4,6 +4,22 @@ export const EMAIL = "contact@joshuabooth.nz";
 export const DESCRIPTION =
   "Joshua Booth is an AI-native frontend lead in Auckland. He designs and builds products from first concept to live in production.";
 
+/**
+ * How the redesign introduces Josh. The live site keeps DESCRIPTION and
+ * INTRO until the redesign flag is on.
+ */
+export const DESIGN_ENGINEER = {
+  role: "Design engineer, Auckland",
+  line: "I design and build interfaces.",
+  jobTitle: "Design engineer",
+  description:
+    "Joshua Booth is a design engineer in Auckland. He designs and builds interfaces.",
+} as const;
+
+export function siteDescription(redesign: boolean): string {
+  return redesign ? DESIGN_ENGINEER.description : DESCRIPTION;
+}
+
 export const LOCALE = { lang: "en-NZ", og: "en_NZ" } as const;
 
 export const INTRO = {
