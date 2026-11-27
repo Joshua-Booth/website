@@ -21,7 +21,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 Parts of the site are behind PostHog feature flags, listed in `src/shared/config/flags.ts`. Locally they're all
 off. Set `SITE_FLAGS` to `all`, or a comma list of flag keys, to turn parts on, or leave it empty to ask PostHog.
 Flags are read when the site is built, so set it for the build. The live site asks PostHog when Netlify builds it,
-so a flag flipped in PostHog shows up after the next deploy. Netlify deploy previews turn every flag on.
+so a flag flipped in PostHog shows up after the next deploy. Netlify deploy previews build with `redesign` on.
 
 ## Audit
 
