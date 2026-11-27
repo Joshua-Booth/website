@@ -4,7 +4,8 @@ import type { WhiteFinding } from "./white.ts";
 import { mkdirSync, rmSync } from "node:fs";
 import { chromium } from "playwright";
 
-import { PAGE_PATHS } from "../../src/shared/config/pages.ts";
+import { ALL_ON } from "../../src/shared/config/flags.ts";
+import { livePages } from "../../src/shared/config/pages.ts";
 import { hoverTest } from "./hover.ts";
 import { installAudit } from "./in-page.ts";
 import { navigationAudit } from "./navigation.ts";
@@ -19,7 +20,11 @@ if (!base) {
 
 const live = await sitemapPaths(base);
 const white = await isWhite(base);
-const missing = PAGE_PATHS.filter((path) => !live.includes(path));
+
+// The x-ray look has every page but the ones only the redesign adds
+const missing = livePages({ ...ALL_ON, redesign: false }).filter(
+  (path) => !live.includes(path)
+);
 
 // The white look is checked on the pages it ships, so a build with only the
 // redesign flag on can be audited too
