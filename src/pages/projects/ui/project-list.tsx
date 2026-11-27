@@ -38,7 +38,10 @@ const styles = stylex.create({
     borderRadius: "999px",
     backgroundColor: "transparent",
     color: colors.ink,
-    paddingBlock: "6px",
+    // Archivo's caps sit a pixel above the line box's middle, so the label
+    // takes a pixel from the bottom padding to look centred
+    paddingTop: "7px",
+    paddingBottom: "5px",
     paddingInline: { default: "14px", [breakpoints.narrow]: "12px" },
     fontSize: "14px",
     fontWeight: 500,
