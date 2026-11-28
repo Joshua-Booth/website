@@ -1,10 +1,7 @@
 import type { Page } from "playwright";
 
-import { NOT_FOUND } from "./overlap.ts";
-
-// The redesign's white look has no x-ray, glow or blueprint, so it gets its
-// own checks: layout at every width, links, keyboard focus, hover, and
-// client-side navigation
+// Layout at every width, links, keyboard focus, hover, and client-side
+// navigation
 
 const SIZES = [
   [1440, 900],
@@ -15,15 +12,30 @@ const SIZES = [
   [360, 740],
 ] as const;
 
-export interface WhiteFinding {
+export interface Finding {
   page: string;
   size: string;
   kind: string;
   detail: string;
 }
 
-export const isWhite = async (base: string) =>
-  /<html[^>]*data-look="white"/.test(await (await fetch(`${base}/`)).text());
+export const NOT_FOUND = "/not-a-page";
+
+export async function sitemapPaths(base: string) {
+  const res = await fetch(`${base}/sitemap.xml`);
+
+  if (!res.ok) throw new Error(`${base}/sitemap.xml answered ${res.status}`);
+
+  const paths = [...(await res.text()).matchAll(/<loc>(.+?)<\/loc>/g)].map(
+    ([, loc]) => new URL(loc!).pathname
+  );
+
+  if (!paths.includes("/")) {
+    throw new Error(`${base}/sitemap.xml lists no homepage`);
+  }
+
+  return paths;
+}
 
 async function ready(page: Page) {
   await page.evaluate(async () => {
@@ -180,7 +192,7 @@ function layoutIssues() {
 }
 
 async function layoutAudit(page: Page, base: string, paths: string[]) {
-  const findings: WhiteFinding[] = [];
+  const findings: Finding[] = [];
 
   for (const [width, height] of SIZES) {
     const size = `${width}x${height}`;
@@ -204,7 +216,7 @@ async function layoutAudit(page: Page, base: string, paths: string[]) {
 // Every link on every page has to land: a 200 for pages and files on this
 // site, and a matching id for a hash. Outside links are listed, not fetched
 async function linkAudit(page: Page, base: string, paths: string[]) {
-  const findings: WhiteFinding[] = [];
+  const findings: Finding[] = [];
   const outside = new Set<string>();
   const fetched = new Map<string, { status: number; html: string }>();
 
@@ -320,7 +332,7 @@ function focusProblem(stop: {
 // Tab through each page. Every stop must be on screen, not covered, and show
 // a focus ring
 async function keyboardAudit(page: Page, base: string, paths: string[]) {
-  const findings: WhiteFinding[] = [];
+  const findings: Finding[] = [];
   const stops: Record<string, string[]> = {};
 
   for (const [width, height] of [
@@ -366,7 +378,7 @@ async function keyboardAudit(page: Page, base: string, paths: string[]) {
 // Force :hover on every link and button and compare computed styles. A
 // control that looks the same hovered gives no feedback
 async function hoverAudit(page: Page, base: string, paths: string[]) {
-  const findings: WhiteFinding[] = [];
+  const findings: Finding[] = [];
   const cdp = await page.context().newCDPSession(page);
 
   const PROPS = [
@@ -473,7 +485,7 @@ async function hoverAudit(page: Page, base: string, paths: string[]) {
 // Click through the header the way a visitor would, and check the page
 // doesn't keep listeners from the last one
 async function navigationAudit(page: Page, base: string) {
-  const findings: WhiteFinding[] = [];
+  const findings: Finding[] = [];
   const log: string[] = [];
   const cdp = await page.context().newCDPSession(page);
 
@@ -624,7 +636,7 @@ async function navigationAudit(page: Page, base: string) {
   return { findings, log };
 }
 
-export async function whiteAudit(page: Page, base: string, live: string[]) {
+export async function siteAudit(page: Page, base: string, live: string[]) {
   const paths = [...live, NOT_FOUND];
 
   const timed = async <T>(name: string, run: () => Promise<T>) => {

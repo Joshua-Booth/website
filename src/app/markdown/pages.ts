@@ -1,5 +1,4 @@
 import { homeMarkdown } from "@/pages/home/model/markdown";
-import { labMarkdown } from "@/pages/lab/model/markdown";
 import { pcosProtocolMarkdown } from "@/pages/pcos-protocol/model/markdown";
 import { projectsMarkdown } from "@/pages/projects/model/markdown";
 import { thisSiteMarkdown } from "@/pages/this-site/model/markdown";
@@ -17,7 +16,6 @@ const BODIES: Record<PagePath, PageBody> = {
   "/work/pcos-protocol": pcosProtocolMarkdown,
   "/writing/this-site": thisSiteMarkdown,
   "/projects": projectsMarkdown,
-  "/lab": labMarkdown,
 };
 
 export async function livePage(

@@ -9,7 +9,7 @@ import Study from "./pcos-protocol.mdx";
 export function PcosProtocolPage() {
   return (
     <>
-      <SiteHeader sheet="PCOS Protocol" />
+      <SiteHeader />
       <Main>
         <section
           data-name="PCOS Protocol"

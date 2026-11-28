@@ -34,13 +34,6 @@ export const PAGES = {
   "/projects": {
     title: "Projects",
     description: "Apps, app designs, games and tools by Joshua Booth.",
-    flag: "redesign",
-  },
-  "/lab": {
-    title: "Lab",
-    description:
-      "Small interfaces and components Joshua Booth builds to get the details right.",
-    flag: "lab",
   },
 } as const satisfies Partial<Record<Route, PageInfo>>;
 

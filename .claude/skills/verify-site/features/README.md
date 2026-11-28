@@ -5,7 +5,7 @@ The maintained source for checking what a visitor sees and does on the site. Rea
 ## Baseline preconditions
 
 - A build from `SKILL.md` Launch, served from `out/` on a port you started, and the Doctor check passing.
-- `SITE_FLAGS=redesign` unless the feature says otherwise.
+- `SITE_FLAGS=none` unless the feature says otherwise.
 - Chromium with reduced motion for anything measured after a scroll.
 
 ## Driving conventions

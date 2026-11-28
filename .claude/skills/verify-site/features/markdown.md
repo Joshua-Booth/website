@@ -1,7 +1,7 @@
 # Markdown copies
 
-Every page has a Markdown copy for agents and readers, plus `llms.txt` and `llms-full.txt`. With the redesign on,
-they introduce a design engineer and list the showcase projects.
+Every page has a Markdown copy for agents and readers, plus `llms.txt` and `llms-full.txt`. They
+introduce a design engineer and list the showcase projects.
 
 ## Sub-features
 
@@ -18,8 +18,7 @@ they introduce a design engineer and list the showcase projects.
 Preconditions: a build served, with the flags you want to check.
 
 - `curl -s localhost:4321/index.md | head -3` shows "**Design engineer, Auckland.** I design and build interfaces."
-  with the redesign on, and the frontend lead intro with it off.
-- `curl -s localhost:4321/llms.txt` has no "AI-native" with the redesign on, and every page under Pages answers 200.
+- `curl -s localhost:4321/llms.txt` has no "AI-native", and every page under Pages answers 200.
 
 ## Gotchas
 

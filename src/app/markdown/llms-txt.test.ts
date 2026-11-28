@@ -1,7 +1,6 @@
 import { existsSync } from "node:fs";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { PROJECTS } from "@/entities/project/model/projects";
 import { BIG_PROJECTS } from "@/entities/project/model/showcase";
 
 import { ALL_OFF, ALL_ON } from "@/shared/config/flags";
@@ -39,7 +38,7 @@ describe("llmsTxt", () => {
   it("is the exact text with every flag off", () => {
     expect(llmsTxt(ALL_OFF)).toBe(`# Joshua Booth
 
-> Joshua Booth is an AI-native frontend lead in Auckland. He designs and builds products from first concept to live in production.
+> Joshua Booth is a design engineer in Auckland. He designs and builds interfaces.
 
 Work:
 
@@ -52,13 +51,17 @@ Email: [contact@joshuabooth.nz](mailto:contact@joshuabooth.nz)
 ## Pages
 
 - [Home](https://joshuabooth.nz/index.md): Work, projects and contact details
+- [Projects](https://joshuabooth.nz/projects.md): Apps, app designs, games and tools by Joshua Booth
 
 ## Projects
 
-- [This site](https://github.com/Joshua-Booth/website): Source code for joshuabooth.nz. Open source.
-- [Tax Calculator](https://calculatetax.netlify.app): Works out New Zealand take-home pay after tax, ACC, KiwiSaver and student loan. Open source ([Code](https://github.com/Joshua-Booth/calculate-tax)).
-- [creact](https://github.com/Joshua-Booth/creact): React web app template with testing and coding agent setup done. Open source.
-- [Audio Devotions](https://audiodevotions.netlify.app): Daily audio devotional web app for people with reduced vision. Open source ([Code](https://github.com/Joshua-Booth/audio-devotions)).
+- **creact**: A React app template, and a CLI that starts a new app from it with linting, tests, git hooks and the coding-agent setup already in place. [View on npm](https://www.npmjs.com/package/create-creact), [View the code](https://github.com/Joshua-Booth/creact).
+- **Recipes**: A recipe app for browsing by course, searching, and adding your own recipes. [Visit the site](https://jb-recipes.netlify.app), [Try the demo](https://jb-recipes-app.netlify.app).
+- **Tax Calculator**: Works out your New Zealand take-home pay after tax, ACC, KiwiSaver and student loan. [Open the app](https://calculatetax.netlify.app), [View the code](https://github.com/Joshua-Booth/calculate-tax).
+- **PCOS Protocol**: A nutrition course app, with daily lessons, a knowledge base and recipes. I built it at The PCOS Nutritionist. Shown with made-up content.
+- **Audio Devotions**: A daily audio devotional for people with reduced vision, with big controls and a high contrast mode. [Open the app](https://audiodevotions.netlify.app), [View the code](https://github.com/Joshua-Booth/audio-devotions).
+- **Equipped Youth Manual**: An app for Realive Youth members to share and deepen their faith. I led the team of five that built it in 2019. [Open the app](https://realiveyouth.netlify.app), [View the code](https://github.com/Joshua-Booth/realiveyouth).
+- **Two Ticks**: A visual explainer of how split votes created overhang seats in New Zealand's 2026 election. [Open the app](https://twoticks.netlify.app).
 
 ## Optional
 
@@ -75,7 +78,6 @@ Email: [contact@joshuabooth.nz](mailto:contact@joshuabooth.nz)
         "- [PCOS Protocol](https://joshuabooth.nz/work/pcos-protocol.md): A course app for a nutrition business, designed and built by Joshua Booth as its only developer",
         "- [How this site is built](https://joshuabooth.nz/writing/this-site.md): How joshuabooth.nz is built in Next.js, and how its pages build themselves",
         "- [Projects](https://joshuabooth.nz/projects.md): Apps, app designs, games and tools by Joshua Booth",
-        "- [Lab](https://joshuabooth.nz/lab.md): Small interfaces and components Joshua Booth builds to get the details right",
       ].join("\n")
     );
   });
@@ -101,30 +103,16 @@ Email: [contact@joshuabooth.nz](mailto:contact@joshuabooth.nz)
   );
 
   it("ends only project lines with a full stop", () => {
-    const flags = { ...ALL_ON, redesign: false };
-    const text = llmsTxt(flags);
+    const text = llmsTxt(ALL_ON);
     const notes = text.match(/^- \[.*?\]\(.*?\): .*$/gm) ?? [];
     const projects = section(text, "Projects")?.split("\n") ?? [];
 
-    expect(notes.length).toBe(livePages(flags).length + PROJECTS.length + 3);
+    expect(notes.length).toBe(livePages(ALL_ON).length + 3);
+    expect(projects).toHaveLength(BIG_PROJECTS.length);
     expect(projects.every((line) => line.endsWith("."))).toBe(true);
 
     expect(
       notes.filter((line) => !projects.includes(line) && line.endsWith("."))
     ).toEqual([]);
-  });
-
-  it("describes a design engineer and lists the showcase with the redesign on", () => {
-    const text = llmsTxt({ ...ALL_OFF, redesign: true });
-
-    expect(text).toContain(
-      "> Joshua Booth is a design engineer in Auckland. He designs and builds interfaces."
-    );
-
-    expect(section(text, "Projects")?.split("\n")).toHaveLength(
-      BIG_PROJECTS.length
-    );
-
-    expect(text).not.toMatch(/AI-native/);
   });
 });

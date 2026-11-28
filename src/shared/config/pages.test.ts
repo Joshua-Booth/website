@@ -61,7 +61,7 @@ describe("the page list", () => {
   });
 
   it.each([
-    ["none", ["https://joshuabooth.nz"]],
+    ["none", ["https://joshuabooth.nz", "https://joshuabooth.nz/projects"]],
     ["all", PAGE_PATHS.map(pageUrl)],
   ])("is the sitemap, with SITE_FLAGS=%s", async (siteFlags, urls) => {
     vi.stubEnv("SITE_FLAGS", siteFlags);
@@ -76,14 +76,13 @@ describe("the page list", () => {
   });
 
   it("lists only the pages whose flags are on", () => {
-    expect(livePages(ALL_OFF)).toEqual(["/"]);
+    expect(livePages(ALL_OFF)).toEqual(["/", "/projects"]);
 
     expect(livePages(ALL_ON)).toEqual([
       "/",
       "/work/pcos-protocol",
       "/writing/this-site",
       "/projects",
-      "/lab",
     ]);
   });
 });
@@ -107,7 +106,7 @@ describe("exportPath", () => {
   it("is index for the homepage, and the path for the rest", () => {
     expect(exportPath("/", "md")).toBe("/index.md");
     expect(exportPath("/", "html")).toBe("/index.html");
-    expect(exportPath("/lab", "txt")).toBe("/lab.txt");
+    expect(exportPath("/projects", "txt")).toBe("/projects.txt");
 
     expect(exportPath("/work/pcos-protocol", "md")).toBe(
       "/work/pcos-protocol.md"

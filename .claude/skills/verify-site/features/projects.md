@@ -14,7 +14,7 @@
 
 ## Driving it with Playwright
 
-Preconditions: redesign build, served. The page exists only with the redesign flag.
+Preconditions: a build, served.
 
 - Grid: load `/projects`, scroll through, and every `img` has `naturalWidth > 0`.
 - Filter: click the button named "Games". It has `aria-pressed="true"`, All has `aria-pressed="false"`, and only

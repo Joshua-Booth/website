@@ -1,8 +1,6 @@
 export interface SiteFlags {
-  lab: boolean;
   pcosCaseStudy: boolean;
   thisSiteCaseStudy: boolean;
-  redesign: boolean;
 }
 
 /**
@@ -10,18 +8,14 @@ export interface SiteFlags {
  * since every visitor gets the same page.
  */
 export const FLAG_KEYS = {
-  lab: "lab",
   pcosCaseStudy: "pcos-case-study",
   thisSiteCaseStudy: "this-site-case-study",
-  redesign: "redesign",
 } as const satisfies Record<keyof SiteFlags, string>;
 
 export function flagsWhere(isOn: (key: string) => boolean): SiteFlags {
   return {
-    lab: isOn(FLAG_KEYS.lab),
     pcosCaseStudy: isOn(FLAG_KEYS.pcosCaseStudy),
     thisSiteCaseStudy: isOn(FLAG_KEYS.thisSiteCaseStudy),
-    redesign: isOn(FLAG_KEYS.redesign),
   };
 }
 

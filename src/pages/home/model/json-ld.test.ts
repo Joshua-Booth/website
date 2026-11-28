@@ -11,7 +11,7 @@ it("builds a Person + WebSite @graph from site config", () => {
         "@id": "https://joshuabooth.nz/#person",
         name: "Joshua Booth",
         url: "https://joshuabooth.nz/",
-        jobTitle: "Frontend Lead",
+        jobTitle: "Design engineer",
         sameAs: [
           "https://www.linkedin.com/in/joshua-booth",
           "https://github.com/Joshua-Booth",
@@ -32,10 +32,4 @@ it("stays minimal: no image, email, or address", () => {
   const payload = JSON.stringify(homeJsonLd());
 
   expect(payload).not.toMatch(/image|email|address/i);
-});
-
-it("takes the redesign's job title", () => {
-  const [person] = homeJsonLd("Design engineer")["@graph"];
-
-  expect(person).toMatchObject({ jobTitle: "Design engineer" });
 });

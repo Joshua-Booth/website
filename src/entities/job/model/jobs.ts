@@ -37,9 +37,6 @@ export const JOBS: readonly [Job, ...Job[]] = [
   },
 ];
 
-/** The title of the latest role, which is past, not a current job. */
-export const LATEST_ROLE = JOBS[0].roles[0].title;
-
 export function jobLine({ employer, roles }: Job): string {
   return roles
     .map(({ title, when }) => `${title} at ${employer}, ${when}`)

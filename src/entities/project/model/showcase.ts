@@ -164,7 +164,7 @@ export const SMALL_PROJECTS: readonly SmallProject[] = [
     code: LINKS.repo,
     picture: small(
       "this-site",
-      "Six versions of this site stacked, oldest at the back."
+      "Seven versions of this site stacked, oldest at the back."
     ),
   },
   {

@@ -14,7 +14,7 @@ projects.
 
 ## Driving it with Playwright
 
-Preconditions: redesign build, served.
+Preconditions: a build, served.
 
 - `curl -s -o /dev/null -w '%{http_code}' localhost:4321/not-a-page` prints 404.
 - Load `/not-a-page`. The `h1` is "Page not found", and "Go to the home page" goes to `/`.

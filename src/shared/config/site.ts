@@ -2,30 +2,16 @@ export const SITE_URL = "https://joshuabooth.nz";
 export const NAME = "Joshua Booth";
 export const EMAIL = "contact@joshuabooth.nz";
 export const DESCRIPTION =
-  "Joshua Booth is an AI-native frontend lead in Auckland. He designs and builds products from first concept to live in production.";
+  "Joshua Booth is a design engineer in Auckland. He designs and builds interfaces.";
 
-/**
- * How the redesign introduces Josh. The live site keeps DESCRIPTION and
- * INTRO until the redesign flag is on.
- */
-export const DESIGN_ENGINEER = {
+/** How the home page introduces Josh. */
+export const INTRO = {
   role: "Design engineer, Auckland",
   line: "I design and build interfaces.",
   jobTitle: "Design engineer",
-  description:
-    "Joshua Booth is a design engineer in Auckland. He designs and builds interfaces.",
 } as const;
-
-export function siteDescription(redesign: boolean): string {
-  return redesign ? DESIGN_ENGINEER.description : DESCRIPTION;
-}
 
 export const LOCALE = { lang: "en-NZ", og: "en_NZ" } as const;
-
-export const INTRO = {
-  lead: "I'm an AI-native frontend lead in Auckland.",
-  rest: "I design and build products from first concept to live in production.",
-} as const;
 
 export const LINKS = {
   linkedin: "https://www.linkedin.com/in/joshua-booth",
