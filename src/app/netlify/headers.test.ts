@@ -5,7 +5,7 @@ import { ALL_OFF, ALL_ON } from "@/shared/config/flags";
 import { netlifyHeaders } from "./headers";
 
 describe("netlifyHeaders", () => {
-  it("links the homepage to llms.txt, and its Markdown back to it, with every flag off", () => {
+  it("links each live page to llms.txt, and its Markdown back to it, with every flag off", () => {
     expect(netlifyHeaders(ALL_OFF)).toBe(`/
   Link: </llms.txt>; rel="describedby"
 
@@ -15,6 +15,16 @@ describe("netlifyHeaders", () => {
 /index.md
   Content-Type: text/markdown; charset=utf-8
   Link: <https://joshuabooth.nz>; rel="canonical", </llms.txt>; rel="describedby"
+
+/projects
+  Link: </llms.txt>; rel="describedby"
+
+/projects.html
+  Link: </llms.txt>; rel="describedby"
+
+/projects.md
+  Content-Type: text/markdown; charset=utf-8
+  Link: <https://joshuabooth.nz/projects>; rel="canonical", </llms.txt>; rel="describedby"
 
 /llms.txt
   Content-Type: text/plain; charset=utf-8
@@ -38,9 +48,6 @@ describe("netlifyHeaders", () => {
       "/projects",
       "/projects.html",
       "/projects.md",
-      "/lab",
-      "/lab.html",
-      "/lab.md",
       "/llms.txt",
       "/llms-full.txt",
     ]);

@@ -16,10 +16,10 @@ The Node version comes from `.node-version` and the pnpm version from `mise.toml
 | `mise run preview`  | Serve `out/` locally                                             |
 | `mise run check`    | Format, lint, stylelint, types, structure, knip, spelling, tests |
 | `mise run test:run` | Run the unit tests                                               |
-| `mise run audit`    | Run the overlap, navigation and hover audits against `preview`   |
+| `mise run audit`    | Run the layout, link, keyboard and hover audit against `preview` |
 
 ## Structure
 
 Routes live in `app/`. Everything else follows [Feature-Sliced Design](https://feature-sliced.design) in `src/`:
 `app` (global styles and fonts, and the builders for llms.txt and Netlify's `_headers` and `_redirects`), `pages`,
-`widgets`, `features` (the page effects), `entities` (the Lab tiles, jobs and projects) and `shared`.
+`widgets`, `features` (hash focus), `entities` (jobs and projects) and `shared`.

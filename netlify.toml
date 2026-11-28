@@ -12,11 +12,6 @@ for = "/_next/static/*"
 [headers.values]
 Cache-Control = "public, max-age=31536000, immutable"
 
-# Deploy previews show the redesign as it will launch. The case studies and the
-# Lab stay off: they're still in the old look
-[context.deploy-preview.environment]
-SITE_FLAGS = "redesign"
-
 # The home screen icon is public/apple-icon.png; crawlers and audits ask for the conventional names
 [[redirects]]
 from = "/apple-touch-icon.png"
@@ -27,3 +22,25 @@ status = 200
 from = "/apple-touch-icon-precomposed.png"
 to = "/apple-icon.png"
 status = 200
+
+# The white icons and share card were served under -white names for a day
+# before they became the only ones
+[[redirects]]
+from = "/og-white.png"
+to = "/og.png"
+status = 301
+
+[[redirects]]
+from = "/icon-white.svg"
+to = "/icon.svg"
+status = 301
+
+[[redirects]]
+from = "/favicon-white.ico"
+to = "/favicon.ico"
+status = 301
+
+[[redirects]]
+from = "/apple-icon-white.png"
+to = "/apple-icon.png"
+status = 301

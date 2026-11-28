@@ -15,7 +15,7 @@ export default defineConfig([
   {
     // Its one importer is app/layout.tsx, outside src/, where steiger can't
     // see it
-    files: ["./src/features/page-effects/**"],
+    files: ["./src/features/hash-focus/**"],
     rules: {
       "fsd/insignificant-slice": "off",
     },

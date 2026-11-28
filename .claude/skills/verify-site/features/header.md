@@ -15,7 +15,7 @@ sections of the home page.
 
 ## Driving it with Playwright
 
-Preconditions: redesign build, served.
+Preconditions: a build, served.
 
 - From `/`, click `nav[aria-label="Main"] a[href="/projects"]`. The URL is `/projects` and the `h1` is "Projects".
 - Click `#top a[href="/"]`. The URL is `/`.

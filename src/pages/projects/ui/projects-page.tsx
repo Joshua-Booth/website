@@ -1,6 +1,6 @@
 import * as stylex from "@stylexjs/stylex";
 
-import { WhiteHeader } from "@/widgets/site-header/ui/white-header";
+import { SiteHeader } from "@/widgets/site-header/ui/site-header";
 
 import { breakpoints, colors } from "@/shared/ui/tokens.stylex";
 
@@ -28,7 +28,7 @@ const styles = stylex.create({
 export function ProjectsPage() {
   return (
     <>
-      <WhiteHeader current="projects" />
+      <SiteHeader current="projects" />
       <main {...stylex.props(styles.main)}>
         <h1 {...stylex.props(styles.title)}>Projects</h1>
         <ProjectList />

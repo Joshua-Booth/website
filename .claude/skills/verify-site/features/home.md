@@ -17,7 +17,7 @@ gives the email address with a button that copies it.
 
 ## Driving it with Playwright
 
-Preconditions: redesign build, served.
+Preconditions: a build, served.
 
 - Intro: load `/`. `h1` reads "Joshua Booth", and the page has "Design engineer, Auckland" and
   "I design and build interfaces.". `<meta name="description">` says design engineer.

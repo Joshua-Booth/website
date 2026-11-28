@@ -4,67 +4,39 @@ import type { ReactNode } from "react";
 import * as stylex from "@stylexjs/stylex";
 import { ArrowUp } from "lucide-react";
 
-import { archivo, plexMono } from "@/app/styles/fonts";
+import { archivo } from "@/app/styles/fonts";
 import "@/app/styles/global.css";
 
-import {
-  HashFocus,
-  PageEffects,
-} from "@/features/page-effects/ui/page-effects";
+import { HashFocus } from "@/features/hash-focus/ui/hash-focus";
 
-import { getSiteFlags } from "@/shared/api/site-flags";
-import { HOOK } from "@/shared/config/effect-hooks";
-import { LOCALE, NAME, SITE_URL, siteDescription } from "@/shared/config/site";
-import { sx } from "@/shared/lib/sx";
+import { DESCRIPTION, LOCALE, NAME, SITE_URL } from "@/shared/config/site";
 import { icon } from "@/shared/ui/icon";
-import { interactive } from "@/shared/ui/interactive";
-import { rootMarker, xrayMarker } from "@/shared/ui/markers.stylex";
-import { colors, fonts, sizes, space } from "@/shared/ui/tokens.stylex";
-import { whiteLook } from "@/shared/ui/white-look";
-import { xray } from "@/shared/ui/xray";
+import { colors, fonts, space } from "@/shared/ui/tokens.stylex";
 
-// Files in public/, so each look links its own. The .ico is for browsers that
-// can't use the SVG
-const iconSet = (look: string) => ({
-  icon: [
-    { url: `/favicon${look}.ico`, sizes: "48x48", type: "image/x-icon" },
-    { url: `/icon${look}.svg`, sizes: "any", type: "image/svg+xml" },
-  ],
-  apple: { url: `/apple-icon${look}.png`, sizes: "180x180" },
-});
+// The .ico is for browsers that can't use the SVG
+export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
+  title: { default: NAME, template: `%s · ${NAME}` },
+  description: DESCRIPTION,
+  twitter: { card: "summary_large_image" },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "48x48", type: "image/x-icon" },
+      { url: "/icon.svg", sizes: "any", type: "image/svg+xml" },
+    ],
+    apple: { url: "/apple-icon.png", sizes: "180x180" },
+  },
+};
 
-const ICONS = { blue: iconSet(""), white: iconSet("-white") };
-
-export async function generateMetadata(): Promise<Metadata> {
-  const { redesign } = await getSiteFlags();
-
-  return {
-    metadataBase: new URL(SITE_URL),
-    title: { default: NAME, template: `%s · ${NAME}` },
-    description: siteDescription(redesign),
-    twitter: { card: "summary_large_image" },
-    icons: redesign ? ICONS.white : ICONS.blue,
-  };
-}
-
-export async function generateViewport(): Promise<Viewport> {
-  const { redesign } = await getSiteFlags();
-
-  return {
-    themeColor: redesign ? "#fff" : "#034694",
-    colorScheme: redesign ? "light" : "dark",
-    viewportFit: "cover",
-  };
-}
-
-const show = stylex.keyframes({ to: { opacity: 1 } });
+export const viewport: Viewport = {
+  themeColor: "#fff",
+  colorScheme: "light",
+  viewportFit: "cover",
+};
 
 const styles = stylex.create({
   html: {
     backgroundColor: colors.ground,
-    colorScheme: "dark",
-  },
-  htmlWhite: {
     colorScheme: "light",
   },
   body: {
@@ -83,26 +55,6 @@ const styles = stylex.create({
     containerType: "inline-size",
     backgroundColor: colors.ground,
     overflowX: "clip",
-    // Hidden for the moment it takes to put the covers on, and shown anyway if
-    // they never go on
-    opacity: {
-      default: 0,
-      [stylex.when.ancestor("[data-ready]", rootMarker)]: 1,
-      "@media (prefers-reduced-motion: reduce)": 1,
-    },
-    animationName: {
-      default: show,
-      [stylex.when.ancestor("[data-ready]", rootMarker)]: "none",
-      "@media (prefers-reduced-motion: reduce)": "none",
-    },
-    animationDuration: "0s",
-    animationDelay: "2.5s",
-    animationFillMode: "forwards",
-  },
-  // With no covers to wait for, the white look shows at once
-  siteShown: {
-    opacity: 1,
-    animationName: "none",
   },
   page: {
     position: "relative",
@@ -113,48 +65,31 @@ const styles = stylex.create({
     paddingTop: 0,
     paddingBottom: "56px",
   },
+  // A hairline over the footer
   foot: {
     width: "100%",
-    maxWidth: sizes.page,
+    maxWidth: "1200px",
     marginInline: "auto",
-    marginTop: "64px",
-    borderTopWidth: "2px",
+    marginTop: "120px",
+    borderTopWidth: "1px",
+    borderTopStyle: "solid",
+    borderTopColor: colors.rule,
     paddingTop: "16px",
     display: "flex",
     justifyContent: "space-between",
     gap: "12px",
     flexWrap: "wrap",
-    fontSize: "14px",
-    color: {
-      default: colors.faint,
-      [stylex.when.ancestor("[data-xray]", xrayMarker)]: colors.xrayText,
-    },
-  },
-  // The redesign's page is 1200 wide, with a hairline over the footer
-  footWhite: {
-    maxWidth: "1200px",
-    marginTop: "120px",
-    borderTopWidth: "1px",
-    borderTopStyle: "solid",
-    borderTopColor: colors.rule,
     fontSize: "13px",
+    color: colors.faint,
   },
   footLink: {
-    color: {
-      default: colors.faint,
-      ":hover": colors.ink,
-      [stylex.when.ancestor("[data-xray]", xrayMarker)]: colors.xrayText,
-    },
+    color: { default: colors.faint, ":hover": colors.ink },
     textDecoration: "none",
   },
 });
 
-export default async function RootLayout({
-  children,
-}: {
-  children: ReactNode;
-}) {
-  const { redesign } = await getSiteFlags();
+export default function RootLayout({ children }: { children: ReactNode }) {
+  const html = stylex.props(styles.html);
 
   return (
     // global.css scrolls smoothly within a page; this tells Next.js to jump,
@@ -162,41 +97,20 @@ export default async function RootLayout({
     <html
       lang={LOCALE.lang}
       data-scroll-behavior="smooth"
-      data-look={redesign ? "white" : undefined}
-      {...sx(
-        `${archivo.variable} ${plexMono.variable}`,
-        styles.html,
-        redesign && [whiteLook, styles.htmlWhite]
-      )}
+      className={[archivo.variable, html.className].join(" ")}
     >
-      <head>
-        <noscript>
-          <style>{".site{opacity:1!important;animation:none!important}"}</style>
-        </noscript>
-      </head>
-      <body {...stylex.props(styles.body, rootMarker)}>
-        <div {...sx(HOOK.site, styles.site, redesign && styles.siteShown)}>
-          <div {...sx(HOOK.page, styles.page)}>
+      <body {...stylex.props(styles.body)}>
+        <div {...stylex.props(styles.site)}>
+          <div {...stylex.props(styles.page)}>
             {children}
-            <footer
-              data-name="Footer"
-              {...sx(
-                "foot",
-                xray.ruleTop,
-                styles.foot,
-                redesign && styles.footWhite
-              )}
-            >
+            <footer {...stylex.props(styles.foot)}>
               <span>© 2026</span>
-              <a
-                href="#top"
-                {...stylex.props(interactive.raise, styles.footLink)}
-              >
+              <a href="#top" {...stylex.props(styles.footLink)}>
                 Back to top <ArrowUp {...stylex.props(icon.inline)} />
               </a>
             </footer>
           </div>
-          {redesign ? <HashFocus /> : <PageEffects />}
+          <HashFocus />
         </div>
       </body>
     </html>

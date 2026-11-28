@@ -6,12 +6,12 @@ import { netlifyRedirects } from "./redirects";
 
 describe("netlifyRedirects", () => {
   it("answers 404 for every file a hidden page exports", () => {
-    expect(netlifyRedirects({ ...ALL_ON, lab: false }))
-      .toBe(`/lab  /404.html  404!
-/lab.html  /404.html  404!
-/lab.txt  /404.html  404!
-/lab.md  /404.html  404!
-/lab/*  /404.html  404!
+    expect(netlifyRedirects({ ...ALL_ON, pcosCaseStudy: false }))
+      .toBe(`/work/pcos-protocol  /404.html  404!
+/work/pcos-protocol.html  /404.html  404!
+/work/pcos-protocol.txt  /404.html  404!
+/work/pcos-protocol.md  /404.html  404!
+/work/pcos-protocol/*  /404.html  404!
 `);
   });
 
@@ -27,16 +27,6 @@ describe("netlifyRedirects", () => {
       "/writing/this-site.txt",
       "/writing/this-site.md",
       "/writing/this-site/*",
-      "/projects",
-      "/projects.html",
-      "/projects.txt",
-      "/projects.md",
-      "/projects/*",
-      "/lab",
-      "/lab.html",
-      "/lab.txt",
-      "/lab.md",
-      "/lab/*",
     ]);
   });
 

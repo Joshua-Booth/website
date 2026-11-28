@@ -34,11 +34,8 @@ describe("flagsOverride", () => {
   });
 
   it("turns on only the parts listed", () => {
-    expect(flagsOverride("lab")).toEqual({ ...ALL_OFF, lab: true });
-
-    expect(flagsOverride("pcos-case-study, lab")).toEqual({
+    expect(flagsOverride("pcos-case-study")).toEqual({
       ...ALL_OFF,
-      lab: true,
       pcosCaseStudy: true,
     });
 
@@ -49,21 +46,28 @@ describe("flagsOverride", () => {
   });
 
   it("throws on a flag it doesn't know, naming it", () => {
-    expect(() => flagsOverride("labs, pcos-case-study")).toThrow(
-      "SITE_FLAGS names unknown flags: labs."
+    expect(() => flagsOverride("pcos, pcos-case-study")).toThrow(
+      "SITE_FLAGS names unknown flags: pcos."
     );
   });
 
   it("ignores empty entries", () => {
-    expect(flagsOverride("lab, ")).toEqual({ ...ALL_OFF, lab: true });
+    expect(flagsOverride("pcos-case-study, ")).toEqual({
+      ...ALL_OFF,
+      pcosCaseStudy: true,
+    });
   });
 });
 
 describe("siteFlagsValue", () => {
   it("names the PostHog keys that are on", () => {
-    expect(siteFlagsValue({ ...ALL_OFF, lab: true, pcosCaseStudy: true })).toBe(
-      "lab,pcos-case-study"
-    );
+    expect(
+      siteFlagsValue({
+        ...ALL_OFF,
+        pcosCaseStudy: true,
+        thisSiteCaseStudy: true,
+      })
+    ).toBe("pcos-case-study,this-site-case-study");
 
     expect(siteFlagsValue(ALL_OFF)).toBe("none");
   });
@@ -80,12 +84,15 @@ describe("getSiteFlags", () => {
   it("turns on the flags PostHog has on, and leaves the rest off", async () => {
     postHogReturns({
       flags: {
-        lab: { enabled: true },
-        "pcos-case-study": { enabled: false },
+        "pcos-case-study": { enabled: true },
+        "this-site-case-study": { enabled: false },
       },
     });
 
-    await expect(getSiteFlags()).resolves.toEqual({ ...ALL_OFF, lab: true });
+    await expect(getSiteFlags()).resolves.toEqual({
+      ...ALL_OFF,
+      pcosCaseStudy: true,
+    });
   });
 
   it("treats a flag PostHog leaves out as off, as it leaves out switched-off flags", async () => {
@@ -97,10 +104,16 @@ describe("getSiteFlags", () => {
   it.each([
     [{}, "no answer"],
     [[], "no answer"],
-    [{ flags: "lab" }, "no answer"],
+    [{ flags: "pcos-case-study" }, "no answer"],
     [{ flags: [] }, "no answer"],
-    [{ flags: { lab: true } }, "lab flag can't be read"],
-    [{ flags: { lab: { enabled: "true" } } }, "lab flag can't be read"],
+    [
+      { flags: { "pcos-case-study": true } },
+      "pcos-case-study flag can't be read",
+    ],
+    [
+      { flags: { "pcos-case-study": { enabled: "true" } } },
+      "pcos-case-study flag can't be read",
+    ],
     [{ flags: {}, errorsWhileComputingFlags: true }, "had errors"],
     [{ flags: {}, quotaLimited: ["feature_flags"] }, "quota is used up"],
   ])("throws on an answer it can't trust (%j)", async (body, message) => {

@@ -1,26 +1,21 @@
 import * as stylex from "@stylexjs/stylex";
 
-// The site's one look: a royal blue ground in light and dark alike, white ink,
-// and Archivo pushed wide. Pink is only for the x-ray's measurements
+// The site's one look: near-black ink on white, grey for quieter text and
+// rules
 export const colors = stylex.defineVars({
-  ground: "#034694",
-  ink: "#fff",
-  soft: "rgba(255, 255, 255, 0.86)",
-  faint: "rgba(255, 255, 255, 0.7)",
-  rule: "rgba(255, 255, 255, 0.22)",
-  invertBg: "#fff",
-  invertInk: "#034694",
-  measure: "#ff9ebb",
+  ground: "#fff",
+  ink: "#0e0e10",
+  soft: "#55575d",
+  faint: "#8a8c92",
+  rule: "#e4e4e7",
+  invertBg: "#0e0e10",
+  invertInk: "#fff",
   // The ground a project's picture sits on
-  mat: "rgba(255, 255, 255, 0.08)",
-  xrayStroke: "rgba(255, 255, 255, 0.95)",
-  xrayText: "rgba(255, 255, 255, 0.5)",
-  xrayDash: "rgba(255, 255, 255, 0.55)",
+  mat: "#f3f3f1",
 });
 
 export const fonts = stylex.defineVars({
   sans: "var(--font-archivo), ui-sans-serif, system-ui, sans-serif",
-  mono: "var(--font-plex-mono), ui-monospace, monospace",
 });
 
 export const space = stylex.defineVars({

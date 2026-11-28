@@ -27,7 +27,7 @@ async function markdownRoute(
 
 const INDEX_OFF = `# Joshua Booth
 
-**I'm an AI-native frontend lead in Auckland.** I design and build products from first concept to live in production.
+**Design engineer, Auckland.** I design and build interfaces.
 
 ## Work
 
@@ -37,10 +37,15 @@ const INDEX_OFF = `# Joshua Booth
 
 ## Projects
 
-- [This site](https://github.com/Joshua-Booth/website): Source code for joshuabooth.nz. Open source.
-- [Tax Calculator](https://calculatetax.netlify.app): Works out New Zealand take-home pay after tax, ACC, KiwiSaver and student loan. Open source ([Code](https://github.com/Joshua-Booth/calculate-tax)).
-- [creact](https://github.com/Joshua-Booth/creact): React web app template with testing and coding agent setup done. Open source.
-- [Audio Devotions](https://audiodevotions.netlify.app): Daily audio devotional web app for people with reduced vision. Open source ([Code](https://github.com/Joshua-Booth/audio-devotions)).
+- **creact**: A React app template, and a CLI that starts a new app from it with linting, tests, git hooks and the coding-agent setup already in place. [View on npm](https://www.npmjs.com/package/create-creact), [View the code](https://github.com/Joshua-Booth/creact).
+- **Recipes**: A recipe app for browsing by course, searching, and adding your own recipes. [Visit the site](https://jb-recipes.netlify.app), [Try the demo](https://jb-recipes-app.netlify.app).
+- **Tax Calculator**: Works out your New Zealand take-home pay after tax, ACC, KiwiSaver and student loan. [Open the app](https://calculatetax.netlify.app), [View the code](https://github.com/Joshua-Booth/calculate-tax).
+- **PCOS Protocol**: A nutrition course app, with daily lessons, a knowledge base and recipes. I built it at The PCOS Nutritionist. Shown with made-up content.
+- **Audio Devotions**: A daily audio devotional for people with reduced vision, with big controls and a high contrast mode. [Open the app](https://audiodevotions.netlify.app), [View the code](https://github.com/Joshua-Booth/audio-devotions).
+- **Equipped Youth Manual**: An app for Realive Youth members to share and deepen their faith. I led the team of five that built it in 2019. [Open the app](https://realiveyouth.netlify.app), [View the code](https://github.com/Joshua-Booth/realiveyouth).
+- **Two Ticks**: A visual explainer of how split votes created overhang seats in New Zealand's 2026 election. [Open the app](https://twoticks.netlify.app).
+
+[All projects](https://joshuabooth.nz/projects.md)
 
 ## Contact
 
@@ -51,7 +56,7 @@ const INDEX_OFF = `# Joshua Booth
 
 const INDEX_ON = `# Joshua Booth
 
-**I'm an AI-native frontend lead in Auckland.** I design and build products from first concept to live in production.
+**Design engineer, Auckland.** I design and build interfaces.
 
 ## Work
 
@@ -61,14 +66,15 @@ const INDEX_ON = `# Joshua Booth
 
 ## Projects
 
-- [This site](https://github.com/Joshua-Booth/website): Source code for joshuabooth.nz. Open source. ([How it's built](https://joshuabooth.nz/writing/this-site.md))
-- [Tax Calculator](https://calculatetax.netlify.app): Works out New Zealand take-home pay after tax, ACC, KiwiSaver and student loan. Open source ([Code](https://github.com/Joshua-Booth/calculate-tax)).
-- [creact](https://github.com/Joshua-Booth/creact): React web app template with testing and coding agent setup done. Open source.
-- [Audio Devotions](https://audiodevotions.netlify.app): Daily audio devotional web app for people with reduced vision. Open source ([Code](https://github.com/Joshua-Booth/audio-devotions)).
+- **creact**: A React app template, and a CLI that starts a new app from it with linting, tests, git hooks and the coding-agent setup already in place. [View on npm](https://www.npmjs.com/package/create-creact), [View the code](https://github.com/Joshua-Booth/creact).
+- **Recipes**: A recipe app for browsing by course, searching, and adding your own recipes. [Visit the site](https://jb-recipes.netlify.app), [Try the demo](https://jb-recipes-app.netlify.app).
+- **Tax Calculator**: Works out your New Zealand take-home pay after tax, ACC, KiwiSaver and student loan. [Open the app](https://calculatetax.netlify.app), [View the code](https://github.com/Joshua-Booth/calculate-tax).
+- **PCOS Protocol**: A nutrition course app, with daily lessons, a knowledge base and recipes. I built it at The PCOS Nutritionist. Shown with made-up content.
+- **Audio Devotions**: A daily audio devotional for people with reduced vision, with big controls and a high contrast mode. [Open the app](https://audiodevotions.netlify.app), [View the code](https://github.com/Joshua-Booth/audio-devotions).
+- **Equipped Youth Manual**: An app for Realive Youth members to share and deepen their faith. I led the team of five that built it in 2019. [Open the app](https://realiveyouth.netlify.app), [View the code](https://github.com/Joshua-Booth/realiveyouth).
+- **Two Ticks**: A visual explainer of how split votes created overhang seats in New Zealand's 2026 election. [Open the app](https://twoticks.netlify.app).
 
-## Lab
-
-- [Lab](https://joshuabooth.nz/lab.md): Small interfaces and components Joshua Booth builds to get the details right
+[All projects](https://joshuabooth.nz/projects.md)
 
 ## Contact
 
@@ -78,7 +84,7 @@ const INDEX_ON = `# Joshua Booth
 `;
 
 describe("pageMarkdown", () => {
-  it.each(["/work/pcos-protocol", "/writing/this-site", "/lab"] as const)(
+  it.each(["/work/pcos-protocol", "/writing/this-site"] as const)(
     "has no Markdown for %s while its flag is off",
     async (path) => {
       await expect(pageMarkdown(path, ALL_OFF)).resolves.toBeNull();
@@ -90,22 +96,8 @@ describe("pageMarkdown", () => {
     await expect(pageMarkdown("/", ALL_OFF)).resolves.toBe(INDEX_OFF);
   });
 
-  it("adds the case studies and the Lab with every other flag on", async () => {
-    await expect(
-      pageMarkdown("/", { ...ALL_ON, redesign: false })
-    ).resolves.toBe(INDEX_ON);
-  });
-
-  it("introduces a design engineer and lists the showcase with the redesign on", async () => {
-    const md = await pageMarkdown("/", { ...ALL_OFF, redesign: true });
-
-    expect(md).toMatch(
-      /^# Joshua Booth\n\n\*\*Design engineer, Auckland\.\*\* I design and build interfaces\.\n/
-    );
-
-    expect(md).toContain("- **Two Ticks**: ");
-    expect(md).toContain("[All projects](https://joshuabooth.nz/projects.md)");
-    expect(md).not.toMatch(/AI-native|frontend lead in/i);
+  it("links the PCOS case study with every flag on", async () => {
+    await expect(pageMarkdown("/", ALL_ON)).resolves.toBe(INDEX_ON);
   });
 });
 

@@ -2,174 +2,76 @@ import Link from "next/link";
 
 import * as stylex from "@stylexjs/stylex";
 
-import { getSiteFlags } from "@/shared/api/site-flags";
-import { HERO_PART, HOOK } from "@/shared/config/effect-hooks";
-import { isLive } from "@/shared/config/pages";
-import { INTRO, NAME } from "@/shared/config/site";
-import { sx } from "@/shared/lib/sx";
-import { display } from "@/shared/ui/display";
-import { interactive } from "@/shared/ui/interactive";
-import { JbMark } from "@/shared/ui/jb-mark";
-import { xrayMarker } from "@/shared/ui/markers.stylex";
-import { colors, sizes } from "@/shared/ui/tokens.stylex";
-import { xray } from "@/shared/ui/xray";
-
-import { WhiteHeader } from "./white-header";
-
-interface Props {
-  current?: "home" | "lab";
-  sheet: string;
-}
+import { NAME } from "@/shared/config/site";
+import { breakpoints, colors } from "@/shared/ui/tokens.stylex";
 
 const styles = stylex.create({
-  hero: {
-    position: "relative",
-    width: "100%",
-    maxWidth: sizes.page,
-    marginInline: "auto",
-    paddingTop: "24px",
-    paddingBottom: "72px",
-  },
-  barOnly: {
-    paddingBottom: "12px",
-  },
   bar: {
+    width: "100%",
+    maxWidth: "1200px",
+    marginInline: "auto",
+    paddingTop: { default: "24px", [breakpoints.narrow]: "18px" },
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
     gap: "16px",
-    flexWrap: "wrap",
   },
-  mark: {
-    display: "inline-flex",
-    alignItems: "center",
+  name: {
+    fontSize: "15px",
+    fontWeight: 600,
     color: colors.ink,
-    textDecoration: "none",
+    textDecorationLine: { default: "none", ":hover": "underline" },
+    textUnderlineOffset: "4px",
+    paddingBlock: "6px",
   },
   nav: {
     display: "flex",
-    gap: "clamp(18px, 3cqw, 30px)",
+    marginInlineStart: "auto",
+    gap: { default: "28px", [breakpoints.narrow]: "20px" },
     fontSize: "15px",
-    fontWeight: 600,
-    letterSpacing: "0.01em",
   },
-  navLink: {
-    color: {
-      default: colors.soft,
-      ":hover": colors.ink,
-      ":focus-visible": colors.ink,
-      [stylex.when.ancestor("[data-xray]", xrayMarker)]: colors.xrayText,
-    },
+  link: {
+    color: { default: colors.soft, ":hover": colors.ink },
     textDecoration: "none",
     paddingBlock: "6px",
   },
-  name: {
-    marginTop: "clamp(56px, 10cqw, 120px)",
-    marginInline: 0,
-    marginBottom: 0,
-    fontSize: "clamp(54px, 12.6cqw, 186px)",
-    lineHeight: 0.84,
-    letterSpacing: "-0.02em",
-  },
-  nameLine: {
-    display: "block",
-  },
-  intro: {
-    marginTop: "36px",
-    marginInline: 0,
-    marginBottom: 0,
-    maxWidth: "30em",
-    fontSize: "clamp(19px, 2cqw, 23px)",
-    lineHeight: 1.45,
-    color: {
-      default: colors.soft,
-      [stylex.when.ancestor("[data-xray]", xrayMarker)]: colors.xrayText,
-    },
-    textWrap: "pretty",
-  },
-  introLead: {
-    color: {
-      default: colors.ink,
-      [stylex.when.ancestor("[data-xray]", xrayMarker)]: colors.xrayText,
-    },
-    fontWeight: 600,
+  current: {
+    color: colors.ink,
   },
 });
 
-export async function SiteHeader({ current, sheet }: Props) {
-  const flags = await getSiteFlags();
+/** The bar at the top of every page. */
+export function SiteHeader({ current }: { current?: "home" | "projects" }) {
   const home = current === "home";
 
-  if (flags.redesign) {
-    return <WhiteHeader current={home ? "home" : undefined} />;
-  }
-
-  const at = (id: "contact" | "projects" | "work") =>
+  const at = (id: "contact" | "work") =>
     home ? (`#${id}` as const) : (`/#${id}` as const);
 
-  const navLink = stylex.props(interactive.raise, styles.navLink);
-
   return (
-    <header
-      id="top"
-      data-name={HERO_PART}
-      data-sheet={sheet}
-      {...sx(
-        home ? "hero u" : "hero bar-only u",
-        styles.hero,
-        !home && styles.barOnly
+    <header id="top" {...stylex.props(styles.bar)}>
+      {!home && (
+        <Link href="/" {...stylex.props(styles.name)}>
+          {NAME}
+        </Link>
       )}
-    >
-      <nav aria-label="Main" {...sx(HOOK.bar, styles.bar)}>
-        {home ? (
-          <a
-            href="#top"
-            aria-label={`${NAME}, back to top`}
-            {...sx("mark", interactive.raise, styles.mark)}
-          >
-            <JbMark />
-          </a>
-        ) : (
-          <Link
-            href="/"
-            aria-label={`${NAME}, home`}
-            {...sx("mark", interactive.raise, styles.mark)}
-          >
-            <JbMark />
-          </Link>
-        )}
-        <span {...sx("nav", styles.nav)}>
-          <Link href={at("work")} {...navLink}>
-            Work
-          </Link>
-          <Link href={at("projects")} {...navLink}>
-            Projects
-          </Link>
-          {isLive("/lab", flags) && (
-            <Link
-              href="/lab"
-              aria-current={current === "lab" ? "page" : undefined}
-              {...navLink}
-            >
-              Lab
-            </Link>
+      <nav aria-label="Main" {...stylex.props(styles.nav)}>
+        <Link
+          href="/projects"
+          aria-current={current === "projects" ? "page" : undefined}
+          {...stylex.props(
+            styles.link,
+            current === "projects" && styles.current
           )}
-          <Link href={at("contact")} {...navLink}>
-            Contact
-          </Link>
-        </span>
+        >
+          Projects
+        </Link>
+        <Link href={at("work")} {...stylex.props(styles.link)}>
+          Work
+        </Link>
+        <Link href={at("contact")} {...stylex.props(styles.link)}>
+          Contact
+        </Link>
       </nav>
-      {home && (
-        <>
-          <h1 {...sx(HOOK.name, display.type, xray.outlined, styles.name)}>
-            <span {...stylex.props(styles.nameLine)}>Joshua</span>
-            <span {...stylex.props(styles.nameLine)}>Booth</span>
-          </h1>
-          <p {...sx(HOOK.intro, styles.intro)}>
-            <b {...stylex.props(styles.introLead)}>{INTRO.lead}</b> {INTRO.rest}
-          </p>
-        </>
-      )}
     </header>
   );
 }

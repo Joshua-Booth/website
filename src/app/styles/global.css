@@ -17,27 +17,17 @@
   }
 
   ::selection {
-    background: #fff;
-    color: #034694;
-  }
-
-  :focus-visible {
-    outline: 3px solid #fff;
-    outline-offset: 4px;
-  }
-
-  /* The white look, from shared/ui/white-look.ts */
-  [data-look="white"] ::selection {
     background: #0e0e10;
     color: #fff;
   }
 
-  [data-look="white"] :focus-visible {
-    outline-color: #0e0e10;
+  :focus-visible {
+    outline: 3px solid #0e0e10;
+    outline-offset: 4px;
   }
 
   /* A section focused by a link on the page only marks where Tab goes next */
-  [data-look="white"] section[tabindex="-1"]:focus {
+  section[tabindex="-1"]:focus {
     outline: none;
   }
 

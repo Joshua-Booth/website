@@ -13,9 +13,10 @@ const starts = (text: string) =>
   ]);
 
 describe("llmsFull", () => {
-  it("has only the homepage with every flag off", async () => {
+  it("has the homepage and Projects with every flag off", async () => {
     expect(starts(await llmsFull(ALL_OFF))).toEqual([
       ["Joshua Booth", "https://joshuabooth.nz"],
+      ["Projects", "https://joshuabooth.nz/projects"],
     ]);
   });
 
@@ -25,7 +26,6 @@ describe("llmsFull", () => {
       ["PCOS Protocol", "https://joshuabooth.nz/work/pcos-protocol"],
       ["How this site is built", "https://joshuabooth.nz/writing/this-site"],
       ["Projects", "https://joshuabooth.nz/projects"],
-      ["Lab", "https://joshuabooth.nz/lab"],
     ]);
   });
 

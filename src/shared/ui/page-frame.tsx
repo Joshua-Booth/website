@@ -5,14 +5,10 @@ import type { ReactNode } from "react";
 import * as stylex from "@stylexjs/stylex";
 import { ArrowLeft } from "lucide-react";
 
-import { HOOK } from "../config/effect-hooks";
-import { sx } from "../lib/sx";
 import { display } from "./display";
 import { icon } from "./icon";
 import { interactive } from "./interactive";
-import { xrayMarker } from "./markers.stylex";
 import { colors, sizes } from "./tokens.stylex";
-import { xray } from "./xray";
 
 const styles = stylex.create({
   main: {
@@ -33,11 +29,10 @@ const styles = stylex.create({
     lineHeight: 1.5,
     color: {
       default: "inherit",
-      [stylex.when.ancestor("[data-xray]", xrayMarker)]: colors.faint,
     },
     textDecoration: "none",
   },
-  // Room above for the x-ray's type chip, and a clear break before the text
+  // A clear break before the text
   title: {
     marginTop: "56px",
     marginInline: 0,
@@ -60,16 +55,7 @@ export function BackLink({
   children: ReactNode;
 }) {
   return (
-    <Link
-      href={href}
-      {...sx(
-        "back",
-        interactive.raise,
-        interactive.pill,
-        interactive.pillOutline,
-        styles.back
-      )}
-    >
+    <Link href={href} {...stylex.props(interactive.pill, styles.back)}>
       <ArrowLeft {...stylex.props(icon.inline)} /> {children}
     </Link>
   );
@@ -83,7 +69,7 @@ export function PageTitle({
   children: ReactNode;
 }) {
   return (
-    <h1 id={id} {...sx(HOOK.caseH, display.type, xray.outlined, styles.title)}>
+    <h1 id={id} {...stylex.props(display.type, styles.title)}>
       {children}
     </h1>
   );

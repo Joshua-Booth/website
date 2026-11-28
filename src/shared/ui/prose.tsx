@@ -2,13 +2,9 @@ import type { ComponentProps, ReactNode } from "react";
 
 import * as stylex from "@stylexjs/stylex";
 
-import { HOOK } from "../config/effect-hooks";
-import { sx } from "../lib/sx";
 import { display } from "./display";
 import { interactive } from "./interactive";
-import { xrayMarker } from "./markers.stylex";
 import { breakpoints, colors } from "./tokens.stylex";
-import { xray } from "./xray";
 
 const styles = stylex.create({
   para: {
@@ -17,7 +13,6 @@ const styles = stylex.create({
     lineHeight: 1.5,
     color: {
       default: colors.soft,
-      [stylex.when.ancestor("[data-xray]", xrayMarker)]: colors.xrayText,
     },
     marginTop: "16px",
     marginInline: 0,
@@ -30,7 +25,6 @@ const styles = stylex.create({
     textTransform: "uppercase",
     color: {
       default: colors.faint,
-      [stylex.when.ancestor("[data-xray]", xrayMarker)]: colors.xrayText,
     },
     marginTop: "64px",
     marginInline: 0,
@@ -52,6 +46,8 @@ const styles = stylex.create({
     marginInline: 0,
     marginBottom: 0,
     borderTopWidth: "2px",
+    borderTopStyle: "solid",
+    borderTopColor: colors.rule,
   },
   fact: {
     paddingTop: "14px",
@@ -65,7 +61,6 @@ const styles = stylex.create({
     textTransform: "uppercase",
     color: {
       default: colors.faint,
-      [stylex.when.ancestor("[data-xray]", xrayMarker)]: colors.xrayText,
     },
     fontWeight: 600,
   },
@@ -77,7 +72,6 @@ const styles = stylex.create({
     fontWeight: 500,
     color: {
       default: null,
-      [stylex.when.ancestor("[data-xray]", xrayMarker)]: colors.xrayText,
     },
   },
   cutlist: {
@@ -96,18 +90,16 @@ const styles = stylex.create({
     lineHeight: 1,
     textDecorationLine: {
       default: "line-through",
-      [stylex.when.ancestor("[data-xray]", xrayMarker)]: "none",
     },
     textDecorationThickness: "0.09em",
     color: {
       default: colors.faint,
-      [stylex.when.ancestor("[data-xray]", xrayMarker)]: "transparent",
     },
   },
 });
 
 export function Para({ children }: { children?: ReactNode }) {
-  return <p {...sx("para", styles.para)}>{children}</p>;
+  return <p {...stylex.props(styles.para)}>{children}</p>;
 }
 
 export function Label({
@@ -120,7 +112,7 @@ export function Label({
   flush?: boolean;
 }) {
   return (
-    <h2 id={id} {...sx(HOOK.label, styles.label, flush && styles.flush)}>
+    <h2 id={id} {...stylex.props(styles.label, flush && styles.flush)}>
       {children}
     </h2>
   );
@@ -128,9 +120,7 @@ export function Label({
 
 export function Big({ children }: { children: ReactNode }) {
   return (
-    <p {...sx(HOOK.big, display.type, display.big, xray.outlined, styles.big)}>
-      {children}
-    </p>
+    <p {...stylex.props(display.type, display.big, styles.big)}>{children}</p>
   );
 }
 
@@ -140,7 +130,7 @@ export function Facts({
   facts: readonly (readonly [string, string])[];
 }) {
   return (
-    <dl {...sx("facts", xray.ruleTop, styles.facts)}>
+    <dl {...stylex.props(styles.facts)}>
       {facts.map(([term, value]) => (
         <div key={term} {...stylex.props(styles.fact)}>
           <dt {...stylex.props(styles.term)}>{term}</dt>
@@ -153,12 +143,9 @@ export function Facts({
 
 export function CutList({ items }: { items: readonly string[] }) {
   return (
-    <ul {...sx(HOOK.cutlist, styles.cutlist)}>
+    <ul {...stylex.props(styles.cutlist)}>
       {items.map((item) => (
-        <li
-          key={item}
-          {...stylex.props(display.type, xray.outlined, styles.cut)}
-        >
+        <li key={item} {...stylex.props(display.type, styles.cut)}>
           {item}
         </li>
       ))}
@@ -168,20 +155,10 @@ export function CutList({ items }: { items: readonly string[] }) {
 
 export function TextLink({ children, ...props }: ComponentProps<"a">) {
   return (
-    <a {...props} {...stylex.props(interactive.raise, interactive.link)}>
+    <a {...props} {...stylex.props(interactive.link)}>
       {children}
     </a>
   );
-}
-
-export function Only({
-  when,
-  children,
-}: {
-  when: boolean;
-  children: ReactNode;
-}) {
-  return when ? children : null;
 }
 
 export const proseComponents = {
@@ -191,5 +168,4 @@ export const proseComponents = {
   Big,
   Facts,
   CutList,
-  Only,
 };

@@ -1,11 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useSyncExternalStore } from "react";
 
 import * as stylex from "@stylexjs/stylex";
 
-import { WhiteHeader } from "@/widgets/site-header/ui/white-header";
+import { SiteHeader } from "@/widgets/site-header/ui/site-header";
 
 import { textLink } from "@/entities/project/ui/tiles";
 
@@ -69,24 +68,11 @@ const styles = stylex.create({
   },
 });
 
-const noChange = () => () => {};
-
-/** The white look is set on <html> by the layout at build time. */
-function useWhiteLook() {
-  return useSyncExternalStore(
-    noChange,
-    () => document.documentElement.dataset.look === "white",
-    () => false
-  );
-}
-
 /** Shown when a script breaks in the browser, in place of a blank screen. */
 export function ErrorPage({ retry }: { retry: () => void }) {
-  const white = useWhiteLook();
-
   return (
     <>
-      {white && <WhiteHeader />}
+      <SiteHeader />
       <main {...stylex.props(styles.main)}>
         <h1 {...stylex.props(styles.title)}>Something went wrong</h1>
         <p {...stylex.props(styles.lead)}>

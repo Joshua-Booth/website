@@ -1,11 +1,9 @@
-import { LATEST_ROLE } from "@/entities/job/model/jobs";
-
-import { LINKS, LOCALE, NAME, SITE_URL } from "@/shared/config/site";
+import { INTRO, LINKS, LOCALE, NAME, SITE_URL } from "@/shared/config/site";
 
 const PERSON_ID = `${SITE_URL}/#person`;
 const HOME_URL = `${SITE_URL}/`;
 
-export function homeJsonLd(jobTitle: string = LATEST_ROLE) {
+export function homeJsonLd() {
   return {
     "@context": "https://schema.org",
     "@graph": [
@@ -14,7 +12,7 @@ export function homeJsonLd(jobTitle: string = LATEST_ROLE) {
         "@id": PERSON_ID,
         name: NAME,
         url: HOME_URL,
-        jobTitle,
+        jobTitle: INTRO.jobTitle,
         sameAs: [LINKS.linkedin, LINKS.github],
       },
       {

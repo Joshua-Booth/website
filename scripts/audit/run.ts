@@ -1,16 +1,8 @@
-import type { Finding } from "./overlap.ts";
-import type { WhiteFinding } from "./white.ts";
+import type { Finding } from "./checks.ts";
 
-import { mkdirSync, rmSync } from "node:fs";
 import { chromium } from "playwright";
 
-import { ALL_ON } from "../../src/shared/config/flags.ts";
-import { livePages } from "../../src/shared/config/pages.ts";
-import { hoverTest } from "./hover.ts";
-import { installAudit } from "./in-page.ts";
-import { navigationAudit } from "./navigation.ts";
-import { NOT_FOUND, overlapAudit, sitemapPaths } from "./overlap.ts";
-import { isWhite, whiteAudit } from "./white.ts";
+import { NOT_FOUND, siteAudit, sitemapPaths } from "./checks.ts";
 
 const base = process.env.AUDIT_URL;
 
@@ -19,25 +11,6 @@ if (!base) {
 }
 
 const live = await sitemapPaths(base);
-const white = await isWhite(base);
-
-// The x-ray look has every page but the ones only the redesign adds
-const missing = livePages({ ...ALL_ON, redesign: false }).filter(
-  (path) => !live.includes(path)
-);
-
-// The white look is checked on the pages it ships, so a build with only the
-// redesign flag on can be audited too
-if (!white && missing.length > 0) {
-  throw new Error(
-    `${base}/sitemap.xml leaves out ${missing.join(", ")}. The x-ray audit needs every page, so build with every flag but the redesign: SITE_FLAGS=lab,pcos-case-study,this-site-case-study`
-  );
-}
-
-const out = "audit-output";
-
-rmSync(out, { recursive: true, force: true });
-mkdirSync(`${out}/overlap`, { recursive: true });
 
 // AUDIT_CHROME points at a browser when Playwright's own isn't installed
 const browser = await chromium.launch({
@@ -45,8 +18,6 @@ const browser = await chromium.launch({
 });
 
 const context = await browser.newContext({ deviceScaleFactor: 1 });
-
-await context.addInitScript(installAudit);
 
 const page = await context.newPage();
 const errors = new Set<string>();
@@ -68,139 +39,62 @@ const heading = (t: string) => {
   console.log(`\n== ${t}`);
 };
 
-if (white) {
-  const result = await whiteAudit(page, base, live);
+const result = await siteAudit(page, base, live);
 
-  const report = (title: string, rows: WhiteFinding[], none: string) => {
-    heading(title);
+const report = (title: string, rows: Finding[], none: string) => {
+  heading(title);
 
-    const grouped = new Map<string, WhiteFinding[]>();
+  const grouped = new Map<string, Finding[]>();
 
-    for (const row of rows) {
-      const key = `${row.kind} ${row.page} ${row.detail}`;
+  for (const row of rows) {
+    const key = `${row.kind} ${row.page} ${row.detail}`;
 
-      grouped.set(key, [...(grouped.get(key) ?? []), row]);
-    }
-
-    for (const [, group] of grouped) {
-      const [row] = group;
-
-      console.log(
-        `FAIL ${row!.kind} ${row!.page} @${group.map((g) => g.size).join(",")}: ${row!.detail}`
-      );
-    }
-
-    if (rows.length) failed = true;
-    else console.log(none);
-  };
-
-  console.log(`White look. Pages: ${result.paths.join(", ")}`);
-
-  report(
-    "Layout",
-    result.layout,
-    "Nothing overlaps, clips or scrolls sideways"
-  );
-
-  report(
-    "Links",
-    result.links.findings,
-    `All ${result.links.checked} paths on this site answer, and every hash has its id`
-  );
-
-  console.log(`Outside links, not fetched: ${result.links.outside.join(", ")}`);
-
-  report(
-    "Keyboard",
-    result.keyboard.findings,
-    "Every tab stop shows a ring, on screen"
-  );
-
-  for (const [where, names] of Object.entries(result.keyboard.stops)) {
-    console.log(`${where}: ${names.join(" > ")}`);
+    grouped.set(key, [...(grouped.get(key) ?? []), row]);
   }
 
-  report("Hover", result.hover, "Every link and button changes on hover");
-
-  report(
-    "Navigation",
-    result.navigation.findings,
-    "Header links land and move focus"
-  );
-
-  for (const line of result.navigation.log) console.log(line);
-} else {
-  heading("Overlap");
-
-  const { findings, pages, shots } = await overlapAudit(
-    page,
-    base,
-    `${out}/overlap`,
-    live
-  );
-
-  console.log(`Pages: ${pages.join(", ")}`);
-
-  const worst = new Map<string, { count: number; finding: Finding }>();
-
-  for (const finding of findings) {
-    const key = `${finding.page} ${finding.size} ${finding.kind}`;
-    const seen = worst.get(key);
-    const count = (seen?.count ?? 0) + 1;
-
-    if (!seen || (finding.px ?? 0) > (seen.finding.px ?? 0)) {
-      worst.set(key, { count, finding });
-    } else seen.count = count;
-  }
-
-  for (const [key, { count, finding }] of worst) {
-    const size = finding.px === undefined ? "" : ` worst ${finding.px}px`;
+  for (const [, group] of grouped) {
+    const [row] = group;
 
     console.log(
-      `${key} ×${count}${size} @${finding.when}: ${finding.a ?? ""} | ${finding.b ?? ""}`
+      `FAIL ${row!.kind} ${row!.page} @${group.map((g) => g.size).join(",")}: ${row!.detail}`
     );
   }
 
-  if (worst.size) failed = true;
-  else console.log("Nothing overlaps");
-  for (const s of shots) console.log(`screenshot ${s}`);
+  if (rows.length) failed = true;
+  else console.log(none);
+};
 
-  heading("Navigation");
+console.log(`Pages: ${result.paths.join(", ")}`);
 
-  const nav = await navigationAudit(page, base);
+report("Layout", result.layout, "Nothing overlaps, clips or scrolls sideways");
 
-  for (const l of nav.log) console.log(l);
-  for (const p of nav.problems) console.log(`FAIL ${p}`);
-  if (nav.problems.length) failed = true;
+report(
+  "Links",
+  result.links.findings,
+  `All ${result.links.checked} paths on this site answer, and every hash has its id`
+);
 
-  heading("Hover and focus above the overlays");
+console.log(`Outside links, not fetched: ${result.links.outside.join(", ")}`);
 
-  const hover = await hoverTest(page, base, `${out}/hover`);
+report(
+  "Keyboard",
+  result.keyboard.findings,
+  "Every tab stop shows a ring, on screen"
+);
 
-  for (const pass of ["fixed", "control"] as const) {
-    const rows = hover[pass];
-    const bad = rows.filter((r) => r.kept < 0.9);
-
-    console.log(`-- ${pass}`);
-
-    for (const r of rows) {
-      console.log(
-        `${r.kept < 0.9 ? "FAIL" : "ok  "} ${r.name.padEnd(22)} bright px ${String(r.bright).padStart(6)}  kept ${Math.round(r.kept * 100)}%`
-      );
-    }
-
-    console.log(`${bad.length} of ${rows.length} hover states hidden`);
-    if (pass === "fixed" && bad.length) failed = true;
-
-    if (pass === "control" && !bad.length) {
-      console.log(
-        "FAIL the control pass should fail, so the test isn't checking anything"
-      );
-
-      failed = true;
-    }
-  }
+for (const [where, names] of Object.entries(result.keyboard.stops)) {
+  console.log(`${where}: ${names.join(" > ")}`);
 }
+
+report("Hover", result.hover, "Every link and button changes on hover");
+
+report(
+  "Navigation",
+  result.navigation.findings,
+  "Header links land and move focus"
+);
+
+for (const line of result.navigation.log) console.log(line);
 
 heading("Errors");
 console.log(errors.size ? [...errors].join("\n") : "None");

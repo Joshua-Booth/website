@@ -1,225 +1,331 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 
 import * as stylex from "@stylexjs/stylex";
-import { ArrowRight } from "lucide-react";
 
 import { SiteHeader } from "@/widgets/site-header/ui/site-header";
 
 import { JOBS } from "@/entities/job/model/jobs";
-import { STRIP } from "@/entities/lab-tile/model/tiles";
-import { LabTiles } from "@/entities/lab-tile/ui/lab-tiles";
-import { TileDemo } from "@/entities/lab-tile/ui/tile-demo";
-import { TileFrame } from "@/entities/lab-tile/ui/tile-frame";
-import type { Project } from "@/entities/project/model/projects";
-import { PROJECTS } from "@/entities/project/model/projects";
+import { BIG_PROJECTS } from "@/entities/project/model/showcase";
+import { BigTile, BigTiles, textLink } from "@/entities/project/ui/tiles";
 
-import { HOOK } from "@/shared/config/effect-hooks";
 import type { SiteFlags } from "@/shared/config/flags";
-import { isLive, liveStudy } from "@/shared/config/pages";
-import { EMAIL, LINKS } from "@/shared/config/site";
-import { sx } from "@/shared/lib/sx";
-import { icon } from "@/shared/ui/icon";
-import { interactive } from "@/shared/ui/interactive";
-import { asmMarker, xrayMarker } from "@/shared/ui/markers.stylex";
+import { isLive, pageInfo } from "@/shared/config/pages";
+import { EMAIL, INTRO, LINKS, NAME } from "@/shared/config/site";
 import { NewTabNote } from "@/shared/ui/new-tab-note";
-import { Main } from "@/shared/ui/page-frame";
-import { Label } from "@/shared/ui/prose";
-import { colors } from "@/shared/ui/tokens.stylex";
-import { xray } from "@/shared/ui/xray";
+import { breakpoints, colors } from "@/shared/ui/tokens.stylex";
 
 import { homeJsonLd } from "../model/json-ld";
 import { CopyEmail } from "./copy-email";
-import { Row, Rows } from "./rows";
 
 const [user, domain] = EMAIL.split("@");
 
-function projectLinks(project: Project, flags: SiteFlags) {
-  if (project.app) {
-    return {
-      link: { href: project.app, go: "Try it", external: true },
-      code: project.code,
-    };
-  }
-
-  return {
-    link: liveStudy(project.study, flags) ?? {
-      href: project.code,
-      go: "Code",
-      external: true,
-    },
-  };
-}
-
 const styles = stylex.create({
-  // Work and Projects assemble as you scroll to them. While one is mid-flight
-  // (data-asm) it keeps its layers in 3D, floats above any part still waiting
-  // to build until the torch comes on, and comes up whole when you point at or
-  // tab to a link in it
-  assembles: {
-    position: "relative",
-    transformStyle: { default: null, ":is([data-asm])": "preserve-3d" },
-    zIndex: {
-      default: "auto",
-      ":is(body:not([data-lit]) [data-asm]):not(:has(:is(a, button):is(:hover, :focus-visible)))": 21,
-      ":is([data-asm]):has(:is(a, button):is(:hover, :focus-visible))": 22,
-    },
+  main: {
+    flexGrow: 1,
+    width: "100%",
+    maxWidth: "1200px",
+    marginInline: "auto",
   },
-  more: {
+  hero: {
     display: "flex",
-    justifyContent: "flex-end",
-    marginTop: "12px",
-    fontSize: "15px",
-    fontWeight: 600,
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    alignItems: "baseline",
+    columnGap: "32px",
+    rowGap: "10px",
+    marginTop: { default: "96px", [breakpoints.narrow]: "56px" },
+    paddingBottom: { default: "24px", [breakpoints.narrow]: "20px" },
+    borderBottomWidth: "1px",
+    borderBottomStyle: "solid",
+    borderBottomColor: colors.rule,
   },
-  moreLink: {
+  name: {
+    margin: 0,
+    fontSize: { default: "64px", [breakpoints.narrow]: "44px" },
+    fontWeight: 500,
+    lineHeight: 1.05,
+    letterSpacing: "-0.025em",
     color: colors.ink,
-    textDecoration: "none",
   },
-  contact: {
-    marginTop: "80px",
+  role: {
+    margin: 0,
+    fontSize: { default: "20px", [breakpoints.narrow]: "18px" },
+    color: colors.soft,
+  },
+  intro: {
+    marginTop: "24px",
+    marginInline: 0,
+    marginBottom: 0,
+    fontSize: { default: "20px", [breakpoints.narrow]: "18px" },
+    color: colors.ink,
+  },
+  section: {
+    marginTop: { default: "120px", [breakpoints.narrow]: "80px" },
+  },
+  firstSection: {
+    marginTop: { default: "64px", [breakpoints.narrow]: "56px" },
+  },
+  label: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "baseline",
+    gap: "16px",
+    marginTop: 0,
+    marginInline: 0,
+    marginBottom: "32px",
+    paddingBottom: "12px",
+    borderBottomWidth: "1px",
+    borderBottomStyle: "solid",
+    borderBottomColor: colors.rule,
+    fontSize: "16px",
+    fontWeight: 500,
+    lineHeight: 1.3,
+  },
+  labelText: {
+    margin: 0,
+    fontSize: "inherit",
+    fontWeight: "inherit",
+  },
+  labelTight: {
+    marginBottom: 0,
+  },
+  postHead: {
+    margin: 0,
+  },
+  postTitle: {
+    fontSize: "20px",
+    fontWeight: 600,
+    letterSpacing: "-0.01em",
+    color: colors.ink,
+    textDecorationLine: { default: "none", ":hover": "underline" },
+    textUnderlineOffset: "4px",
+  },
+  postAbout: {
+    marginTop: "6px",
+    marginInline: 0,
+    marginBottom: 0,
+    fontSize: "16px",
+    lineHeight: 1.45,
+    color: colors.soft,
+  },
+  jobs: {
+    listStyle: "none",
+    margin: 0,
+    padding: 0,
+  },
+  job: {
+    display: "grid",
+    gridTemplateColumns: {
+      default: "minmax(0, 1fr) minmax(0, 2fr)",
+      [breakpoints.narrow]: "minmax(0, 1fr)",
+    },
+    columnGap: "32px",
+    rowGap: "8px",
+    paddingBlock: "20px",
+    borderBottomWidth: "1px",
+    borderBottomStyle: "solid",
+    borderBottomColor: colors.rule,
+  },
+  employer: {
+    margin: 0,
+    fontSize: "18px",
+    fontWeight: 600,
+    lineHeight: 1.3,
+    color: colors.ink,
+  },
+  roles: {
+    display: "flex",
+    flexDirection: "column",
+    rowGap: "2px",
+  },
+  role1: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "baseline",
+    gap: "16px",
+    fontSize: "16px",
+    lineHeight: 1.4,
+    color: colors.soft,
+  },
+  earlier: {
+    color: colors.faint,
+  },
+  years: {
+    flexShrink: 0,
+    fontSize: "15px",
+    fontVariantNumeric: "tabular-nums",
   },
   mail: {
     display: "block",
-    fontWeight: 850,
-    fontStretch: "125%",
-    fontSize: "clamp(26px, 5.6cqw, 78px)",
-    lineHeight: 1,
-    letterSpacing: "-0.02em",
+    marginTop: "32px",
+    fontSize: "clamp(28px, 7cqw, 56px)",
+    fontWeight: 500,
+    lineHeight: 1.1,
+    letterSpacing: "-0.025em",
+    color: colors.ink,
     textDecorationLine: { default: "none", ":hover": "underline" },
-    textDecorationThickness: "4px",
-    textDecorationColor: colors.ink,
-    textUnderlineOffset: "5px",
+    textDecorationThickness: "2px",
+    textUnderlineOffset: "6px",
     overflowWrap: "anywhere",
-    color: {
-      default: "inherit",
-      [stylex.when.ancestor("[data-xray]", xrayMarker)]: "transparent",
-    },
   },
-  links: {
+  actions: {
     display: "flex",
-    rowGap: "12px",
-    columnGap: "28px",
     flexWrap: "wrap",
-    marginTop: "18px",
-    fontSize: "17px",
     alignItems: "center",
-  },
-  outLink: {
-    color: {
-      default: "inherit",
-      [stylex.when.ancestor("[data-xray]", xrayMarker)]: colors.xrayText,
-    },
+    columnGap: "24px",
+    rowGap: "12px",
+    marginTop: "24px",
   },
 });
 
-export function HomePage({ flags }: { flags: SiteFlags }) {
-  const outLink = stylex.props(
-    interactive.raise,
-    interactive.link,
-    styles.outLink
+function Label({
+  id,
+  children,
+  tight,
+  allProjects,
+}: {
+  id: string;
+  children: ReactNode;
+  tight?: boolean;
+  allProjects?: boolean;
+}) {
+  return (
+    <div {...stylex.props(styles.label, tight && styles.labelTight)}>
+      <h2 id={id} {...stylex.props(styles.labelText)}>
+        {children}
+      </h2>
+      {allProjects && (
+        <Link href="/projects" {...stylex.props(textLink.link)}>
+          All projects
+        </Link>
+      )}
+    </div>
   );
+}
+
+/** The home page, from the Figma home mock. */
+export function HomePage({ flags }: { flags: SiteFlags }) {
+  const writing = isLive("/writing/this-site", flags);
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(homeJsonLd()) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(homeJsonLd()),
+        }}
       />
-      <SiteHeader current="home" sheet="Home" />
+      <SiteHeader current="home" />
 
-      <Main>
-        <section
-          id="work"
-          data-name="Work"
-          aria-labelledby="work-heading"
-          {...stylex.props(styles.assembles, asmMarker)}
-        >
-          <Label id="work-heading">Work</Label>
-          <Rows>
-            {JOBS.map((job) => (
-              <Row
-                key={job.employer}
-                title={job.employer}
-                size="big"
-                roles={job.roles}
-                link={liveStudy(job.study, flags)}
-              />
-            ))}
-          </Rows>
-        </section>
+      <main {...stylex.props(styles.main)}>
+        <div {...stylex.props(styles.hero)}>
+          <h1 {...stylex.props(styles.name)}>{NAME}</h1>
+          <p {...stylex.props(styles.role)}>{INTRO.role}</p>
+        </div>
+        <p {...stylex.props(styles.intro)}>{INTRO.line}</p>
 
         <section
           id="projects"
-          data-name="Projects"
           aria-labelledby="projects-heading"
-          {...stylex.props(styles.assembles, asmMarker)}
+          {...stylex.props(styles.section, styles.firstSection)}
         >
-          <Label id="projects-heading">Projects</Label>
-          <Rows>
-            {PROJECTS.map((project) => (
-              <Row
-                key={project.name}
-                title={project.name}
-                size="mid"
-                meta={project.meta}
-                sub={project.sub}
-                {...projectLinks(project, flags)}
-              />
+          <Label id="projects-heading" allProjects>
+            Projects
+          </Label>
+          <BigTiles>
+            {BIG_PROJECTS.map((project, i) => (
+              <BigTile key={project.name} project={project} eager={i < 2} />
             ))}
-          </Rows>
+          </BigTiles>
         </section>
 
-        {isLive("/lab", flags) && (
-          <section id="lab" data-name="Lab" aria-labelledby="lab-heading">
-            <Label id="lab-heading">Lab</Label>
-            <LabTiles layout="strip">
-              {STRIP.map((id) => (
-                <TileFrame key={id} id={id} layout="strip">
-                  <TileDemo id={id} layout="strip" />
-                </TileFrame>
-              ))}
-            </LabTiles>
-            <div {...sx("more", styles.more)}>
+        {writing && (
+          <section
+            id="writing"
+            aria-labelledby="writing-heading"
+            {...stylex.props(styles.section)}
+          >
+            <Label id="writing-heading">Writing</Label>
+            <h3 {...stylex.props(styles.postHead)}>
               <Link
-                href="/lab"
-                {...stylex.props(interactive.raise, styles.moreLink)}
+                href="/writing/this-site"
+                {...stylex.props(styles.postTitle)}
               >
-                The lab <ArrowRight {...stylex.props(icon.inline)} />
+                {pageInfo("/writing/this-site").title}
               </Link>
-            </div>
+            </h3>
+            <p {...stylex.props(styles.postAbout)}>
+              {pageInfo("/writing/this-site").description}
+            </p>
           </section>
         )}
 
         <section
-          id="contact"
-          data-name="Contact"
-          aria-labelledby="contact-heading"
-          {...stylex.props(styles.contact)}
+          id="work"
+          aria-labelledby="work-heading"
+          {...stylex.props(styles.section)}
         >
-          <Label id="contact-heading" flush>
+          <Label id="work-heading" tight>
+            Work
+          </Label>
+          <ul {...stylex.props(styles.jobs)}>
+            {JOBS.map((job) => (
+              <li key={job.employer} {...stylex.props(styles.job)}>
+                <h3 {...stylex.props(styles.employer)}>{job.employer}</h3>
+                <div {...stylex.props(styles.roles)}>
+                  {job.roles.map((role, i) => (
+                    <span
+                      key={role.title}
+                      {...stylex.props(styles.role1, i > 0 && styles.earlier)}
+                    >
+                      <span>{role.title}</span>
+                      <span {...stylex.props(styles.years)}>{role.when}</span>
+                    </span>
+                  ))}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section
+          id="contact"
+          aria-labelledby="contact-heading"
+          {...stylex.props(styles.section)}
+        >
+          <Label id="contact-heading" tight>
             Contact
           </Label>
           <a
             id="contact-email"
             href={`mailto:${EMAIL}`}
-            {...sx(HOOK.mail, interactive.raise, xray.outlined, styles.mail)}
+            {...stylex.props(styles.mail)}
           >
             {user}@<wbr />
             {domain}
           </a>
-          <div {...sx("links", styles.links)}>
+          <div {...stylex.props(styles.actions)}>
             <CopyEmail addressId="contact-email" />
-            <a href={LINKS.linkedin} target="_blank" {...outLink}>
+            <a
+              href={LINKS.linkedin}
+              target="_blank"
+              {...stylex.props(textLink.link)}
+            >
               LinkedIn
               <NewTabNote />
             </a>
-            <a href={LINKS.github} target="_blank" {...outLink}>
+            <a
+              href={LINKS.github}
+              target="_blank"
+              {...stylex.props(textLink.link)}
+            >
               GitHub
               <NewTabNote />
             </a>
           </div>
         </section>
-      </Main>
+      </main>
     </>
   );
 }

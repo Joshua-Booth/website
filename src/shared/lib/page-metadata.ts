@@ -5,11 +5,12 @@ import type { Metadata } from "next";
 import { exportPath, pageInfo } from "../config/pages";
 import { LOCALE, NAME } from "../config/site";
 
-const BLUE_CARD = {
+// From scripts/og/og.html
+const CARD = {
   url: "/og.png",
   width: 1200,
   height: 630,
-  alt: "Joshua Booth in large white capitals on blue, half built. Left of a glowing vertical line the letters are solid. To its right they're outlines on a grid, with a type spec label and a pink measurement. Guide lines run along both lines of the name. Below: Frontend Engineer.",
+  alt: "Joshua Booth in large black type on white, with Design engineer, Auckland below and the jb mark above.",
 };
 
 /**
@@ -33,37 +34,7 @@ export function pageMetadata(path: PagePath): Metadata {
       url: path,
       title: title ? `${title} · ${NAME}` : NAME,
       description,
-      images: [BLUE_CARD],
+      images: [CARD],
     },
-  };
-}
-
-// The redesign's card, from scripts/og/og-white.html
-const WHITE_CARD = {
-  url: "/og-white.png",
-  width: 1200,
-  height: 630,
-  alt: "Joshua Booth in large black type on white, with Design engineer, Auckland below and the jb mark above.",
-};
-
-/** The same metadata with the white look's share card, with the redesign on. */
-export function inLook(metadata: Metadata, redesign: boolean): Metadata {
-  return redesign
-    ? {
-        ...metadata,
-        openGraph: { ...metadata.openGraph, images: [WHITE_CARD] },
-      }
-    : metadata;
-}
-
-/** The same metadata with another description, in the share card too. */
-export function withDescription(
-  metadata: Metadata,
-  description: string
-): Metadata {
-  return {
-    ...metadata,
-    description,
-    openGraph: { ...metadata.openGraph, description },
   };
 }
